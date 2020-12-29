@@ -10,7 +10,7 @@ class Characters(models.Model): //성격
     character = models.TextField()
     url = models.TextField()
 
-class Users(models.Model):
+class Users(models.Model): //
     id = models.IntegerField(primary_key=True)
     idname = models.CharField(max_length=50)
     pw = models.CharField(max_length=50)
