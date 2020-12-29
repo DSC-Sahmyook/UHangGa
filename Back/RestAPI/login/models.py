@@ -1,11 +1,11 @@
 from django.db import models
 
 # Create your models here.
-class Post(models.Model):
+class Post(models.Model): //login
     title = models.CharField(max_length=200)
     text = models.TextField()
 
-class Characters(models.Model):
+class Characters(models.Model): //성격
     id = models.IntegerField(primary_key=True)
     character = models.TextField()
     url = models.TextField()
