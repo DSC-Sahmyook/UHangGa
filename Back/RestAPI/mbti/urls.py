@@ -1,3 +1,4 @@
+
 """mbti URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -14,19 +15,20 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from rest_framework import routers
 from login import views
 from django.conf.urls import url, include
+
 
 router = routers.DefaultRouter()
 router.register(r'posts', views.PostViewset)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('doglist/', include('doglist.urls')),
     url(r'^',include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^rest-auth/', include('rest_auth.urls')),
     url(r'^rest-auth/', include('rest_auth.urls')),
     url(r'^rest-auth/registration/', include('rest_auth.registration.urls'))
 ]

@@ -1,16 +1,16 @@
 from django.db import models
 
 # Create your models here.
-class Post(models.Model):
+class Post(models.Model): 
     title = models.CharField(max_length=200)
     text = models.TextField()
 
-class Characters(models.Model):
+class Characters(models.Model): 
     id = models.IntegerField(primary_key=True)
     character = models.TextField()
     url = models.TextField()
 
-class Users(models.Model):
+class Users(models.Model): 
     id = models.IntegerField(primary_key=True)
     idname = models.CharField(max_length=50)
     pw = models.CharField(max_length=50)
@@ -27,7 +27,7 @@ class PostedDogs(models.Model):
     protection = models.CharField(max_length=50)
     dogid = models.ForeignKey('Characters', on_delete=models.CASCADE)
     userid = models.ForeignKey('Users', on_delete=models.CASCADE)
-
+    
 class CrawledDogs(models.Model):
     id = models.IntegerField(primary_key=True)
     dogid = models.IntegerField(default=0)

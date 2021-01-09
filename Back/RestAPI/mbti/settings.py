@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'login',
     'rest_framework.authtoken',
-    'rest_auth'
+    'rest_auth',
+    'doglist',
 ]
 
 SITE_ID = 1
