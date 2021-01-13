@@ -25,7 +25,7 @@ SECRET_KEY = '5d2_++v4mynbxkkooz_$txhbjg$u6i8+7^gn^mv!9giezh_&a$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -38,15 +38,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'allauth',
-    'allauth.account',
-    'rest_auth.registration',
+
     'rest_framework',
-    'login',
     'rest_framework.authtoken',
-    'rest_auth',
-    'doglist',
+    'UHG',
 ]
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": ("rest_framework.authentication.TokenAuthentication",),
+}
 
 SITE_ID = 1
 
@@ -129,3 +129,4 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
