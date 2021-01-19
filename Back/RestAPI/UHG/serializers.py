@@ -2,6 +2,9 @@ from django.contrib.auth import authenticate
 from rest_framework import serializers
 
 from . import models as mo
+from .models import PostedDogs
+
+
 
 
 # 회원가입
@@ -46,3 +49,18 @@ class SignIn_Serializer(serializers.Serializer):
         if user and user.is_active:
             return user
         raise serializers.ValidationError("Unable to sign in with provided credentials.")
+
+# post
+class PostSerializer(serializers.ModelSerializer):
+   
+    class Meta:
+        model = PostedDogs
+        fields = (
+            'id',
+            'date',
+            'protection',
+            'dogid',
+            'userid',
+        )
+        read_only_fields = ('date',)
+        

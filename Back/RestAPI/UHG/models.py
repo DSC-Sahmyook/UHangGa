@@ -29,6 +29,8 @@ class PostedDogs(models.Model):
     dogid = models.ForeignKey('Characters', on_delete=models.CASCADE)
     userid = models.ForeignKey('Profile', on_delete=models.CASCADE)
 
+    def __str__(self):
+        return '[{}] {}'.format(self.user.username, self.title)
 
 class CrawledDogs(models.Model):
     # id = models.IntegerField(primary_key=True)

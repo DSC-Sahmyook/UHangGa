@@ -5,10 +5,14 @@ from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework import mixins
 from rest_framework.authtoken.models import Token
+from rest_framework import viewsets
+from rest_framework import permissions
 
 # 시리얼라이저
 from . import serializers as se
 from . import models as mo
+from .serializers import PostSerializer
+from .models import PostedDogs
 
 
 # 회원가입
@@ -66,3 +70,14 @@ def logout(request):
             Token.objects.get(user_id=request.user.id).delete()
             return Response(status=status.HTTP_200_OK)
         return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+#posteddog listview
+class PostView(viewsets.ModelViewSet):
+    queryset = PostedDogs.objects.all()
+    serializer_class = PostSerializer
+
+
+   
+    
+    
