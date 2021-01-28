@@ -21,4 +21,7 @@ urlpatterns = format_suffix_patterns([
     path('auth/logout/', views.logout),
     path('posts/', post_list, name='post_list'),
     path('posts/<int:pk>/', post_detail, name='post_detail'),
+
+    # Main
+    path('main/index/', views.main),
 ])

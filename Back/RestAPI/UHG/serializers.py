@@ -63,4 +63,24 @@ class PostSerializer(serializers.ModelSerializer):
             'userid',
         )
         read_only_fields = ('date',)
-        
+
+
+# ---------------------------------------------
+# 메인페이지
+class MainDogsList_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = mo.Dogs
+        fields = (
+            'name',
+            'age',
+            'photoid'
+        )
+
+
+class MainPageSerializer(serializers.Serializer):
+    partnerType = serializers.CharField()
+    userName = serializers.CharField()
+    userPhoto = serializers.CharField()
+    waitDogs = serializers.IntegerField()
+    adoptRate = serializers.FloatField()
+    dogsList = MainDogsList_Serializer(many=True)
