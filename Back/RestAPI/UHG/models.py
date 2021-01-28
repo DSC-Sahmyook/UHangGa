@@ -11,6 +11,7 @@ class Characters(models.Model):
     # id = models.IntegerField(primary_key=True)
     character = models.TextField()
     url = models.TextField()
+    partner = models.ForeignKey('Characters', on_delete=models.CASCADE)
 
 
 class Profile(models.Model):
@@ -26,9 +27,12 @@ class PostedDogs(models.Model):
     # id = models.IntegerField(primary_key=True)
     date = models.DateTimeField(auto_now_add=True)
     protection = models.CharField(max_length=50)
-    dogid = models.ForeignKey('Characters', on_delete=models.CASCADE)
+    dogid = models.ForeignKey('Dogs', on_delete=models.CASCADE)
+    dogCharacter = models.ForeignKey('Characters', on_delete=models.CASCADE)
     userid = models.ForeignKey('Profile', on_delete=models.CASCADE)
 
+    # def __str__(self):
+    #     return '[{}] {}'.format(self.user.username, self.title)
 
 class CrawledDogs(models.Model):
     # id = models.IntegerField(primary_key=True)
@@ -45,9 +49,10 @@ class Dogs(models.Model):
     # id = models.ForeignKey('PostedDogs', on_delete=models.CASCADE, primary_key=True)
     name = models.CharField(max_length=50)
     dogtype = models.CharField(max_length=50)
-    age = models.CharField(max_length=50)
+    age = models.IntegerField()
     uniqueness = models.CharField(max_length=50)
     photoid = models.IntegerField(default=0)
+    isadopted = models.BooleanField(default=0)     # 0: 등록, 1: 입양
 
 
 class Dogsphotos(models.Model):

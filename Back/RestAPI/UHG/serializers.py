@@ -2,6 +2,9 @@ from django.contrib.auth import authenticate
 from rest_framework import serializers
 
 from . import models as mo
+from .models import PostedDogs
+
+
 
 
 # 회원가입
@@ -46,3 +49,38 @@ class SignIn_Serializer(serializers.Serializer):
         if user and user.is_active:
             return user
         raise serializers.ValidationError("Unable to sign in with provided credentials.")
+
+# post
+class PostSerializer(serializers.ModelSerializer):
+   
+    class Meta:
+        model = PostedDogs
+        fields = (
+            'id',
+            'date',
+            'protection',
+            'dogid',
+            'userid',
+        )
+        read_only_fields = ('date',)
+
+
+# ---------------------------------------------
+# 메인페이지
+class MainDogsList_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = mo.Dogs
+        fields = (
+            'name',
+            'age',
+            'photoid'
+        )
+
+
+class MainPageSerializer(serializers.Serializer):
+    partnerType = serializers.CharField()
+    userName = serializers.CharField()
+    userPhoto = serializers.CharField()
+    waitDogs = serializers.IntegerField()
+    adoptRate = serializers.FloatField()
+    dogsList = MainDogsList_Serializer(many=True)
