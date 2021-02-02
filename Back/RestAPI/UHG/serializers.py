@@ -50,7 +50,7 @@ class SignIn_Serializer(serializers.Serializer):
             return user
         raise serializers.ValidationError("Unable to sign in with provided credentials.")
 
-# post
+# posted Dogs
 class PostSerializer(serializers.ModelSerializer):
    
     class Meta:
