@@ -81,7 +81,7 @@ class PostView(viewsets.ModelViewSet):
 # ---------------------------------------------
 # 메인페이지
 @api_view(['GET'])
-def main(request):
+def main_data(request):
     isAnony = True
     if request.user.id != None:
         isAnony = False
@@ -102,15 +102,10 @@ def main(request):
         # 로그인한 경우
         nowUser = mo.Profile.objects.get(user=request.user)
 
-
     # 등록견수, 입양륭
     waitDogs = mo.Dogs.objects.filter(isadopted=False).count()
     totalDogs = mo.Dogs.objects.count()
-    adoptRate = (totalDogs-waitDogs) / totalDogs * 100
-
-    # 리스트(이름, 나이, 사진)
-    dogList = mo.Dogs.objects.filter(isadopted=False)
-    dogList_se = se.MainDogsList_Serializer(data=dogList, many=True)
+    adoptRate = int((totalDogs-waitDogs) / totalDogs * 100)
 
     data = {
         'partnerType': partnerType,
@@ -118,10 +113,18 @@ def main(request):
         'userPhoto': nowUser.photourl,
         'waitDogs': waitDogs,
         'adoptRate': adoptRate,
-        'dogsList': dogList_se,
     }
     main_se = se.MainPageSerializer(data=data)
     if main_se.is_valid():
-        # main_se.save()
         return Response(main_se.data, status=status.HTTP_200_OK)
     return Response(main_se.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def main_list(request):
+    # 리스트(이름, 나이, 사진)
+    dogList = mo.Dogs.objects.filter(isadopted=False).order_by('-id')[:5]
+    dogList_se = se.MainDogsList_Serializer(dogList, many=True)
+    if dogList_se:
+        return Response(dogList_se.data, status=status.HTTP_200_OK)
+    return Response(dogList_se.errors, status=status.HTTP_400_BAD_REQUEST)

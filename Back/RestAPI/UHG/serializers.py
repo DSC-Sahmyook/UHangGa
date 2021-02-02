@@ -68,12 +68,17 @@ class PostSerializer(serializers.ModelSerializer):
 # ---------------------------------------------
 # 메인페이지
 class MainDogsList_Serializer(serializers.ModelSerializer):
+    photoUrl = serializers.SerializerMethodField()
+
+    def get_photoUrl(self, obj):
+        return mo.Dogsphotos.objects.get(num=str(obj.photoid)).url
+
     class Meta:
         model = mo.Dogs
         fields = (
             'name',
             'age',
-            'photoid'
+            'photoUrl'
         )
 
 
@@ -82,5 +87,4 @@ class MainPageSerializer(serializers.Serializer):
     userName = serializers.CharField()
     userPhoto = serializers.CharField()
     waitDogs = serializers.IntegerField()
-    adoptRate = serializers.FloatField()
-    dogsList = MainDogsList_Serializer(many=True)
+    adoptRate = serializers.IntegerField()
