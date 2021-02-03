@@ -55,13 +55,7 @@ class PostSerializer(serializers.ModelSerializer):
    
     class Meta:
         model = PostedDogs
-        fields = (
-            'id',
-            'date',
-            'protection',
-            'dogid',
-            'userid',
-        )
+        fields = '__all__'
         read_only_fields = ('date',)
 
 
