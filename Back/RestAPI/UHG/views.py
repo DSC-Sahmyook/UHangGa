@@ -97,7 +97,19 @@ class PostView(viewsets.ModelViewSet):
     queryset = PostedDogs.objects.all()
     serializer_class = PostSerializer
 
+@api_view(['GET','POST'])
+def posteddogslist(request):
+    if request.method == 'GET':
+        queryset = PostedDogs.objects.all()
+        serializer = PostSerializer(queryset, many=True)
+        return Response(serializer.data)
 
+    elif request.method == 'POST':
+        serializer = PostSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 # ---------------------------------------------

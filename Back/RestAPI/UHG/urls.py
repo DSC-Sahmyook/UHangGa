@@ -3,10 +3,6 @@ from . import views
 from rest_framework.urlpatterns import format_suffix_patterns
 from .views import PostView
 
-post_list = PostView.as_view({
-    'post': 'create',
-    'get': 'list'
-})
 post_detail = PostView.as_view({
     'get': 'retrieve',
     'put': 'update',
@@ -23,6 +19,6 @@ urlpatterns = format_suffix_patterns([
     # Main
     path('main/index/data/', views.main_data),
     path('main/index/list/', views.main_list),
-    path('posts/', post_list, name='post_list'),
+    path('posts/', views.posteddogslist),
     path('posts/<int:pk>/', post_detail, name='post_detail'),
 ])

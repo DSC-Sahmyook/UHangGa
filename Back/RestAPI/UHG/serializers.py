@@ -81,7 +81,7 @@ class PostSerializer(serializers.ModelSerializer):
     dogid = DogsSerializer(read_only = True)
     userid = ProfileSerializer(read_only = True)
     dogCharacter = CharactersSerializer(read_only = True)
-
+    
     class Meta:
         model = PostedDogs
         fields = '__all__'
