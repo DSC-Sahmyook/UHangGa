@@ -12,7 +12,13 @@ from rest_framework import permissions
 from . import serializers as se
 from . import models as mo
 from .serializers import PostSerializer
+from .serializers import CharactersSerializer
+from .serializers import DogsSerializer
+from .serializers import ProfileSerializer
 from .models import PostedDogs
+from .models import Characters
+from .models import Dogs
+from .models import Profile
 
 
 # 회원가입
@@ -71,11 +77,27 @@ def logout(request):
             return Response(status=status.HTTP_200_OK)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
+#Characters 
+class CharactersView(viewsets.ModelViewSet):
+    queryset = Characters.objects.all()
+    serializer_class = CharactersSerializer
 
-#posteddog listview
+#Dogs
+class CharactersView(viewsets.ModelViewSet):
+    queryset = Dogs.objects.all()
+    serializer_class = DogsSerializer
+
+#Profile
+class ProfileView(viewsets.ModelViewSet):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+
+#Posteddog listview
 class PostView(viewsets.ModelViewSet):
     queryset = PostedDogs.objects.all()
     serializer_class = PostSerializer
+
+
 
 
 # ---------------------------------------------

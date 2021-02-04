@@ -3,6 +3,9 @@ from rest_framework import serializers
 
 from . import models as mo
 from .models import PostedDogs
+from .models import Characters
+from .models import Dogs
+from .models import Profile
 
 
 
@@ -50,13 +53,41 @@ class SignIn_Serializer(serializers.Serializer):
             return user
         raise serializers.ValidationError("Unable to sign in with provided credentials.")
 
+
+# characters
+class CharactersSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Characters
+        fields = '__all__'
+
+# Dogs
+class DogsSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Dogs
+        fields = '__all__'
+
+# Profile
+class ProfileSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Profile
+        fields = '__all__'
+    
+
 # posted Dogs
 class PostSerializer(serializers.ModelSerializer):
-   
+    dogid = DogsSerializer(read_only = True)
+    userid = ProfileSerializer(read_only = True)
+    dogCharacter = CharactersSerializer(read_only = True)
+
     class Meta:
         model = PostedDogs
         fields = '__all__'
         read_only_fields = ('date',)
+
+        
 
 
 # ---------------------------------------------
@@ -82,3 +113,4 @@ class MainPageSerializer(serializers.Serializer):
     userPhoto = serializers.CharField()
     waitDogs = serializers.IntegerField()
     adoptRate = serializers.IntegerField()
+

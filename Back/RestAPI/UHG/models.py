@@ -13,6 +13,8 @@ class Characters(models.Model):
     url = models.TextField()
     partner = models.ForeignKey('Characters', on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f"{self.character} {self.partner}"
 
 class Profile(models.Model):
     # id = models.IntegerField(primary_key=True)
@@ -22,6 +24,8 @@ class Profile(models.Model):
     photourl = models.TextField()
     characterid = models.ForeignKey('Characters', on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f"{self.user} {self.phonenum} {self.address} {self.characterid}"
 
 class PostedDogs(models.Model):
     # id = models.IntegerField(primary_key=True)
@@ -53,6 +57,9 @@ class Dogs(models.Model):
     uniqueness = models.CharField(max_length=50)
     photoid = models.IntegerField(default=0)
     isadopted = models.BooleanField(default=0)     # 0: 등록, 1: 입양
+
+    def __str__(self):
+        return f"{self.name} {self.dogtype} {self.age} {self.uniqueness} {self.photoid} {self.isadopted}"
 
 
 class Dogsphotos(models.Model):
