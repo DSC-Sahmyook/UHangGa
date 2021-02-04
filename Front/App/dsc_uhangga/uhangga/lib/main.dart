@@ -5,6 +5,9 @@ import 'package:uhangga/page_signup.dart';
 
 import 'page_login.dart';
 
+import 'page_main.dart';
+import 'page_p_test.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -15,7 +18,9 @@ class MyApp extends StatelessWidget {
         primaryColor: const Color(0xffe06b2e),
         fontFamily: 'segoe',
       ),
-      home: LoginPage(),
+      home: MainPage(),
     );
   }
 }
+
+final themeColor = Color(0xffe06b2e);
