@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:uhangga/main.dart';
-
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 import '../page_main.dart';
 
@@ -14,11 +14,31 @@ class DogRegiPage extends StatefulWidget {
 
 final name_Controller = TextEditingController();
 final age_Controller = TextEditingController();
+final species_Controller = TextEditingController();
 final breed_Controller = TextEditingController();
 final comment_Controller = TextEditingController();
 
+enum Vaccinations { Yes, No }
+
 class _DogRegPageState extends State<DogRegiPage> {
+  bool isGirl = false;
+  bool isBoy = false;
+
+  Vaccinations _vaccinations = Vaccinations.No;
+
   final pageView_controller = new PageController();
+
+  File _image;
+
+  @override
+  void dispose() {
+    super.dispose();
+    name_Controller.dispose();
+    age_Controller.dispose();
+    species_Controller.dispose();
+    breed_Controller.dispose();
+    comment_Controller.dispose();
+  }
 
   @override
   Widget build(BuildContext) {
@@ -26,8 +46,362 @@ class _DogRegPageState extends State<DogRegiPage> {
       appBar: sp_appBar(context),
       body: Column(
         children: [
-          Expanded(flex: 5, child: sp_photo()),
-          Expanded(flex: 10, child: sp_InputList()),
+          Expanded(child: sp_InputList()),
+        ],
+      ),
+    );
+  }
+
+  // 이미지 가져오기
+  getGalleryImage() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      _image = image;
+    });
+  }
+
+  // 이미지 있는 곳 위젯
+  sp_photo() {
+    return ButtonTheme(
+      minWidth: 500,
+      child: FlatButton(
+        color: _image == null ? themeColor : Colors.white,
+        child: _image == null
+            ? Icon(
+                Icons.photo_camera,
+                color: Color(0x77ffffff),
+                size: 40,
+              )
+            : Image.file(_image),
+        onPressed: getGalleryImage,
+      ),
+    );
+  }
+
+  sp_InputList() {
+    sp_flatBtn(sex) {
+      return ButtonTheme(
+        height: 80,
+        child: FlatButton(
+          // 테두리
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+
+          // 클릭 컬러
+          color: themeColor,
+          highlightColor: themeColor,
+          splashColor: themeColor,
+
+          child: Center(
+            child: Text(
+              sex,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 25,
+              ),
+            ),
+          ),
+          onPressed: () {
+            if (sex == 'Girl') {
+              setState(() {
+                isGirl = false;
+                isBoy = true;
+              });
+            } else if (sex == 'Boy') {
+              setState(() {
+                isGirl = true;
+                isBoy = false;
+              });
+            }
+          },
+        ),
+      );
+    }
+
+    sp_outBtn(sex) {
+      return ButtonTheme(
+        height: 80,
+        child: OutlineButton(
+          // 테두리
+          borderSide: BorderSide(
+            color: themeColor,
+            width: 2,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+
+          // 클릭 컬러
+          highlightColor: themeColor,
+          highlightedBorderColor: themeColor,
+          splashColor: themeColor,
+
+          child: Center(
+            child: Text(
+              sex,
+              style: TextStyle(
+                color: themeColor,
+                fontSize: 25,
+              ),
+            ),
+          ),
+          onPressed: () {
+            if (sex == 'Girl') {
+              setState(() {
+                isGirl = true;
+                isBoy = false;
+              });
+            } else if (sex == 'Boy') {
+              setState(() {
+                isGirl = false;
+                isBoy = true;
+              });
+            }
+          },
+        ),
+      );
+    }
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 0.0),
+      child: ListView(
+        children: [
+          sp_photo(),
+          SizedBox(height: 30),
+          // name
+          Row(
+            children: [
+              SizedBox(width: 20),
+              SizedBox(
+                width: 80,
+                child: Text(
+                  'name',
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+              Expanded(
+                child: TextField(
+                  controller: name_Controller,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    filled: true,
+                    fillColor: Colors.grey[200],
+                  ),
+                ),
+              ),
+              SizedBox(width: 20),
+            ],
+          ),
+          SizedBox(height: 20),
+          // age
+          Row(
+            children: [
+              SizedBox(width: 20),
+              SizedBox(
+                width: 80,
+                child: Text(
+                  'age',
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+              Expanded(
+                child: TextField(
+                  controller: age_Controller,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    filled: true,
+                    fillColor: Colors.grey[200],
+                  ),
+                ),
+              ),
+              SizedBox(width: 20),
+            ],
+          ),
+          SizedBox(height: 20),
+          // sex
+          Row(
+            children: [
+              SizedBox(width: 20),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: isGirl ? sp_flatBtn('Girl') : sp_outBtn('Girl'),
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: isBoy ? sp_flatBtn('Boy') : sp_outBtn('Boy'),
+                ),
+              ),
+              SizedBox(width: 20),
+            ],
+          ),
+          SizedBox(height: 20),
+          // species (grid view)
+          // Container(
+          //   height: 50,
+          //   child: Row(
+          //     children: [
+          //       SizedBox(width: 20),
+          //       Expanded(
+          //         child: GridView.count(
+          //           scrollDirection: Axis.horizontal,
+          //           crossAxisCount: 1,
+          //           children: <Widget>[],
+          //         ),
+          //       ),
+          //       SizedBox(width: 20),
+          //     ],
+          //   ),
+          // ),
+          Row(
+            children: [
+              SizedBox(width: 20),
+              SizedBox(
+                width: 80,
+                child: Text(
+                  'species',
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+              Expanded(
+                child: TextField(
+                  controller: species_Controller,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    filled: true,
+                    fillColor: Colors.grey[200],
+                  ),
+                ),
+              ),
+              SizedBox(width: 20),
+            ],
+          ),
+          SizedBox(height: 20),
+          // breed
+          Row(
+            children: [
+              SizedBox(width: 20),
+              SizedBox(
+                width: 80,
+                child: Text(
+                  'breed',
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+              Expanded(
+                child: TextField(
+                  controller: breed_Controller,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    filled: true,
+                    fillColor: Colors.grey[200],
+                  ),
+                ),
+              ),
+              SizedBox(width: 20),
+            ],
+          ),
+          SizedBox(height: 20),
+          // vavinamtions(Yes or No)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Did it get vaccinations?',
+                style: TextStyle(
+                  wordSpacing: -1,
+                  fontSize: 20,
+                ),
+              ),
+              Radio(
+                activeColor: themeColor,
+                value: Vaccinations.Yes,
+                groupValue: _vaccinations,
+                onChanged: (value) {
+                  setState(() {
+                    _vaccinations = value;
+                  });
+                },
+              ),
+              Text(
+                'Yes',
+                style: TextStyle(fontSize: 20, color: themeColor),
+              ),
+              Radio(
+                activeColor: themeColor,
+                value: Vaccinations.No,
+                groupValue: _vaccinations,
+                onChanged: (value) {
+                  setState(() {
+                    _vaccinations = value;
+                  });
+                },
+              ),
+              Text(
+                'No',
+                style: TextStyle(fontSize: 20, color: themeColor),
+              ),
+            ],
+          ),
+          // 추가 설명란
+          Container(
+            margin: EdgeInsets.all(20),
+            child: TextField(
+              keyboardType: TextInputType.multiline,
+              maxLines: 8,
+              controller: comment_Controller,
+              decoration: InputDecoration(
+                labelText: 'Comment',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+              ),
+            ),
+          ),
+          // Next Btn
+          Container(
+            height: 80,
+            color: themeColor,
+            child: FlatButton(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    'next',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 30,
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  Icon(
+                    Icons.arrow_forward,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                ],
+              ),
+              onPressed: () {
+                // 디테일 페이지로~
+                // Navigator.pushReplacement(
+                //   context,
+                //   PageTransition(
+                //       child: null, type: PageTransitionType.rightToLeft),
+                // );
+              },
+            ),
+          ),
         ],
       ),
     );
@@ -52,131 +426,6 @@ sp_appBar(context) {
           ),
         );
       },
-    ),
-  );
-}
-
-sp_photo() {
-  return ButtonTheme(
-    minWidth: 500,
-    child: FlatButton(
-      color: themeColor,
-      child: Icon(
-        Icons.photo_camera,
-        color: Color(0x77ffffff),
-        size: 40,
-      ),
-      onPressed: () {
-        // 이미지 피커
-      },
-    ),
-  );
-}
-
-sp_InputList() {
-  bool isGirl = false;
-  bool isBoy = false;
-
-  return Padding(
-    padding: const EdgeInsets.only(top: 0.0),
-    child: ListView(
-      children: [
-        SizedBox(height: 30),
-        // name
-        Row(
-          children: [
-            SizedBox(width: 20),
-            SizedBox(
-              width: 70,
-              child: Text(
-                'name',
-                style: TextStyle(fontSize: 20),
-              ),
-            ),
-            Expanded(
-              child: TextField(
-                controller: name_Controller,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  filled: true,
-                  fillColor: Colors.grey[200],
-                ),
-              ),
-            ),
-            SizedBox(width: 20),
-          ],
-        ),
-        SizedBox(height: 20),
-        // age
-        Row(
-          children: [
-            SizedBox(width: 20),
-            SizedBox(
-              width: 70,
-              child: Text(
-                'age',
-                style: TextStyle(fontSize: 20),
-              ),
-            ),
-            Expanded(
-              child: TextField(
-                controller: age_Controller,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  filled: true,
-                  fillColor: Colors.grey[200],
-                ),
-              ),
-            ),
-            SizedBox(width: 20),
-          ],
-        ),
-        SizedBox(height: 20),
-        // sex
-        Row(
-          children: [
-            SizedBox(width: 20),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: isGirl ? sp_flatBtn('girl') : sp_outBtn('girl'),
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: isGirl ? sp_flatBtn('boy') : sp_outBtn('boy'),
-              ),
-            ),
-            SizedBox(width: 20),
-          ],
-        ),
-        // breed (grid view)
-        // bredd
-        // vavinamtions(Yes or No)
-        // 추가 설명란
-        // Next Btn
-      ],
-    ),
-  );
-}
-
-sp_flatBtn(sex) {}
-sp_outBtn(sex) {
-  return ButtonTheme(
-    height: 150,
-    child: OutlineButton(
-      child: Center(
-        child: Icon(
-          MdiIcons.humanFemale,
-          size: 100,
-        ),
-      ),
-      onPressed: () {},
     ),
   );
 }
