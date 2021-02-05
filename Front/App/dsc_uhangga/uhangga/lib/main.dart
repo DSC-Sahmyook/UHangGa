@@ -1,12 +1,6 @@
 //import 'package:dsc_project/page_login.dart';
 import 'package:flutter/material.dart';
 import 'package:uhangga/page_main.dart';
-import 'package:uhangga/page_signup.dart';
-
-import 'page_login.dart';
-
-import 'page_main.dart';
-import 'page_p_test.dart';
 
 void main() => runApp(MyApp());
 

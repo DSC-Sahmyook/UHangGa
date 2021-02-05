@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
@@ -5,7 +7,12 @@ import 'package:uhangga/page_main.dart';
 
 import 'page_login.dart';
 
-class SignUpPage extends StatelessWidget {
+class SignUpPage extends StatefulWidget {
+  @override
+  _SignUpPageState createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -34,6 +41,7 @@ class SignUpPage extends StatelessWidget {
           ),
         ),
         body: Stack(
+          //첫페이지
           alignment: Alignment.center,
           children: <Widget>[
             Padding(
@@ -94,6 +102,7 @@ class SignUpPage extends StatelessWidget {
 }
 
 class AddIDPW extends StatelessWidget {
+  //아이디 비밀번호 설정
   final GlobalKey<FormState> _formkey1 = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -206,7 +215,14 @@ class AddIDPW extends StatelessWidget {
   }
 }
 
-class AddPhoto extends StatelessWidget {
+class AddPhoto extends StatefulWidget {
+  //프로필 설정
+  @override
+  _AddPhotoState createState() => _AddPhotoState();
+}
+
+class _AddPhotoState extends State<AddPhoto> {
+  File _image;
   final GlobalKey<FormState> _formkey1 = GlobalKey<FormState>();
 
   @override
@@ -229,8 +245,8 @@ class AddPhoto extends StatelessWidget {
           color: const Color(0xffe06b2e),
           iconSize: 42,
           onPressed: () {
-            Navigator.push(context,
-                CupertinoPageRoute(builder: (context) => SignUpPage()));
+            Navigator.push(
+                context, CupertinoPageRoute(builder: (context) => AddIDPW()));
           },
         ),
       ),
@@ -252,7 +268,19 @@ class AddPhoto extends StatelessWidget {
                       fontSize: 32,
                     ),
                   ),
-                  Container(height: 85),
+                  Container(
+                    height: 35,
+                  ),
+                  Center(
+                    child: IconButton(
+                      icon: Icon(Icons.account_circle_rounded),
+                      onPressed: () {
+                        getImage(ImageSource.gallery);
+                      },
+                      iconSize: 100.0,
+                    ),
+                  ),
+                  Container(height: 65),
                   TextFormField(
                     decoration: InputDecoration(labelText: "Name"),
                     validator: (String value) {
@@ -285,14 +313,32 @@ class AddPhoto extends StatelessWidget {
                 }
               },
             ),
-          )
+          ),
         ],
       ),
     );
   }
+
+  Widget showImage() {
+    if (_image == null)
+      return Container(
+        child: Text("Image Not Found..."),
+      );
+    else
+      return Image.file(_image);
+  }
+
+  Future getImage(ImageSource imageSource) async {
+    var image = await ImagePicker.pickImage(source: imageSource);
+
+    setState(() {
+      _image = image;
+    });
+  }
 }
 
 class AddPhone extends StatelessWidget {
+  //휴대폰번호 추가
   final GlobalKey<FormState> _formkey1 = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -410,6 +456,7 @@ class AddPhone extends StatelessWidget {
 }
 
 class AddAddress extends StatelessWidget {
+  //회원가입 주소추가
   final GlobalKey<FormState> _formkey1 = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -524,8 +571,10 @@ class AddAddress extends StatelessWidget {
                   style: TextStyle(fontSize: 32, color: Colors.white)),
               onPressed: () {
                 if (_formkey1.currentState.validate()) {
-                  Navigator.push(context,
-                      CupertinoPageRoute(builder: (context) => AddPhoto()));
+                  Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                          builder: (context) => SignUpApprove()));
                 }
               },
             ),
@@ -537,6 +586,7 @@ class AddAddress extends StatelessWidget {
 }
 
 class SignUpApprove extends StatelessWidget {
+  //회원가입 마지막
   @override
   Widget build(BuildContext context) {
     return Scaffold(
