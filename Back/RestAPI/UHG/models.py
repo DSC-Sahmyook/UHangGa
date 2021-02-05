@@ -14,7 +14,7 @@ class Characters(models.Model):
     partner = models.ForeignKey('Characters', on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.character} {self.partner}"
+        return f"{self.character} {self.partner}" #json아이템상세표현
 
 class Profile(models.Model):
     # id = models.IntegerField(primary_key=True)
@@ -25,7 +25,7 @@ class Profile(models.Model):
     characterid = models.ForeignKey('Characters', on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.user} {self.phonenum} {self.address} {self.characterid}"
+        return f"{self.user} {self.phonenum} {self.address} {self.characterid}" #json아이템상세표현
 
 class PostedDogs(models.Model):
     # id = models.IntegerField(primary_key=True)
@@ -59,7 +59,7 @@ class Dogs(models.Model):
     isadopted = models.BooleanField(default=0)     # 0: 등록, 1: 입양
 
     def __str__(self):
-        return f"{self.name} {self.dogtype} {self.age} {self.uniqueness} {self.photoid} {self.isadopted}"
+        return f"{self.name} {self.dogtype} {self.age} {self.uniqueness} {self.photoid} {self.isadopted}" #json아이템상세표현
 
 
 class Dogsphotos(models.Model):

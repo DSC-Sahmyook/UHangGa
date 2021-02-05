@@ -92,11 +92,11 @@ class ProfileView(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
 
-#Posteddog listview
+#Posteddog detail 
 class PostView(viewsets.ModelViewSet):
     queryset = PostedDogs.objects.all()
     serializer_class = PostSerializer
-
+#Posted List
 @api_view(['GET','POST'])
 def posteddogslist(request):
     if request.method == 'GET':
