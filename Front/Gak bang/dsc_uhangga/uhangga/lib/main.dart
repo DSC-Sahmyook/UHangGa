@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:uhangga/page_login.dart';
 import 'package:uhangga/page_main.dart';
+import 'package:uhangga/page_specific.dart';
 
 void main() => runApp(MyApp());
 
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
         primaryColor: const Color(0xffe06b2e),
         fontFamily: 'segoe',
       ),
-      home: MainPage(),
+      home: specpage(),
     );
   }
 }
