@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:uhangga/page_main.dart';
 
+import 'Dog_Registration_page/page_dog_Registration.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -12,7 +14,8 @@ class MyApp extends StatelessWidget {
         primaryColor: const Color(0xffe06b2e),
         fontFamily: 'segoe',
       ),
-      home: MainPage(),
+      // home: MainPage(),
+      home: DogRegiPage(),
     );
   }
 }
