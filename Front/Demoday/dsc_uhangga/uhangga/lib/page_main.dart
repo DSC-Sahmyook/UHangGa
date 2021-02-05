@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:uhangga/Dog_Registration_page/page_dog_Registration.dart';
 import 'package:uhangga/page_login.dart';
 
 final List<String> bannerImages = <String>['banner.png'];
@@ -193,7 +194,12 @@ class _MainPageState extends State<MainPage> {
                           height: 200,
                           width: 205,
                           child: FlatButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    CupertinoPageRoute(
+                                        builder: (context) => DogRegiPage()));
+                              },
                               child: Center(
                                 child: Column(
                                   children: <Widget>[

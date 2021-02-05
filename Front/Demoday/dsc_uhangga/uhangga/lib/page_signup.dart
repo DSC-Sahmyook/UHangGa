@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:uhangga/mbti_test_pages/page_p_test.dart';
 import 'package:uhangga/page_main.dart';
 
 import 'page_login.dart';
@@ -677,7 +678,8 @@ class SignUpApprove extends StatelessWidget {
                 Navigator.push(
                     context,
                     CupertinoPageRoute(
-                        builder: (context) => LoginPage())); //p_test 페이지로 이동예정
+                        builder: (context) =>
+                            MbtiTestPage_Start())); //p_test 페이지로 이동예정
               },
             ),
           )

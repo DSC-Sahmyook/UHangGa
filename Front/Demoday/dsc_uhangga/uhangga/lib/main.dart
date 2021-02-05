@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
         primaryColor: const Color(0xffe06b2e),
         fontFamily: 'segoe',
       ),
-      home: specpage(),
+      home: MainPage(),
     );
   }
 }

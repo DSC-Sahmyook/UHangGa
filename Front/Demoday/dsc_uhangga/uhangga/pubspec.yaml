@@ -28,6 +28,11 @@ dependencies:
   json_annotation: ^2.4.0
   image_picker: ^0.6.7+4
   scrolling_page_indicator: ^0.1.2
+  
+
+  percent_indicator: any
+  page_transition: any
+  animated_text_kit: any
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -65,6 +70,8 @@ flutter:
     - lib/assets/pics/List5.png
     - lib/assets/pics/List6.png
     - lib/assets/pics/List.png
+    - lib/assets/pics/emotion.png
+    - lib/assets/pics/enfp.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
