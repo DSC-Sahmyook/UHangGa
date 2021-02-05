@@ -5,6 +5,7 @@ import 'package:page_transition/page_transition.dart';
 import '../main.dart';
 import '../page_main.dart';
 import 'page_p_test.dart';
+import '../Dog_Registration_page/page_dog_list.dart';
 
 class Result {
   List<String> Answers;
@@ -237,7 +238,7 @@ sp_whiteBox(context) {
                     color: themeColor,
 
                     child: Text(
-                      "Find my best dog",
+                      "Registration",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -246,6 +247,13 @@ sp_whiteBox(context) {
                     ),
                     onPressed: () {
                       // Dogs List로
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          child: DogListPage(),
+                          type: PageTransitionType.bottomToTop,
+                        ),
+                      );
                     },
                   ),
                 ),

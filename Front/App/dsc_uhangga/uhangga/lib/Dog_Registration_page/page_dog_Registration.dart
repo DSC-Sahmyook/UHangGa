@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 import '../page_main.dart';
+import '../mbti_test_pages/page_p_test.dart';
 
 class DogRegiPage extends StatefulWidget {
   @override
@@ -63,6 +64,7 @@ class _DogRegPageState extends State<DogRegiPage> {
   // 이미지 있는 곳 위젯
   sp_photo() {
     return ButtonTheme(
+      height: 250,
       minWidth: 500,
       child: FlatButton(
         color: _image == null ? themeColor : Colors.white,
@@ -393,12 +395,14 @@ class _DogRegPageState extends State<DogRegiPage> {
                 ],
               ),
               onPressed: () {
-                // 디테일 페이지로~
-                // Navigator.pushReplacement(
-                //   context,
-                //   PageTransition(
-                //       child: null, type: PageTransitionType.rightToLeft),
-                // );
+                // 성격검사 페이지로
+                Navigator.pushReplacement(
+                  context,
+                  PageTransition(
+                    child: MbtiTestPage_Start(),
+                    type: PageTransitionType.rightToLeft,
+                  ),
+                );
               },
             ),
           ),
