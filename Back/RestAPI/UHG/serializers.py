@@ -79,7 +79,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 # posted Dogs
 class PostSerializer(serializers.ModelSerializer):
     #Nested Serializer 이용한 다른 모델 참조
-    dogid = DogsSerializer(read_only=True)
+    dogid = DogsSerializer()
     userid = ProfileSerializer()
     dogCharacter = CharactersSerializer()
 

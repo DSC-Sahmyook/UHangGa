@@ -35,8 +35,8 @@ class PostedDogs(models.Model):
     dogCharacter = models.ForeignKey('Characters', on_delete=models.CASCADE)
     userid = models.ForeignKey('Profile', on_delete=models.CASCADE)
 
-    # def __str__(self):
-    #     return '[{}] {}'.format(self.user.username, self.title)
+    def __str__(self):
+         return '[{}] {}'.format(self.user.username, self.title)
 
 class CrawledDogs(models.Model):
     # id = models.IntegerField(primary_key=True)
@@ -58,8 +58,8 @@ class Dogs(models.Model):
     photoid = models.IntegerField(default=0)
     isadopted = models.BooleanField(default=0)     # 0: 등록, 1: 입양
 
-    def __str__(self):
-        return f"{self.name} {self.dogtype} {self.age} {self.uniqueness} {self.photoid} {self.isadopted}" #json아이템상세표현
+    #def __str__(self):
+        #return f"{self.name} {self.dogtype} {self.age} {self.uniqueness} {self.photoid} {self.isadopted}" #json아이템상세표현
 
 
 class Dogsphotos(models.Model):
