@@ -118,7 +118,7 @@ sp_topStack() {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 110),
+              SizedBox(height: 100),
               Text(
                 "You are",
                 style: TextStyle(
