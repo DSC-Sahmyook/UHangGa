@@ -21,4 +21,7 @@ urlpatterns = format_suffix_patterns([
     path('main/index/list/', views.main_list),
     path('posts/', views.posteddogslist),
     path('posts/<int:pk>/', post_detail, name='post_detail'),
+
+    # MBTI
+    path('mbti/result/', views.resultOfMBTI),
 ])

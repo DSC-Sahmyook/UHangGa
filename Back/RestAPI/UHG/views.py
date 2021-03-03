@@ -20,6 +20,9 @@ from .models import Characters
 from .models import Dogs
 from .models import Profile
 
+# mbti 테스트
+from .getMBTI import getMBTI as getMBTI
+
 
 # 회원가입
 @api_view(['POST'])
@@ -168,3 +171,14 @@ def main_list(request):
     if dogList_se:
         return Response(dogList_se.data, status=status.HTTP_200_OK)
     return Response(dogList_se.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# ---------------------------------------------
+# mbti 테스트 결과 페이지
+@api_view(['POST'])
+def resultOfMBTI(request):
+    result = getMBTI.getMBTI(request.data['answer']).__str__()
+    result_obj = mo.Characters.objects.get(character=result)
+    result_se = se.TestMBTI(result_obj)
+
+    return Response(result_se.data, status=status.HTTP_200_OK)

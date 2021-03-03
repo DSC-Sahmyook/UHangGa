@@ -115,3 +115,16 @@ class MainPageSerializer(serializers.Serializer):
     waitDogs = serializers.IntegerField()
     adoptRate = serializers.IntegerField()
 
+
+# ---------------------------------------------
+# mbti 테스트 결과 페이지
+class TestMBTI(serializers.ModelSerializer):
+    partner_type = serializers.SerializerMethodField()
+
+    def get_partner_type(self, obj):
+        return obj.partner.character
+
+    class Meta:
+        model = mo.Characters
+        fields = ('character', 'url', 'partner_type')
+
