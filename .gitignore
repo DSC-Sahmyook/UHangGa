@@ -130,3 +130,5 @@ dmypy.json
 
 .idea
 Back/RestAPI/lenv
+
+Back/RestAPI/.gcloudignore
