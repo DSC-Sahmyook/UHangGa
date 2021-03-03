@@ -18,6 +18,8 @@
    2. [메인페이지-list](#2-2-메인페이지-리스트)
 3. [PostedDogsList(GET)](#3-posteddogslist)
    1. [PostedDogsDetail(GET,DELETE)](#3-1-posteddogsdetail)
+4. [MBTI 검사](#4-mbti-검사)
+   1. [강아지용(POST)](#4-1-강아지용-mbti)
 
 ---
 <br>
@@ -327,4 +329,54 @@
   //
 }
 ```
+---
+
+## 4. MBTI 검사
+### 4-1. 강아지용 MBTI
+#### - Request : POST
+- HTTP URL = '/api/mbti/result/dog/'
+- Parameter 형식 (get 형식)
+
+>|파라미터명|타입|필수여부|설명|
+>|-|-|-|-|
+>|answer|list|O|설문 내용 리스트(1,2)로 표핸|
+
+- Parameter 형식(Header 형식)
+
+>|파라미터명|값|설명|
+>|-|-|-|
+>|-|-|-|
+
+- 샘플 JSON 예제
+```json
+// POST
+{
+	"answer": "[2,2,2,2,2,2,2,2,2,2,2,2]"
+}
+```
+<br>
+
+#### - Response Format : JSON 형태로 반환
+- 반환값 형식
+
+>|엘리먼트명|depth|설명|값구분|
+>|-|-|-|-|
+>|character|1|성격유형|str|
+>|url|1|유형 이미지 링크|str|
+>|partner_type|1|어울리는 유형|str|
+
+- 샘플 JSON 예제
+```json
+// 200 ok
+{
+  "character": "istj",
+  "url": "istj@djWjrnwjWjrn.com",
+  "partner_type": "enfj"
+}
+// 400 bad request 
+{
+
+}
+```
+
 ---
