@@ -1,5 +1,5 @@
 # UHangGa
-# Rest API 연동 규격서<br>[http://127.0.0.1:8000/]
+# Rest API 연동 규격서<br>[http://dsc-uhg-306513.du.r.appspot.com/]
 ## 개요
 - Project Name : UHG
 - Project Manager : 김현균
