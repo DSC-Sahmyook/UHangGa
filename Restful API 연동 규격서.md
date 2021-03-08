@@ -19,7 +19,6 @@
 3. [PostedDogsList(GET)](#3-posteddogslist)
    1. [PostedDogsDetail(GET,DELETE)](#3-1-posteddogsdetail)
 4. [MBTI 검사](#4-mbti-검사)
-   1. [강아지용(POST)](#4-1-강아지용-mbti)
 
 ---
 <br>
@@ -332,14 +331,14 @@
 ---
 
 ## 4. MBTI 검사
-### 4-1. 강아지용 MBTI
 #### - Request : POST
-- HTTP URL = '/api/mbti/result/dog/'
+- HTTP URL = '/api/mbti/result/'
 - Parameter 형식 (get 형식)
 
 >|파라미터명|타입|필수여부|설명|
 >|-|-|-|-|
->|answer|list|O|설문 내용 리스트(1,2)로 표핸|
+>|answer|list|O|설문 내용 리스트(1,2)로 표현|
+>|isperson|bool|O|사람용이면 True, 강아지용이면 False|
 
 - Parameter 형식(Header 형식)
 
@@ -351,7 +350,8 @@
 ```json
 // POST
 {
-	"answer": "[2,2,2,2,2,2,2,2,2,2,2,2]"
+  "answer": "[2,2,2,2,2,2,2,2,2,2,2,2]",
+  "isperson": "false"
 }
 ```
 <br>

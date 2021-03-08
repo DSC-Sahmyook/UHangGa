@@ -177,7 +177,8 @@ def main_list(request):
 # mbti 테스트 결과 페이지
 @api_view(['POST'])
 def resultOfMBTI(request):
-    result = getMBTI.getMBTI(request.data['answer']).__str__()
+    result = getMBTI.getMBTI(request.data['answer'], request.data['isperson']).__str__()
+    print(result)
     result_obj = mo.Characters.objects.get(character=result)
     result_se = se.TestMBTI(result_obj)
 
