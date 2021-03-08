@@ -1,0 +1,37 @@
+name: uhg_web
+description: A new Flutter project.
+
+publish_to: 'none' 
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - lib/assets/pics/pic1.png 
+    - lib/assets/pics/pic2.png
+    - lib/assets/pics/pic3.png
+    - lib/assets/pics/banner.png
+    - lib/assets/pics/List1.png
+    - lib/assets/pics/List2.png
+    - lib/assets/pics/List3.png
+    - lib/assets/pics/List4.png
+    - lib/assets/pics/List5.png
+    - lib/assets/pics/List6.png
+    - lib/assets/pics/List.png
+    - lib/assets/pics/emotion.png
+    - lib/assets/pics/enfp.png
