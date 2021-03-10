@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:uhangga/Dog_Registration_page/page_dog_Registration.dart';
 import 'package:uhangga/Dog_Registration_page/page_dog_list.dart';
+import 'package:uhangga/com.dart';
 import 'package:uhangga/mbti_test_pages/page_result.dart';
 import 'package:uhangga/page_login.dart';
 import 'package:uhangga/page_specific.dart';
@@ -9,6 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 const url = 'https://news.seoul.go.kr/welfare/archives/521135';
 
+@JsonSerializable()
 class MainPage1 extends StatefulWidget {
   @override
   _MainPage1State createState() => _MainPage1State();
@@ -16,6 +19,10 @@ class MainPage1 extends StatefulWidget {
 
 class _MainPage1State extends State<MainPage1> {
   @override
+  void initState() {
+    super.initState();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
         body: CustomScrollView(
