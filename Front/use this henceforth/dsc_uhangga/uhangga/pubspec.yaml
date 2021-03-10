@@ -27,11 +27,14 @@ dependencies:
   http: ^0.12.0+2
   json_annotation: ^2.4.0
   image_picker: ^0.6.7+4
+  scrolling_page_indicator: ^0.1.2
+  url_launcher: 5.4.11
+  
 
   percent_indicator: any
   page_transition: any
   animated_text_kit: any
-  
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -61,8 +64,15 @@ flutter:
     - lib/assets/pics/pic2.png
     - lib/assets/pics/pic3.png
     - lib/assets/pics/banner.png
-    - lib/assets/pics/enfp.png
+    - lib/assets/pics/List1.png
+    - lib/assets/pics/List2.png
+    - lib/assets/pics/List3.png
+    - lib/assets/pics/List4.png
+    - lib/assets/pics/List5.png
+    - lib/assets/pics/List6.png
+    - lib/assets/pics/List.png
     - lib/assets/pics/emotion.png
+    - lib/assets/pics/enfp.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

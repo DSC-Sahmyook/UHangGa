@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:uhangga/page_main.dart';
+import 'package:uhangga/page_mainnew.dart';
 
 import 'page_signup.dart';
 
@@ -122,7 +122,7 @@ class LoginPage extends StatelessWidget {
                                                 context,
                                                 CupertinoPageRoute(
                                                     builder: (context) =>
-                                                        MainPage()));
+                                                        MainPage1()));
                                           }
                                         },
                                       ),

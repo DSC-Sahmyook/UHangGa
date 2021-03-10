@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:uhangga/page_mainnew.dart';
 
 import 'text_items.dart';
 import 'page_result.dart';
 import '../main.dart';
-import '../page_main.dart';
 
 import 'package:page_transition/page_transition.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -12,15 +12,14 @@ class MbtiTestPage_Start extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: false,
+      appBar: sp_BackIcon(context, 'home'),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Center(
           child: Column(
             children: <Widget>[
-              // 뒤로가기 버튼
-              SizedBox(height: 20),
-              sp_BackIcon(context, 'home'),
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -47,38 +46,38 @@ class MbtiTestPage_Start extends StatelessWidget {
 
 // 뒤로가기 버튼
 sp_BackIcon(context, target) {
-  return Row(
-    children: [
-      IconButton(
-        icon: Icon(Icons.arrow_back),
-        iconSize: 35,
-        color: Color(0xffe06b2e),
-        onPressed: () {
-          if (target == 'pop') {
-            textCount--;
-            selectAnswers.removeLast();
-            Navigator.pop(context);
-          } else if (target == 'home') {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => MainPage()),
-            );
-          }
-        },
-      )
-    ],
+  return AppBar(
+    elevation: 0,
+    backgroundColor: Colors.white,
+    leading: IconButton(
+      icon: Icon(Icons.arrow_back),
+      iconSize: 35,
+      color: Color(0xffe06b2e),
+      onPressed: () {
+        if (target == 'pop') {
+          textCount--;
+          selectAnswers.removeLast();
+          Navigator.pop(context);
+        } else if (target == 'home') {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => MainPage1()),
+          );
+        }
+      },
+    ),
   );
 }
 
 sp_BlankIcon() {
-  return Row(
-    children: [
-      Icon(
-        Icons.arrow_back,
-        color: Colors.white,
-        size: 51,
-      )
-    ],
+  return AppBar(
+    elevation: 0,
+    backgroundColor: Colors.white,
+    leading: Icon(
+      Icons.arrow_back,
+      color: Colors.white,
+      size: 51,
+    ),
   );
 }
 
@@ -141,19 +140,18 @@ sp_StartBtn(context) {
 int textCount = 0;
 bool isFirst = true;
 List<String> selectAnswers = [];
+bool isperson = true;
 
 class MbtiTestPage_Ing extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: isFirst ? sp_BlankIcon() : sp_BackIcon(context, 'pop'),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: <Widget>[
-            // 뒤로가기 버튼
-            SizedBox(height: 20),
-            // sp_BackIcon(context, 'pop'),
-            isFirst ? sp_BlankIcon() : sp_BackIcon(context, 'pop'),
             // Question Text
             Expanded(
               child: Center(
@@ -187,7 +185,7 @@ class MbtiTestPage_Ing extends StatelessWidget {
 // Question Text
 sp_Question(index) {
   return Text(
-    Q_item[index],
+    isperson ? Per_Q_item[index] : Dog_Q_item[index],
     textAlign: TextAlign.center,
     style: TextStyle(
       fontSize: 35,
@@ -211,12 +209,12 @@ sp_Btn(index, choice, context) {
   if (choice == 'A') {
     textItem = [
       Text(
-        A_item[index],
+        isperson ? Per_A_item[index] : Dog_A_item[index],
         style: title,
         textAlign: TextAlign.center,
       ),
       Text(
-        As_item[index],
+        isperson ? Per_As_item[index] : Dog_As_item[index],
         style: subtitle,
         textAlign: TextAlign.center,
       )
@@ -224,12 +222,12 @@ sp_Btn(index, choice, context) {
   } else if (choice == 'B') {
     textItem = [
       Text(
-        B_item[index],
+        isperson ? Per_B_item[index] : Dog_B_item[index],
         style: title,
         textAlign: TextAlign.center,
       ),
       Text(
-        Bs_item[index],
+        isperson ? Per_Bs_item[index] : Dog_Bs_item[index],
         style: subtitle,
         textAlign: TextAlign.center,
       )
@@ -259,6 +257,9 @@ sp_Btn(index, choice, context) {
           textCount++;
           selectAnswers.add('A');
           if (textCount >= 12) {
+            isFirst = true;
+            textCount = 0;
+            selectAnswers = [];
             final result = Result(selectAnswers);
             Navigator.pushReplacement(
               context,
@@ -281,6 +282,9 @@ sp_Btn(index, choice, context) {
           textCount++;
           selectAnswers.add('B');
           if (textCount >= 12) {
+            isFirst = true;
+            textCount = 0;
+            selectAnswers = [];
             final result = Result(selectAnswers);
             Navigator.pushReplacement(
               context,

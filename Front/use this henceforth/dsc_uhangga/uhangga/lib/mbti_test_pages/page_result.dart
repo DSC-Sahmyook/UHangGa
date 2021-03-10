@@ -4,6 +4,7 @@ import 'package:page_transition/page_transition.dart';
 
 import '../main.dart';
 import '../page_main.dart';
+import '../page_mainnew.dart';
 import 'page_p_test.dart';
 import '../Dog_Registration_page/page_dog_list.dart';
 
@@ -84,7 +85,7 @@ sp_appBar(context) {
         Navigator.pushReplacement(
           context,
           PageTransition(
-            child: MainPage(),
+            child: MainPage1(),
             type: PageTransitionType.rightToLeft,
           ),
         );
@@ -118,7 +119,7 @@ sp_topStack() {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 110),
+              SizedBox(height: 100),
               Text(
                 "You are",
                 style: TextStyle(

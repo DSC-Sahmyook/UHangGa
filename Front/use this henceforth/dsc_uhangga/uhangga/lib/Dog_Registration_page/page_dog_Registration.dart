@@ -3,6 +3,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:uhangga/main.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:uhangga/page_mainnew.dart';
 import 'dart:io';
 
 import '../page_main.dart';
@@ -13,12 +14,6 @@ class DogRegiPage extends StatefulWidget {
   _DogRegPageState createState() => _DogRegPageState();
 }
 
-final name_Controller = TextEditingController();
-final age_Controller = TextEditingController();
-final species_Controller = TextEditingController();
-final breed_Controller = TextEditingController();
-final comment_Controller = TextEditingController();
-
 enum Vaccinations { Yes, No }
 
 class _DogRegPageState extends State<DogRegiPage> {
@@ -27,6 +22,11 @@ class _DogRegPageState extends State<DogRegiPage> {
 
   Vaccinations _vaccinations = Vaccinations.No;
 
+  final name_Controller = TextEditingController();
+  final age_Controller = TextEditingController();
+  final species_Controller = TextEditingController();
+  final breed_Controller = TextEditingController();
+  final comment_Controller = TextEditingController();
   final pageView_controller = new PageController();
 
   File _image;
@@ -425,7 +425,7 @@ sp_appBar(context) {
         Navigator.pushReplacement(
           context,
           PageTransition(
-            child: MainPage(),
+            child: MainPage1(),
             type: PageTransitionType.rightToLeft,
           ),
         );

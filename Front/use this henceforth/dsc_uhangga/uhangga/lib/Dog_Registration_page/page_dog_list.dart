@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:uhangga/main.dart';
+import 'package:uhangga/page_specific.dart';
 
 class DogListPage extends StatelessWidget {
   @override
@@ -14,12 +16,12 @@ class DogListPage extends StatelessWidget {
           Expanded(
             child: ListView(
               children: [
-                sp_dogItems(),
-                sp_dogItems(),
-                sp_dogItems(),
-                sp_dogItems(),
-                sp_dogItems(),
-                sp_dogItems(),
+                sp_dogItems(context),
+                sp_dogItems(context),
+                sp_dogItems(context),
+                sp_dogItems(context),
+                sp_dogItems(context),
+                sp_dogItems(context),
               ],
             ),
           ),
@@ -45,7 +47,7 @@ sp_appBar(context) {
   );
 }
 
-sp_dogItems() {
+sp_dogItems(context) {
   return Card(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
     elevation: 2,
@@ -136,6 +138,8 @@ sp_dogItems() {
       highlightColor: themeColor,
       onTap: () {
         // 디테일 페이지로
+        Navigator.push(
+            context, CupertinoPageRoute(builder: (context) => specpage()));
       },
     ),
   );
