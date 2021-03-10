@@ -162,7 +162,8 @@
 
 >|엘리먼트명|depth|설명|값구분|
 >|-|-|-|-|
->|partnerType|1|잘 어울리는 성격유형|str|
+>|partnerType_name|1|잘 어울리는 성격유형 이름|str|
+>|partnerType_img_url|1|잘 어울리는 성격유형 이미지 링크|str|
 >|userName|1|사용자 이름|str|
 >|userPhoto|1|사용자 프로필 사진 링크|str|
 >|waitDogs|1|입양을 기다리는 강아지 수|int|
@@ -172,7 +173,8 @@
 ```json
 // 200 ok
 {
-  "partnerType": "None",
+  "partnerType_name": "None",
+  "partnerType_img_url": "None",
   "userName": "test",
   "userPhoto": "photo_url",
   "waitDogs": 2,

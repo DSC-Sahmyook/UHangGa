@@ -132,10 +132,12 @@ def main_data(request):
     # 어울리는 타입
     if isAnony:
         # 로그인 안한 경우
-        partnerType = 'None'
+        partnerType_name = 'None'
+        partnerType_img_url = 'None'
     else:
         # 로그인한 경우
-        partnerType = mo.Profile.objects.get(user=request.user).characterid.partner
+        partnerType_name = mo.Profile.objects.get(user=request.user).characterid.partner
+        partnerType_img_url = mo.Characters.objects.get(character=partnerType_name).url
 
     # 사용자 이름, 사진
     if isAnony:
@@ -151,7 +153,8 @@ def main_data(request):
     adoptRate = int((totalDogs-waitDogs) / totalDogs * 100)
 
     data = {
-        'partnerType': partnerType,
+        'partnerType_name': partnerType_name,
+        'partnerType_img_url': partnerType_img_url,
         'userName': nowUser.user.username,
         'userPhoto': nowUser.photourl,
         'waitDogs': waitDogs,

@@ -110,6 +110,7 @@ class MainDogsList_Serializer(serializers.ModelSerializer):
 
 class MainPageSerializer(serializers.Serializer):
     partnerType = serializers.CharField()
+    partnerType_img_url = serializers.CharField()
     userName = serializers.CharField()
     userPhoto = serializers.CharField()
     waitDogs = serializers.IntegerField()
