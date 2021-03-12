@@ -236,7 +236,7 @@
 ---
 
 ## 3. PostedDogsList
-#### - Request : Get
+#### - Request : Post
 - HTTP URL = '/api/posts/
 - Parameter 형식 (Get 형식)
 
@@ -272,11 +272,34 @@
 ```json
 // 200 ok
 { 
-   "id": 1,
-    "date": "2021-02-01T21:21:28.457074",
-    "protection": "작은형이 데리고 있어요...",
-    "dogid": 1,
-    "userid": 1
+   {
+        "id": 7,
+        "dogid": {
+            "id": 3,
+            "name": "댕댕이",
+            "dogtype": "믹스",
+            "age": 20,
+            "uniqueness": "으음...그냥 넣어봤어요",
+            "photoid": 3,
+            "isadopted": true
+        },
+        "userid": {
+            "id": 1,
+            "phonenum": 100,
+            "address": "서초구",
+            "photourl": "photo_url",
+            "user": 2,
+            "characterid": 14
+        },
+        "dogCharacter": {
+            "id": 1,
+            "character": "enfj",
+            "url": "enfj",
+            "partner": 15
+        },
+        "date": "2021-02-03T22:36:32.160589",
+        "protection": "보호형태1"
+    },
 }
 // 400 bad request 
 {
@@ -292,7 +315,7 @@
 
 >|파라미터명|타입|필수여부|설명|
 >|-|-|-|-|
->|id|str|필수|가입자(게시자) 고유번호|
+>|id|str|필수|가입자(게시자) 고유번호(id)|
 >|date|str|필수|포스팅된 날짜|
 >|protection|str|필수|강아지의 보호 형태|
 >|dogid|str|필수|강아지 고유 아이디|
@@ -319,11 +342,34 @@
 ```json
 // 200 ok
 { 
-   "id": 1,
-    "date": "2021-02-01T21:21:28.457074",
-    "protection": "작은형이 데리고 있어요...",
-    "dogid": 1,
-    "userid": 1
+   {
+    "id": 2,
+    "dogid": {
+        "id": 2,
+        "name": "용맹이",
+        "dogtype": "프렌치불독",
+        "age": 10,
+        "uniqueness": "완전 허옇게 생겼어요",
+        "photoid": 2,
+        "isadopted": false
+    },
+    "userid": {
+        "id": 1,
+        "phonenum": 100,
+        "address": "서초구",
+        "photourl": "photo_url",
+        "user": 2,
+        "characterid": 14
+    },
+    "dogCharacter": {
+        "id": 5,
+        "character": "esfj",
+        "url": "esfj",
+        "partner": 11
+    },
+    "date": "2021-02-01T21:21:39.715055",
+    "protection": "얘도 작은형이 데리고 있어요"
+}
 }
 // 400 bad request 
 {
