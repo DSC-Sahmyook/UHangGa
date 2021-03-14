@@ -57,6 +57,8 @@ class Dogs(models.Model):
     uniqueness = models.CharField(max_length=50)
     photoid = models.IntegerField(default=0)
     isadopted = models.BooleanField(default=0)     # 0: 등록, 1: 입양
+    area = models.CharField(default=0, max_length=50)
+    gender = models.BooleanField()        # 0: 수컷, 1: 암컷
 
     #def __str__(self):
         #return f"{self.name} {self.dogtype} {self.age} {self.uniqueness} {self.photoid} {self.isadopted}" #json아이템상세표현
