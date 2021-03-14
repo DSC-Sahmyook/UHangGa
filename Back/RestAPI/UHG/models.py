@@ -13,8 +13,8 @@ class Characters(models.Model):
     url = models.TextField()
     partner = models.ForeignKey('Characters', on_delete=models.CASCADE)
 
-    def __str__(self):
-        return f"{self.character} {self.partner}" #json아이템상세표현
+    #def __str__(self):
+        #return f"{self.character} {self.partner}" #json아이템상세표현
 
 class Profile(models.Model):
     # id = models.IntegerField(primary_key=True)
@@ -24,8 +24,8 @@ class Profile(models.Model):
     photourl = models.TextField()
     characterid = models.ForeignKey('Characters', on_delete=models.CASCADE)
 
-    def __str__(self):
-        return f"{self.user} {self.phonenum} {self.address} {self.characterid}" #json아이템상세표현
+    #def __str__(self):
+        #return f"{self.user} {self.phonenum} {self.address} {self.characterid}" #json아이템상세표현
 
 class PostedDogs(models.Model):
     # id = models.IntegerField(primary_key=True)
@@ -35,8 +35,8 @@ class PostedDogs(models.Model):
     dogCharacter = models.ForeignKey('Characters', on_delete=models.CASCADE)
     userid = models.ForeignKey('Profile', on_delete=models.CASCADE)
 
-    def __str__(self):
-         return '[{}] {}'.format(self.user.username, self.title)
+    #def __str__(self):
+         #return '[{}] {}'.format(self.user.username, self.title)
 
 class CrawledDogs(models.Model):
     # id = models.IntegerField(primary_key=True)
