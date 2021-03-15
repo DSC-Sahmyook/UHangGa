@@ -16,8 +16,9 @@
 2. [메인페이지](#2-메인페이지)
    1. [메인페이지-data](#2-1-메인페이지-데이터)
    2. [메인페이지-list](#2-2-메인페이지-리스트)
-3. [PostedDogsList(GET)](#3-posteddogslist)
-   1. [PostedDogsDetail(GET,DELETE)](#3-1-posteddogsdetail)
+3. [등록된 강아지들](#3-등록된-강아지들)
+   1. [강아지 정도 등록(POST)](#3-1-강아지-정도-등록post)
+   2. [PostedDogsDetail(GET,DELETE)](#3-2-posteddogsdetail)
 4. [MBTI 검사](#4-mbti-검사)
 
 ---
@@ -235,18 +236,22 @@
 ```
 ---
 
-## 3. PostedDogsList
+## 3. 등록된 강아지들
+### 3-1. 강아지 정도 등록(POST)
 #### - Request : Post
-- HTTP URL = '/api/posts/
-- Parameter 형식 (Get 형식)
+- HTTP URL = 'api/dog/post/'
+- Parameter 형식 (POST 형식)
 
 >|파라미터명|타입|필수여부|설명|
 >|-|-|-|-|
->|id|str|필수|가입자(게시자) 고유번호|
->|date|str|필수|포스팅된 날짜|
->|protection|str|필수|강아지의 보호 형태|
->|dogid|str|필수|강아지 고유 아이디|
->|userid|str|필수|게시자 프로필|
+>|photo|list|필수|Firebase에 등록한 사진들 url|
+>|name|str|필수|강아지 이름|
+>|dogtype|str|필수|견종|
+>|age|intger|필수|강아지 나이(개월수)|
+>|gender|bool|필수|수컷: false, 암컷: true|
+>|protection|str|필수|저기 뭐야 예방접종 그거|
+>|dogCharacter|str|필수|성격검사결과|
+
 
 
 - Parameter 형식(Header 형식)
@@ -254,6 +259,7 @@
 >|파라미터명|값|설명|
 >|-|-|-|
 >|Content-Type|application/json|JSON 통신|
+>|Authorization|token <토큰값>|유저 토큰값|
 <br>
 
 #### - Response Format : JSON 형태로 반환
@@ -261,54 +267,26 @@
 >  
 >|엘리먼트명|depth|설명|값구분|
 >|-|-|-|-|
->|id|1|게시물번호|200 : OK<br>|
->|date|1|게시날짜|200 : OK<br>|
->|protection|1|강아지의 보호형태|200 : OK<br>|
->|dogid|1|강아지고유id|200 : OK<br>|
->|userid|1|게시자고유id|200 : OK<br>|
+>|-|-|-|-|
 <br>
 
 - 샘플 JSON 예제
 ```json
 // 200 ok
 { 
-   {
-        "id": 7,
-        "dogid": {
-            "id": 3,
-            "name": "댕댕이",
-            "dogtype": "믹스",
-            "age": 20,
-            "uniqueness": "으음...그냥 넣어봤어요",
-            "photoid": 3,
-            "isadopted": true
-        },
-        "userid": {
-            "id": 1,
-            "phonenum": 100,
-            "address": "서초구",
-            "photourl": "photo_url",
-            "user": 2,
-            "characterid": 14
-        },
-        "dogCharacter": {
-            "id": 1,
-            "character": "enfj",
-            "url": "enfj",
-            "partner": 15
-        },
-        "date": "2021-02-03T22:36:32.160589",
-        "protection": "보호형태1"
-    },
 }
 // 400 bad request 
 {
-  //
+}
+
+// 401 Unauthorized
+{
+  // Token값이 유저에 없어서 생기는 권한에러
 }
 ```
 ---
 
-### 3-1. PostedDogsDetail
+### 3-2. PostedDogsDetail
 #### - Request : Get, DELETE
 - HTTP URL = '/api/posts/(게시자고유아이디)
 - Parameter 형식 (Get, Delete 형식)

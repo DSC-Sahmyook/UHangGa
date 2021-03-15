@@ -78,15 +78,18 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 # posted Dogs
 class PostSerializer(serializers.ModelSerializer):
-    #Nested Serializer 이용한 다른 모델 참조
-    dogid = DogsSerializer()
-    userid = ProfileSerializer()
-    dogCharacter = CharactersSerializer()
-
+    # #Nested Serializer 이용한 다른 모델 참조
+    # dogid = DogsSerializer()
+    # userid = ProfileSerializer()
+    # dogCharacter = CharactersSerializer()
+    #
+    # class Meta:
+    #     model = PostedDogs
+    #     fields = '__all__'
+    #     read_only_fields = ('date',)
     class Meta:
         model = PostedDogs
         fields = '__all__'
-        read_only_fields = ('date',)
 
         
 

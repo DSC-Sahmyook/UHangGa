@@ -100,6 +100,48 @@ class PostView(viewsets.ModelViewSet):
     queryset = PostedDogs.objects.all()
     serializer_class = PostSerializer
 
+
+# Post Dog
+@api_view(['POST'])
+def post_dogs(request):
+    if request.user.id == None:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+    # 강아지 기본정보 등록하고 object 얻기
+    dog_instance = mo.Dogs(
+        name=request.data['name'],
+        dogtype=request.data['dogtype'],
+        age=request.data['age'],
+        uniqueness=request.data['uniquness'],
+        area=request.data['area'],
+        gender=True if request.data['gender'] == 'true' else False,
+    )
+    dog_instance.save()
+
+    # Photo 모델에 저장하고 num값 알아내기
+    for _ in request.data['photo'][1:-1].split(','):
+        photo_instance = mo.Dogsphotos(url=_, num=dog_instance.id)
+        photo_instance.save()
+
+    # Dog photo id 수정
+    dog_instance.photoid = dog_instance.id
+    dog_instance.save()
+
+    # 엑조디아하기
+    postdog_data = {
+        'protection': request.data['protection'],
+        'dogid': dog_instance.id,
+        'dogCharacter': mo.Characters.objects.get(character=request.data['dogCharacter']).id,
+        'userid': request.user.id
+    }
+
+    postSerializer = se.PostSerializer(data=postdog_data)
+    if postSerializer.is_valid():
+        postSerializer.save()
+        return Response(status=status.HTTP_200_OK)
+    return Response(postSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 #Posted List
 @api_view(['GET','POST'])
 def posteddogslist(request):

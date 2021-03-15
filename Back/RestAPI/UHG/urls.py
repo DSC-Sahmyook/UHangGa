@@ -19,6 +19,9 @@ urlpatterns = format_suffix_patterns([
     # Main
     path('main/index/data/', views.main_data),
     path('main/index/list/', views.main_list),
+
+    # Dogs
+    path('dog/post/', views.post_dogs),
     path('posts/', views.posteddogslist),
     path('posts/<int:pk>/', post_detail, name='post_detail'),
 
