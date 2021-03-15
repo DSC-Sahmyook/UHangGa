@@ -15,10 +15,12 @@ from .serializers import PostSerializer
 from .serializers import CharactersSerializer
 from .serializers import DogsSerializer
 from .serializers import ProfileSerializer
+from .serializers import DogsphotosSerializer
 from .models import PostedDogs
 from .models import Characters
 from .models import Dogs
 from .models import Profile
+from .models import Dogsphotos
 
 # mbti 테스트
 from .getMBTI import getMBTI as getMBTI
@@ -86,7 +88,7 @@ class CharactersView(viewsets.ModelViewSet):
     serializer_class = CharactersSerializer
 
 #Dogs
-class CharactersView(viewsets.ModelViewSet):
+class DogsView(viewsets.ModelViewSet):
     queryset = Dogs.objects.all()
     serializer_class = DogsSerializer
 
@@ -94,6 +96,11 @@ class CharactersView(viewsets.ModelViewSet):
 class ProfileView(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
+
+#Dogsphotos
+class DogsphotosView(viewsets.ModelViewSet):
+    queryset = Dogsphotos.objects.all()
+    serializer_class = DogsphotosSerializer
 
 #Posteddog detail 
 class PostView(viewsets.ModelViewSet):

@@ -6,6 +6,7 @@ from .models import PostedDogs
 from .models import Characters
 from .models import Dogs
 from .models import Profile
+from .models import Dogsphotos
 
 
 
@@ -61,28 +62,36 @@ class CharactersSerializer(serializers.ModelSerializer):
         model = Characters
         fields = '__all__'
 
-# Dogs
-class DogsSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Dogs
-        fields = '__all__'
-
 # Profile
 class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
         fields = '__all__'
+
+# 
+class DogsphotosSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Dogsphotos
+        fields = '__all__'
     
+# Dogs
+class DogsSerializer(serializers.ModelSerializer):
+
+    photoid = DogsphotosSerializer(many=True)
+
+    class Meta:
+        model = Dogs
+        fields = '__all__'
+
 
 # posted Dogs
 class PostSerializer(serializers.ModelSerializer):
-    # #Nested Serializer 이용한 다른 모델 참조
-    # dogid = DogsSerializer()
-    # userid = ProfileSerializer()
-    # dogCharacter = CharactersSerializer()
-    #
+    #Nested Serializer 이용한 다른 모델 참조
+    dogid = DogsSerializer()
+    userid = ProfileSerializer()
+    dogCharacter = CharactersSerializer()
     # class Meta:
     #     model = PostedDogs
     #     fields = '__all__'
