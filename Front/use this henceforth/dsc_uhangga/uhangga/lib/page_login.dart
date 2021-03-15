@@ -4,12 +4,23 @@ import 'package:uhangga/page_mainnew.dart';
 
 import 'page_signup.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   final TextEditingController _emailController = TextEditingController();
+
   final TextEditingController _passwordController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+  }
+
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
 
@@ -27,7 +38,7 @@ class LoginPage extends StatelessWidget {
                   width: 100,
                   height: 50,
                 ),
-                Image.asset('lib/assets/pics/pic1.png'),
+                Image.asset('lib/assets/pics/logo1.png'),
                 Container(
                   height: 15,
                 ),
@@ -74,7 +85,7 @@ class LoginPage extends StatelessWidget {
                                     obscureText: true,
                                     controller: _passwordController,
                                     decoration: InputDecoration(
-                                        icon: Icon(Icons.vpn_key),
+                                        icon: Icon(Icons.lock_rounded),
                                         labelText: "Password"),
                                     validator: (String value) {
                                       if (value.isEmpty) {
@@ -101,9 +112,9 @@ class LoginPage extends StatelessWidget {
                                   Center(
                                     child: SizedBox(
                                       height: 50,
-                                      width: 275,
+                                      width: 315,
                                       child: RaisedButton(
-                                        elevation: 8,
+                                        elevation: 0,
                                         color: const Color(0xffe06b2e),
                                         child: Text(
                                           "Sign in",
@@ -134,9 +145,9 @@ class LoginPage extends StatelessWidget {
                                   Center(
                                     child: SizedBox(
                                       height: 50,
-                                      width: 275,
+                                      width: 315,
                                       child: RaisedButton(
-                                        elevation: 8,
+                                        elevation: 0,
                                         color: Colors.white,
                                         child: Text(
                                           "Create Account",
@@ -147,7 +158,10 @@ class LoginPage extends StatelessWidget {
                                         ),
                                         shape: RoundedRectangleBorder(
                                             borderRadius:
-                                                BorderRadius.circular(8)),
+                                                BorderRadius.circular(8),
+                                            side: BorderSide(
+                                                color:
+                                                    const Color(0xffe06b2e))),
                                         onPressed: () {
                                           Navigator.push(
                                               context,

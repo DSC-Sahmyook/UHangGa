@@ -148,7 +148,7 @@ class specpage extends StatelessWidget {
                           children: [
                             SizedBox(
                               width: 40,
-                              height: 70,
+                              height: 68,
                             ),
                             SizedBox(
                               width: 80,
@@ -160,20 +160,27 @@ class specpage extends StatelessWidget {
                             SizedBox(
                               width: 100,
                             ),
-                            Text(':    Welsh Corgi',
-                                style: TextStyle(fontSize: 16))
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(':   Welsh Corgi',
+                                  style: TextStyle(fontSize: 16)),
+                            )
                           ],
                         ),
                         Row(
                           children: [
                             SizedBox(
+                              height: 3,
                               width: 40,
                             ),
                             SizedBox(
                               width: 80,
-                              child: Text(
-                                'Gender',
-                                style: TextStyle(fontSize: 16),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  'Gender',
+                                  style: TextStyle(fontSize: 16),
+                                ),
                               ),
                             ),
                             SizedBox(

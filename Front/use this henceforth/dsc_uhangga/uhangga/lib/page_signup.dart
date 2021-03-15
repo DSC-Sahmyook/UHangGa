@@ -55,7 +55,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   Container(
                     height: 25,
                   ),
-                  Image.asset('lib/assets/pics/pic2.png'),
+                  Image.asset('lib/assets/pics/logo2.png'),
                   Container(
                     height: 25,
                   ),
@@ -151,8 +151,7 @@ class AddIDPW extends StatelessWidget {
                   ),
                   TextFormField(
                     keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
-                        icon: Icon(Icons.person), labelText: "Email Address"),
+                    decoration: InputDecoration(labelText: "Email Address"),
                     validator: (String value) {
                       if (value.isEmpty) {
                         return "Please Enter a vaild Email.";
@@ -164,8 +163,7 @@ class AddIDPW extends StatelessWidget {
                   Container(height: 7),
                   TextFormField(
                     obscureText: true,
-                    decoration: InputDecoration(
-                        icon: Icon(Icons.vpn_key), labelText: "Password"),
+                    decoration: InputDecoration(labelText: "Password"),
                     validator: (String value) {
                       if (value.isEmpty) {
                         return "Please Enter a vaild Password.";
@@ -177,9 +175,7 @@ class AddIDPW extends StatelessWidget {
                   Container(height: 7),
                   TextFormField(
                     obscureText: true,
-                    decoration: InputDecoration(
-                        icon: Icon(Icons.vpn_key),
-                        labelText: "ConfirmPassword"),
+                    decoration: InputDecoration(labelText: "ConfirmPassword"),
                     validator: (String value) {
                       if (value.isEmpty) {
                         return "Password was not correct.";
@@ -625,7 +621,7 @@ class SignUpApprove extends StatelessWidget {
                 Container(
                   height: 25,
                 ),
-                Image.asset('lib/assets/pics/pic2.png'),
+                Image.asset('lib/assets/pics/logo2.png'),
                 Container(
                   height: 25,
                 ),
@@ -653,10 +649,16 @@ class SignUpApprove extends StatelessWidget {
             bottom: 75,
             child: RaisedButton(
               elevation: 0,
-              color: const Color(0xffe06b2e),
-              child: Text("No Thanks →",
-                  textAlign: TextAlign.end,
-                  style: TextStyle(fontSize: 32, color: Colors.white)),
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                  side: BorderSide(color: const Color(0xffe06b2e))),
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Text("No Thanks →",
+                    textAlign: TextAlign.end,
+                    style: TextStyle(
+                        fontSize: 32, color: const Color(0xffe06b2e))),
+              ),
               onPressed: () {
                 Navigator.push(context,
                     CupertinoPageRoute(builder: (context) => MainPage1()));
@@ -670,11 +672,13 @@ class SignUpApprove extends StatelessWidget {
             bottom: 0,
             child: RaisedButton(
               elevation: 0,
-              color: Colors.white,
-              child: Text("Yes I do →",
-                  textAlign: TextAlign.end,
-                  style:
-                      TextStyle(fontSize: 32, color: const Color(0xffe06b2e))),
+              color: const Color(0xffe06b2e),
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Text("Yes I do →",
+                    textAlign: TextAlign.right,
+                    style: TextStyle(fontSize: 32, color: Colors.white)),
+              ),
               onPressed: () {
                 Navigator.push(
                     context,
