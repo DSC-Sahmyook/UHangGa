@@ -370,7 +370,7 @@
 
 >|파라미터명|값|설명|
 >|-|-|-|
->|-|-|-|
+>|Authorization|token <토큰값>|사람일때는 추가, 아니면 빼도 괜찮음|
 
 - 샘플 JSON 예제
 ```json
@@ -395,6 +395,7 @@
 ```json
 // 200 ok
 {
+  "id": 11,
   "character": "istj",
   "url": "istj@djWjrnwjWjrn.com",
   "partner_type": "enfj"
