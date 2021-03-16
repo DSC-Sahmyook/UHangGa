@@ -21,3 +21,13 @@ class MyApp extends StatelessWidget {
 }
 
 final themeColor = Color(0xffe06b2e);
+
+Now myNow = Now(token: '', statusCode: 200, statusStr: '');
+
+class Now {
+  String token;
+  int statusCode;
+  String statusStr;
+
+  Now({this.token, this.statusCode, this.statusStr});
+}

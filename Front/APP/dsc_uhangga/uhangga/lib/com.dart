@@ -1,10 +1,12 @@
+import 'main.dart';
+
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-final String address = 'http://dsc-uhg-306513.du.r.appspot.com/'; // 주소 받아오는 곳
+final String address = 'https://dsc-uhg-306513.du.r.appspot.com'; // 주소 받아오는 곳
 
 Future<MainPost> fetchMainPost() async {
   final response = await http.get('{address}/api/posts');
@@ -107,7 +109,7 @@ class SignInPost {
 } // 로그인 통신
 
 Future<SignInPost> fetchMBTIPosts() async {
-  final response = await http.get('{address}/api/mbti/result/');
+  final response = await http.post('{address}/api/mbti/result/');
   if (response.statusCode == 200) {
     final jsonBody = jsonDecode(utf8.decode(response.bodyBytes));
     return SignInPost.fromJson(jsonBody);

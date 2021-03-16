@@ -2,7 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:uhangga/page_mainnew.dart';
 
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+import 'main.dart';
 import 'page_signup.dart';
+import 'com.dart' as com;
 
 class LoginPage extends StatefulWidget {
   @override
@@ -12,7 +17,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _idController = TextEditingController();
 
   final TextEditingController _passwordController = TextEditingController();
 
@@ -68,14 +73,14 @@ class _LoginPageState extends State<LoginPage> {
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: <Widget>[
                                   TextFormField(
-                                    keyboardType: TextInputType.emailAddress,
-                                    controller: _emailController,
+                                    keyboardType: TextInputType.name,
+                                    controller: _idController,
                                     decoration: InputDecoration(
                                         icon: Icon(Icons.person),
-                                        labelText: "Email"),
+                                        labelText: "ID"),
                                     validator: (String value) {
                                       if (value.isEmpty) {
-                                        return "Please Enter a vaild Email.";
+                                        return "Please Enter a vaild ID.";
                                       }
 
                                       return null;
@@ -126,14 +131,39 @@ class _LoginPageState extends State<LoginPage> {
                                         shape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(8)),
-                                        onPressed: () {
+                                        onPressed: () async {
                                           if (_formKey.currentState
                                               .validate()) {
-                                            Navigator.push(
-                                                context,
-                                                CupertinoPageRoute(
-                                                    builder: (context) =>
-                                                        MainPage1()));
+                                            await signIn(_idController.text,
+                                                _passwordController.text);
+
+                                            if (myNow.statusCode == 200) {
+                                              Navigator.pushReplacement(
+                                                  context,
+                                                  CupertinoPageRoute(
+                                                      builder: (context) =>
+                                                          MainPage1()));
+                                            } else {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(SnackBar(
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                10))),
+                                                behavior:
+                                                    SnackBarBehavior.floating,
+                                                backgroundColor: Colors.white,
+                                                elevation: 10,
+                                                content: Text(
+                                                  myNow.statusStr,
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 15,
+                                                  ),
+                                                ),
+                                              ));
+                                            }
                                           }
                                         },
                                       ),
@@ -186,5 +216,34 @@ class _LoginPageState extends State<LoginPage> {
             )
           ],
         ));
+  }
+
+  // 김현균이 만든 로그인
+  signIn(username, password) async {
+    Map login_data = {
+      "username": username,
+      "password": password,
+    };
+
+    var jsonData = null;
+    var response =
+        await http.post('${com.address}/api/auth/signin/', body: login_data);
+
+    if (response.statusCode == 200) {
+      jsonData = json.decode(response.body);
+      setState(() {
+        myNow = Now(
+            token: jsonData['token'],
+            statusCode: 200,
+            statusStr: "Success Login");
+      });
+    } else {
+      setState(() {
+        myNow = Now(
+            token: "",
+            statusCode: response.statusCode,
+            statusStr: "Faild Login");
+      });
+    }
   }
 }
