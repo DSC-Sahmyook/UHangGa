@@ -236,9 +236,21 @@ def main_list(request):
 # mbti 테스트 결과 페이지
 @api_view(['POST'])
 def resultOfMBTI(request):
-    result = getMBTI.getMBTI(request.data['answer'], request.data['isperson']).__str__()
-    print(result)
-    result_obj = mo.Characters.objects.get(character=result)
-    result_se = se.TestMBTI(result_obj)
+    if request.data['isperson'] == "true":
+        result = getMBTI.getMBTI(request.data['answer'], True).__str__()
+        result_obj = mo.Characters.objects.get(character=result)
+        result_se = se.TestMBTI(result_obj)
 
-    return Response(result_se.data, status=status.HTTP_200_OK)
+        # 요청한 사람의 mbti 수정하기
+        profile = mo.Profile.objects.get(user=request.user.id)
+        profile.characterid = result_obj
+        profile.save()
+
+        return Response(result_se.data, status=status.HTTP_200_OK)
+    else:
+        result = getMBTI.getMBTI(request.data['answer'], False).__str__()
+        result_obj = mo.Characters.objects.get(character=result)
+        result_se = se.TestMBTI(result_obj)
+
+        return Response(result_se.data, status=status.HTTP_200_OK)
+

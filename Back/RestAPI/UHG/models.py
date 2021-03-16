@@ -22,7 +22,7 @@ class Profile(models.Model):
     phonenum = models.IntegerField(default=0)
     address = models.TextField()
     photourl = models.TextField()
-    characterid = models.ForeignKey('Characters', on_delete=models.CASCADE)
+    characterid = models.ForeignKey('Characters', on_delete=models.CASCADE, default=17)
 
     #def __str__(self):
         #return f"{self.user} {self.phonenum} {self.address} {self.characterid}" #json아이템상세표현

@@ -2,7 +2,7 @@ import numpy as np
 
 
 def getMBTI(test_key, isperson):
-    if isperson == "true":
+    if isperson:
         result_key = np.load('UHG/getMBTI/pr_result_key.npy', allow_pickle=True)
         result_value = np.load('UHG/getMBTI/pr_result_value.npy', allow_pickle=True)
     else:
