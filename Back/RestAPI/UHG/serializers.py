@@ -139,5 +139,12 @@ class TestMBTI(serializers.ModelSerializer):
 
     class Meta:
         model = mo.Characters
-        fields = ('character', 'url', 'partner_type')
+        fields = ('id', 'character', 'url', 'partner_type')
 
+
+# ---------------------------------------------
+# 김현균이 만든 POST용 시리얼라이저
+class SanPostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PostedDogs
+        fields = '__all__'

@@ -61,7 +61,14 @@ def signin(request):
         serializer = se.SignIn_Serializer(data=request.data)
         if serializer.is_valid():
             user = serializer.validated_data
-            token = Token.objects.create(user=user)
+
+            # 이미 토큰이 있는 경우
+            try:
+                token = Token.objects.create(user=user)
+            except Exception:
+                Token.objects.get(user=user).delete()
+                token = Token.objects.create(user=user)
+
             return Response(
                 {
                     "token": token.key
@@ -138,11 +145,11 @@ def post_dogs(request):
     postdog_data = {
         'protection': request.data['protection'],
         'dogid': dog_instance.id,
-        'dogCharacter': mo.Characters.objects.get(character=request.data['dogCharacter']).id,
+        'dogCharacter': request.data['dogCharacter'],
         'userid': request.user.id
     }
 
-    postSerializer = se.PostSerializer(data=postdog_data)
+    postSerializer = se.SanPostSerializer(data=postdog_data)
     if postSerializer.is_valid():
         postSerializer.save()
         return Response(status=status.HTTP_200_OK)
