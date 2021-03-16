@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:uhangga/mbti_test_pages/page_result.dart';
 import 'package:uhangga/page_mainnew.dart';
+
+final List<String> imgList2 = ['lib/assets/pics/pic3.png'];
 
 class specpage extends StatelessWidget {
   @override
@@ -27,38 +30,13 @@ class specpage extends StatelessWidget {
               icon: Icon(Icons.favorite_outline_rounded), onPressed: () {}),
           IconButton(icon: Icon(Icons.more_vert_rounded), onPressed: () {})
         ],
-        flexibleSpace: ListView(
-          scrollDirection: Axis.horizontal,
-          children: <Widget>[
-            Row(
-              children: [
-                Container(
-                  height: 350,
-                  width: 400,
-                  child: Image.asset(
-                    'lib/assets/pics/pic3.png',
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Container(
-                  height: 350,
-                  width: 400,
-                  child: Image.asset(
-                    'lib/assets/pics/pic3.png',
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Container(
-                  height: 350,
-                  width: 400,
-                  child: Image.asset(
-                    'lib/assets/pics/pic3.png',
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ],
-            ),
-          ],
+        flexibleSpace: Swiper(
+          control: SwiperControl(),
+          pagination: SwiperPagination(),
+          itemCount: imgList2.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Image.asset(imgList2[index]);
+          },
         ),
       ),
       SliverToBoxAdapter(

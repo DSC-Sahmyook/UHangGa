@@ -1,15 +1,16 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:uhangga/Dog_Registration_page/page_dog_Registration.dart';
 import 'package:uhangga/Dog_Registration_page/page_dog_list.dart';
-import 'package:uhangga/com.dart';
 import 'package:uhangga/mbti_test_pages/page_result.dart';
-import 'package:uhangga/page_login.dart';
 import 'package:uhangga/page_specific.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 
-const url = 'https://news.seoul.go.kr/welfare/archives/521135';
+final List<String> imgList1 = ['lib/assets/pics/banner.png'];
 
 @JsonSerializable()
 class MainPage1 extends StatefulWidget {
@@ -18,6 +19,7 @@ class MainPage1 extends StatefulWidget {
 }
 
 class _MainPage1State extends State<MainPage1> {
+  File _image;
   @override
   void initState() {
     super.initState();
@@ -111,25 +113,8 @@ class _MainPage1State extends State<MainPage1> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: 8, right: 15),
-                        child: InkWell(
-                          child: Container(
-                              width: 120,
-                              height: 120,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                      image: AssetImage(
-                                          'lib/assets/pics/List2.png'),
-                                      fit: BoxFit.cover))),
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                CupertinoPageRoute(
-                                    builder: (context) => LoginPage()));
-                          },
-                        ),
-                      )
+                          padding: EdgeInsets.only(top: 8, right: 15),
+                          child: showImage())
                     ],
                   ),
                   Padding(
@@ -408,12 +393,18 @@ class _MainPage1State extends State<MainPage1> {
                   Container(
                     height: 25,
                   ),
-                  InkWell(
-                    child: Image.asset(
-                      'lib/assets/pics/banner.png',
-                      fit: BoxFit.cover,
+                  Container(
+                    height: 150,
+                    width: 650,
+                    child: Swiper(
+                      fade: 1,
+                      control: SwiperControl(),
+                      pagination: SwiperPagination(),
+                      itemCount: imgList1.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Image.asset(imgList1[index]);
+                      },
                     ),
-                    onTap: _launchURL,
                   )
                 ],
               ),
@@ -424,7 +415,30 @@ class _MainPage1State extends State<MainPage1> {
     ));
   }
 
-  _launchURL() async {
-    await launch(url, forceWebView: true, forceSafariVC: true);
+  Widget showImage() {
+    if (_image == null)
+      return IconButton(
+        icon: Icon(Icons.account_circle_rounded),
+        onPressed: () {
+          getImage(ImageSource.gallery);
+        },
+        iconSize: 100.0,
+      );
+    else
+      return Container(
+          width: 150,
+          height: 150,
+          decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              image:
+                  DecorationImage(image: FileImage(_image), fit: BoxFit.fill)));
+  }
+
+  Future getImage(ImageSource imageSource) async {
+    var image = await ImagePicker.pickImage(source: imageSource);
+
+    setState(() {
+      _image = image;
+    });
   }
 }

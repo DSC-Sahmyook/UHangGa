@@ -6,7 +6,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:uhangga/page_mainnew.dart';
 import 'dart:io';
 
-import '../page_main.dart';
 import '../mbti_test_pages/page_p_test.dart';
 
 class DogRegiPage extends StatefulWidget {

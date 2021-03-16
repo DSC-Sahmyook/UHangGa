@@ -1,13 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:uhangga/page_mainnew.dart';
-
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-
 import 'main.dart';
-import 'page_signup.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'com.dart' as com;
+
+import 'page_signup.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -218,7 +217,6 @@ class _LoginPageState extends State<LoginPage> {
         ));
   }
 
-  // 김현균이 만든 로그인
   signIn(username, password) async {
     Map login_data = {
       "username": username,

@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uhangga/mbti_test_pages/page_p_test.dart';
-import 'package:uhangga/page_main.dart';
-import 'package:uhangga/page_mainnew.dart';
 
 import 'page_login.dart';
 
@@ -44,7 +42,7 @@ class _SignUpPageState extends State<SignUpPage> {
         ),
         body: Stack(
           //첫페이지
-          alignment: Alignment.center,
+          alignment: Alignment.bottomCenter,
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(22.0),
@@ -81,21 +79,30 @@ class _SignUpPageState extends State<SignUpPage> {
                 ],
               ),
             ),
-            Positioned(
-              top: 600,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              child: RaisedButton(
-                elevation: 0,
-                color: const Color(0xffe06b2e),
-                child: Text("Next →",
-                    textAlign: TextAlign.end,
-                    style: TextStyle(fontSize: 32, color: Colors.white)),
-                onPressed: () {
-                  Navigator.push(context,
-                      CupertinoPageRoute(builder: (context) => AddIDPW()));
-                },
+            Container(
+              height: MediaQuery.of(context).size.height / 100 * 12.5,
+              child: Column(
+                children: [
+                  Expanded(
+                    child: RaisedButton(
+                      elevation: 0,
+                      color: const Color(0xffe06b2e),
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Text("Next →",
+                            textAlign: TextAlign.right,
+                            style:
+                                TextStyle(fontSize: 32, color: Colors.white)),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                                builder: (context) => AddIDPW()));
+                      },
+                    ),
+                  ),
+                ],
               ),
             )
           ],
@@ -132,7 +139,7 @@ class AddIDPW extends StatelessWidget {
         ),
       ),
       body: Stack(
-        alignment: Alignment.center,
+        alignment: Alignment.bottomCenter,
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(22.0),
@@ -150,11 +157,11 @@ class AddIDPW extends StatelessWidget {
                     ),
                   ),
                   TextFormField(
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(labelText: "Email Address"),
+                    keyboardType: TextInputType.name,
+                    decoration: InputDecoration(labelText: "ID"),
                     validator: (String value) {
                       if (value.isEmpty) {
-                        return "Please Enter a vaild Email.";
+                        return "Please Enter a vaild ID.";
                       }
 
                       return null;
@@ -175,7 +182,7 @@ class AddIDPW extends StatelessWidget {
                   Container(height: 7),
                   TextFormField(
                     obscureText: true,
-                    decoration: InputDecoration(labelText: "ConfirmPassword"),
+                    decoration: InputDecoration(labelText: "Confirm Password"),
                     validator: (String value) {
                       if (value.isEmpty) {
                         return "Password was not correct.";
@@ -188,23 +195,27 @@ class AddIDPW extends StatelessWidget {
               ),
             ),
           ),
-          Positioned(
-            top: 600,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: RaisedButton(
-              elevation: 0,
-              color: const Color(0xffe06b2e),
-              child: Text("Next →",
-                  textAlign: TextAlign.end,
-                  style: TextStyle(fontSize: 32, color: Colors.white)),
-              onPressed: () {
-                if (_formkey1.currentState.validate()) {
-                  Navigator.push(context,
-                      CupertinoPageRoute(builder: (context) => AddPhoto()));
-                }
-              },
+          Container(
+            height: MediaQuery.of(context).size.height / 100 * 12.5,
+            child: Column(
+              children: [
+                Expanded(
+                  child: RaisedButton(
+                    elevation: 0,
+                    color: const Color(0xffe06b2e),
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Text("Next →",
+                          textAlign: TextAlign.right,
+                          style: TextStyle(fontSize: 32, color: Colors.white)),
+                    ),
+                    onPressed: () {
+                      Navigator.push(context,
+                          CupertinoPageRoute(builder: (context) => AddPhoto()));
+                    },
+                  ),
+                ),
+              ],
             ),
           )
         ],
@@ -249,7 +260,7 @@ class _AddPhotoState extends State<AddPhoto> {
         ),
       ),
       body: Stack(
-        alignment: Alignment.center,
+        alignment: Alignment.bottomCenter,
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(22.0),
@@ -270,13 +281,7 @@ class _AddPhotoState extends State<AddPhoto> {
                     height: 35,
                   ),
                   Center(
-                    child: IconButton(
-                      icon: Icon(Icons.account_circle_rounded),
-                      onPressed: () {
-                        getImage(ImageSource.gallery);
-                      },
-                      iconSize: 100.0,
-                    ),
+                    child: showImage(),
                   ),
                   Container(height: 65),
                   TextFormField(
@@ -293,25 +298,29 @@ class _AddPhotoState extends State<AddPhoto> {
               ),
             ),
           ),
-          Positioned(
-            top: 600,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: RaisedButton(
-              elevation: 0,
-              color: const Color(0xffe06b2e),
-              child: Text("Next →",
-                  textAlign: TextAlign.end,
-                  style: TextStyle(fontSize: 32, color: Colors.white)),
-              onPressed: () {
-                if (_formkey1.currentState.validate()) {
-                  Navigator.push(context,
-                      CupertinoPageRoute(builder: (context) => AddPhone()));
-                }
-              },
+          Container(
+            height: MediaQuery.of(context).size.height / 100 * 12.5,
+            child: Column(
+              children: [
+                Expanded(
+                  child: RaisedButton(
+                    elevation: 0,
+                    color: const Color(0xffe06b2e),
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Text("Next →",
+                          textAlign: TextAlign.right,
+                          style: TextStyle(fontSize: 32, color: Colors.white)),
+                    ),
+                    onPressed: () {
+                      Navigator.push(context,
+                          CupertinoPageRoute(builder: (context) => AddPhone()));
+                    },
+                  ),
+                ),
+              ],
             ),
-          ),
+          )
         ],
       ),
     );
@@ -319,11 +328,21 @@ class _AddPhotoState extends State<AddPhoto> {
 
   Widget showImage() {
     if (_image == null)
-      return Container(
-        child: Text("Image Not Found..."),
+      return IconButton(
+        icon: Icon(Icons.account_circle_rounded),
+        onPressed: () {
+          getImage(ImageSource.gallery);
+        },
+        iconSize: 100.0,
       );
     else
-      return Image.file(_image);
+      return Container(
+          width: 200,
+          height: 200,
+          decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              image:
+                  DecorationImage(image: FileImage(_image), fit: BoxFit.fill)));
   }
 
   Future getImage(ImageSource imageSource) async {
@@ -364,6 +383,7 @@ class AddPhone extends StatelessWidget {
         ),
       ),
       body: Stack(
+        alignment: Alignment.bottomCenter,
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(22.0),
@@ -428,23 +448,29 @@ class AddPhone extends StatelessWidget {
               ),
             ),
           ),
-          Positioned(
-            top: 600,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: RaisedButton(
-              elevation: 0,
-              color: const Color(0xffe06b2e),
-              child: Text("Next →",
-                  textAlign: TextAlign.end,
-                  style: TextStyle(fontSize: 32, color: Colors.white)),
-              onPressed: () {
-                if (_formkey1.currentState.validate()) {
-                  Navigator.push(context,
-                      CupertinoPageRoute(builder: (context) => AddAddress()));
-                }
-              },
+          Container(
+            height: MediaQuery.of(context).size.height / 100 * 12.5,
+            child: Column(
+              children: [
+                Expanded(
+                  child: RaisedButton(
+                    elevation: 0,
+                    color: const Color(0xffe06b2e),
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Text("Next →",
+                          textAlign: TextAlign.right,
+                          style: TextStyle(fontSize: 32, color: Colors.white)),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                              builder: (context) => AddAddress()));
+                    },
+                  ),
+                ),
+              ],
             ),
           )
         ],
@@ -482,6 +508,7 @@ class AddAddress extends StatelessWidget {
         ),
       ),
       body: Stack(
+        alignment: Alignment.bottomCenter,
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(22.0),
@@ -556,25 +583,29 @@ class AddAddress extends StatelessWidget {
               ),
             ),
           ),
-          Positioned(
-            top: 600,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: RaisedButton(
-              elevation: 0,
-              color: const Color(0xffe06b2e),
-              child: Text("Next →",
-                  textAlign: TextAlign.end,
-                  style: TextStyle(fontSize: 32, color: Colors.white)),
-              onPressed: () {
-                if (_formkey1.currentState.validate()) {
-                  Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                          builder: (context) => SignUpApprove()));
-                }
-              },
+          Container(
+            height: MediaQuery.of(context).size.height / 100 * 12.5,
+            child: Column(
+              children: [
+                Expanded(
+                  child: RaisedButton(
+                    elevation: 0,
+                    color: const Color(0xffe06b2e),
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Text("Next →",
+                          textAlign: TextAlign.right,
+                          style: TextStyle(fontSize: 32, color: Colors.white)),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                              builder: (context) => SignUpApprove()));
+                    },
+                  ),
+                ),
+              ],
             ),
           )
         ],
@@ -611,6 +642,7 @@ class SignUpApprove extends StatelessWidget {
         ),
       ),
       body: Stack(
+        alignment: Alignment.bottomCenter,
         children: [
           Padding(
             padding: const EdgeInsets.all(22.0),
@@ -642,50 +674,51 @@ class SignUpApprove extends StatelessWidget {
               ],
             ),
           ),
-          Positioned(
-            top: 520,
-            left: 0,
-            right: 0,
-            bottom: 75,
-            child: RaisedButton(
-              elevation: 0,
-              color: Colors.white,
-              shape: RoundedRectangleBorder(
-                  side: BorderSide(color: const Color(0xffe06b2e))),
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: Text("No Thanks →",
-                    textAlign: TextAlign.end,
-                    style: TextStyle(
-                        fontSize: 32, color: const Color(0xffe06b2e))),
-              ),
-              onPressed: () {
-                Navigator.push(context,
-                    CupertinoPageRoute(builder: (context) => MainPage1()));
-              },
-            ),
-          ),
-          Positioned(
-            top: 600,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: RaisedButton(
-              elevation: 0,
-              color: const Color(0xffe06b2e),
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: Text("Yes I do →",
-                    textAlign: TextAlign.right,
-                    style: TextStyle(fontSize: 32, color: Colors.white)),
-              ),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    CupertinoPageRoute(
-                        builder: (context) =>
-                            MbtiTestPage_Start())); //p_test 페이지로 이동예정
-              },
+          Container(
+            height: MediaQuery.of(context).size.height / 100 * 25,
+            child: Column(
+              children: [
+                Expanded(
+                  child: RaisedButton(
+                    elevation: 0,
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        side: BorderSide(color: const Color(0xffe06b2e))),
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Text("No Thanks →",
+                          textAlign: TextAlign.end,
+                          style: TextStyle(
+                              fontSize: 32, color: const Color(0xffe06b2e))),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                              builder: (context) => LoginPage()));
+                    },
+                  ),
+                ),
+                Expanded(
+                  child: RaisedButton(
+                    elevation: 0,
+                    color: const Color(0xffe06b2e),
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Text("Yes I do →",
+                          textAlign: TextAlign.right,
+                          style: TextStyle(fontSize: 32, color: Colors.white)),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                              builder: (context) =>
+                                  MbtiTestPage_Start())); //p_test 페이지로 이동예정
+                    },
+                  ),
+                ),
+              ],
             ),
           )
         ],

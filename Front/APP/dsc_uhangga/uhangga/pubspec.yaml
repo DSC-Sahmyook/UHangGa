@@ -30,6 +30,7 @@ dependencies:
   scrolling_page_indicator: ^0.1.2
   url_launcher: 5.4.11
   google_fonts: ^0.3.8
+  flutter_swiper: ^1.1.6
   
 
   percent_indicator: any

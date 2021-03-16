@@ -3,7 +3,6 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../main.dart';
-import '../page_main.dart';
 import '../page_mainnew.dart';
 import 'page_p_test.dart';
 import '../Dog_Registration_page/page_dog_list.dart';
