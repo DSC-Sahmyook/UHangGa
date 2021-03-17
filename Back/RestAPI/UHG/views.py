@@ -128,14 +128,16 @@ def post_dogs(request):
         age=request.data['age'],
         uniqueness=request.data['uniquness'],
         area=request.data['area'],
-        gender=True if request.data['gender'] == 'true' else False,
+        gender=request.data['gender']
     )
     dog_instance.save()
 
     # Photo 모델에 저장하고 num값 알아내기
-    for _ in request.data['photo'][1:-1].split(','):
-        photo_instance = mo.Dogsphotos(url=_, num=dog_instance.id)
-        photo_instance.save()
+    photos = request.data['photo'][1:-1].split(',')
+    if photos[0] != '':
+        for _ in photos:
+            photo_instance = mo.Dogsphotos(url=_, num=dog_instance.id)
+            photo_instance.save()
 
     # Dog photo id 수정
     dog_instance.photoid = dog_instance.id
@@ -143,16 +145,17 @@ def post_dogs(request):
 
     # 엑조디아하기
     postdog_data = {
-        'protection': request.data['protection'],
         'dogid': dog_instance.id,
         'dogCharacter': request.data['dogCharacter'],
-        'userid': request.user.id
+        'userid': request.user.id,
+        'vaccination': request.data['vaccination'],
+        'fee': request.data['fee']
     }
 
     postSerializer = se.SanPostSerializer(data=postdog_data)
     if postSerializer.is_valid():
         postSerializer.save()
-        return Response(status=status.HTTP_200_OK)
+        return Response(postSerializer.data, status=status.HTTP_200_OK)
     return Response(postSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -192,8 +195,9 @@ def main_data(request):
         partnerType_img_url = 'None'
     else:
         # 로그인한 경우
-        partnerType_name = mo.Profile.objects.get(user=request.user).characterid.partner
-        partnerType_img_url = mo.Characters.objects.get(character=partnerType_name).url
+        partner = mo.Profile.objects.get(user=request.user).characterid.partner
+        partnerType_name = partner.character
+        partnerType_img_url = partner.url
 
     # 사용자 이름, 사진
     if isAnony:

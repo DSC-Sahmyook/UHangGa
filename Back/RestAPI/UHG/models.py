@@ -30,8 +30,9 @@ class Profile(models.Model):
 class PostedDogs(models.Model):
     # id = models.IntegerField(primary_key=True)
     date = models.DateTimeField(auto_now_add=True)
-    protection = models.CharField(max_length=50)
+    vaccination = models.BooleanField(default=False)
     dogid = models.ForeignKey('Dogs', on_delete=models.CASCADE)
+    fee = models.IntegerField(default=0)
     dogCharacter = models.ForeignKey('Characters', on_delete=models.CASCADE)
     userid = models.ForeignKey('Profile', on_delete=models.CASCADE)
 

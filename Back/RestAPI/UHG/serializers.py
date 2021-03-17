@@ -79,7 +79,7 @@ class DogsphotosSerializer(serializers.ModelSerializer):
 # Dogs
 class DogsSerializer(serializers.ModelSerializer):
 
-    photoid = DogsphotosSerializer(many=True)
+    # photoid = DogsphotosSerializer(many=True)
 
     class Meta:
         model = Dogs
@@ -121,7 +121,7 @@ class MainDogsList_Serializer(serializers.ModelSerializer):
 
 
 class MainPageSerializer(serializers.Serializer):
-    partnerType = serializers.CharField()
+    partnerType_name = serializers.CharField()
     partnerType_img_url = serializers.CharField()
     userName = serializers.CharField()
     userPhoto = serializers.CharField()
