@@ -31,7 +31,7 @@ dependencies:
   url_launcher: 5.4.11
   google_fonts: ^0.3.8
   flutter_swiper: ^1.1.6
-  
+  multi_image_picker: ^4.8.0
 
   percent_indicator: any
   page_transition: any

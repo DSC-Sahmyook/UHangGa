@@ -265,7 +265,7 @@ sp_Btn(index, choice, context) {
               context,
               PageTransition(
                 type: PageTransitionType.rightToLeft,
-                child: ResultLodingPage(result: result),
+                child: ResultLoadingPage(result: result),
               ),
             );
           } else {
@@ -290,7 +290,7 @@ sp_Btn(index, choice, context) {
               context,
               PageTransition(
                 type: PageTransitionType.rightToLeft,
-                child: ResultLodingPage(result: result),
+                child: ResultLoadingPage(result: result),
               ),
             );
           } else {

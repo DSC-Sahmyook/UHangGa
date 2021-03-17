@@ -9,6 +9,7 @@ import 'package:uhangga/Dog_Registration_page/page_dog_Registration.dart';
 import 'package:uhangga/Dog_Registration_page/page_dog_list.dart';
 import 'package:uhangga/main.dart' as main;
 import 'package:uhangga/mbti_test_pages/page_result.dart';
+import 'package:uhangga/page_login.dart';
 import 'package:uhangga/page_specific.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
@@ -23,10 +24,13 @@ class MainPage1 extends StatefulWidget {
 }
 
 class _MainPage1State extends State<MainPage1> {
+  Maincom maindata = Maincom();
+
   File _image;
   @override
   void initState() {
     super.initState();
+    maincom();
   }
 
   Widget build(BuildContext context) {
@@ -56,7 +60,7 @@ class _MainPage1State extends State<MainPage1> {
               ),
               Positioned(
                 child: Text(
-                  'Devoted Theresa',
+                  '${maindata.partnerType_name}',
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 32,
@@ -109,7 +113,7 @@ class _MainPage1State extends State<MainPage1> {
                       Container(
                         margin: EdgeInsets.only(left: 25),
                         child: Text(
-                          "NICKNAME",
+                          "${maindata.userName}",
                           style: TextStyle(
                               color: const Color(0xff707070),
                               fontSize: 24,
@@ -117,8 +121,9 @@ class _MainPage1State extends State<MainPage1> {
                         ),
                       ),
                       Padding(
-                          padding: EdgeInsets.only(top: 8, right: 15),
-                          child: showImage())
+                        padding: EdgeInsets.only(top: 8, right: 15),
+                        child: showImage(),
+                      )
                     ],
                   ),
                   Padding(
@@ -152,7 +157,7 @@ class _MainPage1State extends State<MainPage1> {
                                       ),
                                       Container(
                                         child: Text(
-                                          '58',
+                                          '${maindata.waitDogs}',
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 32,
@@ -173,7 +178,7 @@ class _MainPage1State extends State<MainPage1> {
                                       ),
                                       Container(
                                         child: Text(
-                                          '80%',
+                                          '${maindata.adoptRate}',
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 32,
@@ -208,6 +213,7 @@ class _MainPage1State extends State<MainPage1> {
                                 color: const Color(0xffe06b2e)),
                             height: 200,
                             width: 185,
+                            // ignore: deprecated_member_use
                             child: FlatButton(
                                 onPressed: () {
                                   Navigator.push(
@@ -420,25 +426,29 @@ class _MainPage1State extends State<MainPage1> {
   }
 
   Widget showImage() {
-    if (_image == null)
+    if (main.myNow.token == '')
+      // 로그인 페이지로 넘어가는 코드
       return IconButton(
         icon: Icon(Icons.account_circle_rounded),
         onPressed: () {
-          getImage(ImageSource.gallery);
+          Navigator.push(
+              context, CupertinoPageRoute(builder: (context) => LoginPage()));
         },
         iconSize: 100.0,
       );
     else
+      //
       return Container(
-          width: 150,
-          height: 150,
+          width: 125,
+          height: 125,
           decoration: BoxDecoration(
               shape: BoxShape.circle,
-              image:
-                  DecorationImage(image: FileImage(_image), fit: BoxFit.fill)));
+              image: DecorationImage(
+                  image: NetworkImage(maindata.userPhoto), fit: BoxFit.cover)));
   }
 
   Future getImage(ImageSource imageSource) async {
+    // ignore: deprecated_member_use
     var image = await ImagePicker.pickImage(source: imageSource);
 
     setState(() {
@@ -446,23 +456,44 @@ class _MainPage1State extends State<MainPage1> {
     });
   }
 
-  maincom(partnerType_name, partner_img_url, userName, userPhoto, waitDogs,
-      adoptRate) async {
-    Map main_data = {
-      'partnerType_name': partnerType_name,
-      'partner_img_url': partner_img_url,
-      'userName': userName,
-      'userPhoto': userPhoto,
-      'waitDogs': waitDogs,
-      'adoptRate': adoptRate
-    };
-
+  maincom() async {
     var jsonData = null;
-    var response =
-        await http.post('${main.address}/api/main/index/data', body: main_data);
+    var response = await http.get('${main.address}/api/main/index/data/');
 
     if (response.statusCode == 200) {
       jsonData = json.decode(response.body);
-    } else {}
+      setState(() {
+        maindata = Maincom.fromJson(jsonData);
+      });
+    } else {
+      throw Exception('Something went wrong...');
+    }
+  }
+}
+
+class Maincom {
+  String partnerType_name;
+  String partnerType_img_url;
+  String userName;
+  String userPhoto;
+  int waitDogs;
+  int adoptRate;
+
+  Maincom(
+      {this.partnerType_name,
+      this.partnerType_img_url,
+      this.userName,
+      this.userPhoto,
+      this.waitDogs,
+      this.adoptRate});
+
+  factory Maincom.fromJson(Map<String, dynamic> json) {
+    return Maincom(
+        partnerType_name: json['partnerType_name'],
+        partnerType_img_url: json['partnerType_img_url'],
+        userName: json['userName'],
+        userPhoto: json['userPhoto'],
+        waitDogs: json['waitDogs'],
+        adoptRate: json['adoptRate']);
   }
 }

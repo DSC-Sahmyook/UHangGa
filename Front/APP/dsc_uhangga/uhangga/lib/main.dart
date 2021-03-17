@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uhangga/page_specific.dart';
+import 'package:uhangga/page_mainnew.dart';
 
 final String address = 'https://dsc-uhg-306513.du.r.appspot.com'; // 주소 받아오는 곳
 void main() => runApp(MyApp());
@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: const Color(0xffe06b2e),
       ),
-      home: specpage(),
+      home: MainPage1(),
     );
   }
 }

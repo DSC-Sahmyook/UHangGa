@@ -15,9 +15,9 @@ class Result {
 
 bool isLoading = true;
 
-class ResultLodingPage extends StatelessWidget {
+class ResultLoadingPage extends StatelessWidget {
   final Result result;
-  ResultLodingPage({@required this.result});
+  ResultLoadingPage({@required this.result});
 
   @override
   Widget build(BuildContext context) {

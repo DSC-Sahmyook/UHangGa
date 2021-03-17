@@ -232,14 +232,14 @@ class _LoginPageState extends State<LoginPage> {
         main.myNow = main.Now(
             token: jsonData['token'],
             statusCode: 200,
-            statusStr: "Success Login");
+            statusStr: "Login Successful!");
       });
     } else {
       setState(() {
         main.myNow = main.Now(
             token: "",
             statusCode: response.statusCode,
-            statusStr: "Faild Login");
+            statusStr: "Login Failed");
       });
     }
   }

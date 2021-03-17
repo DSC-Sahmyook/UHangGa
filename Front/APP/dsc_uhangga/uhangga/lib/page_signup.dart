@@ -7,8 +7,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:uhangga/main.dart' as main;
 import 'package:uhangga/mbti_test_pages/page_p_test.dart';
 import 'package:http/http.dart' as http;
-
 import 'page_login.dart';
+
+SignUpCom signupdata = SignUpCom();
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -22,8 +23,6 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
-
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
@@ -91,6 +90,7 @@ class _SignUpPageState extends State<SignUpPage> {
               child: Column(
                 children: [
                   Expanded(
+                    // ignore: deprecated_member_use
                     child: RaisedButton(
                       elevation: 0,
                       color: const Color(0xffe06b2e),
@@ -125,6 +125,9 @@ class AddIDPW extends StatefulWidget {
 
 class _AddIDPWState extends State<AddIDPW> {
   final GlobalKey<FormState> _formkey1 = GlobalKey<FormState>();
+
+  final id_Controller = TextEditingController();
+  final pw_Controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -170,6 +173,7 @@ class _AddIDPWState extends State<AddIDPW> {
                     ),
                   ),
                   TextFormField(
+                    controller: id_Controller,
                     keyboardType: TextInputType.name,
                     decoration: InputDecoration(labelText: "ID"),
                     validator: (String value) {
@@ -183,6 +187,7 @@ class _AddIDPWState extends State<AddIDPW> {
                   Container(height: 7),
                   TextFormField(
                     obscureText: true,
+                    controller: pw_Controller,
                     decoration: InputDecoration(labelText: "Password"),
                     validator: (String value) {
                       if (value.isEmpty) {
@@ -213,6 +218,7 @@ class _AddIDPWState extends State<AddIDPW> {
             child: Column(
               children: [
                 Expanded(
+                  // ignore: deprecated_member_use
                   child: RaisedButton(
                     elevation: 0,
                     color: const Color(0xffe06b2e),
@@ -223,6 +229,10 @@ class _AddIDPWState extends State<AddIDPW> {
                           style: TextStyle(fontSize: 32, color: Colors.white)),
                     ),
                     onPressed: () {
+                      signupcom(id_Controller.text, pw_Controller.text);
+                      print('id = ' + id_Controller.text);
+                      print('pw = ' + pw_Controller.text);
+
                       Navigator.push(context,
                           CupertinoPageRoute(builder: (context) => AddPhoto()));
                     },
@@ -316,6 +326,7 @@ class _AddPhotoState extends State<AddPhoto> {
             child: Column(
               children: [
                 Expanded(
+                  // ignore: deprecated_member_use
                   child: RaisedButton(
                     elevation: 0,
                     color: const Color(0xffe06b2e),
@@ -359,7 +370,9 @@ class _AddPhotoState extends State<AddPhoto> {
   }
 
   Future getImage(ImageSource imageSource) async {
-    var image = await ImagePicker.pickImage(source: imageSource);
+    // ignore: deprecated_member_use
+    var pickImage = ImagePicker.pickImage(source: imageSource);
+    var image = await pickImage;
 
     setState(() {
       _image = image;
@@ -472,6 +485,7 @@ class _AddPhoneState extends State<AddPhone> {
             child: Column(
               children: [
                 Expanded(
+                  // ignore: deprecated_member_use
                   child: RaisedButton(
                     elevation: 0,
                     color: const Color(0xffe06b2e),
@@ -613,6 +627,7 @@ class _AddAddressState extends State<AddAddress> {
             child: Column(
               children: [
                 Expanded(
+                  // ignore: deprecated_member_use
                   child: RaisedButton(
                     elevation: 0,
                     color: const Color(0xffe06b2e),
@@ -709,6 +724,7 @@ class _SignUpApproveState extends State<SignUpApprove> {
             child: Column(
               children: [
                 Expanded(
+                  // ignore: deprecated_member_use
                   child: RaisedButton(
                     elevation: 0,
                     color: Colors.white,
@@ -730,6 +746,7 @@ class _SignUpApproveState extends State<SignUpApprove> {
                   ),
                 ),
                 Expanded(
+                  // ignore: deprecated_member_use
                   child: RaisedButton(
                     elevation: 0,
                     color: const Color(0xffe06b2e),
@@ -754,5 +771,56 @@ class _SignUpApproveState extends State<SignUpApprove> {
         ],
       ),
     );
+  }
+}
+
+class SignUpCom {
+  String username;
+  String password;
+  // ignore: non_constant_identifier_names
+  String first_name;
+  // ignore: non_constant_identifier_names
+  String last_name;
+  String phonenum;
+  String address;
+  String photourl;
+  String characterid;
+
+  SignUpCom(
+      {this.username,
+      this.password,
+      // ignore: non_constant_identifier_names
+      this.first_name,
+      // ignore: non_constant_identifier_names
+      this.last_name,
+      this.phonenum,
+      this.address,
+      this.photourl,
+      this.characterid});
+
+  factory SignUpCom.fromJson(Map<String, dynamic> json) {
+    return SignUpCom(
+      username: json['username'],
+      password: json['password'],
+      first_name: json['first_name'],
+      last_name: json['last_name'],
+      phonenum: json['phonenum'],
+      address: json['address'],
+      photourl: json['photourl'],
+      characterid: json['characterid'],
+    );
+  }
+}
+
+signupcom(username, password, first_name, last_name, phonenum, address,
+    photourl, charaterid) async {
+  var jsonData = null;
+  var response = await http.post('${main.address}/api/app/auth/signup/');
+
+  if (response.statusCode == 200) {
+    jsonData = json.decode(response.body);
+    signupdata = SignUpCom.fromJson(jsonData);
+  } else {
+    throw Exception('Something went wrong...');
   }
 }

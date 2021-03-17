@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:uhangga/main.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:uhangga/page_mainnew.dart';
 import 'dart:io';
 
@@ -21,11 +20,17 @@ class _DogRegPageState extends State<DogRegiPage> {
 
   Vaccinations _vaccinations = Vaccinations.No;
 
+  // ignore: non_constant_identifier_names
   final name_Controller = TextEditingController();
+  // ignore: non_constant_identifier_names
   final age_Controller = TextEditingController();
+  // ignore: non_constant_identifier_names
   final species_Controller = TextEditingController();
+  // ignore: non_constant_identifier_names
   final breed_Controller = TextEditingController();
+  // ignore: non_constant_identifier_names
   final comment_Controller = TextEditingController();
+  // ignore: non_constant_identifier_names
   final pageView_controller = new PageController();
 
   File _image;
@@ -41,6 +46,7 @@ class _DogRegPageState extends State<DogRegiPage> {
   }
 
   @override
+  // ignore: non_constant_identifier_names
   Widget build(BuildContext) {
     return Scaffold(
       appBar: sp_appBar(context),
@@ -54,6 +60,7 @@ class _DogRegPageState extends State<DogRegiPage> {
 
   // 이미지 가져오기
   getGalleryImage() async {
+    // ignore: deprecated_member_use
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
       _image = image;
@@ -61,10 +68,12 @@ class _DogRegPageState extends State<DogRegiPage> {
   }
 
   // 이미지 있는 곳 위젯
+  // ignore: non_constant_identifier_names
   sp_photo() {
     return ButtonTheme(
       height: 250,
       minWidth: 500,
+      // ignore: deprecated_member_use
       child: FlatButton(
         color: _image == null ? themeColor : Colors.white,
         child: _image == null
@@ -79,10 +88,13 @@ class _DogRegPageState extends State<DogRegiPage> {
     );
   }
 
+  // ignore: non_constant_identifier_names
   sp_InputList() {
+    // ignore: non_constant_identifier_names
     sp_flatBtn(sex) {
       return ButtonTheme(
         height: 80,
+        // ignore: deprecated_member_use
         child: FlatButton(
           // 테두리
           shape: RoundedRectangleBorder(
@@ -123,6 +135,7 @@ class _DogRegPageState extends State<DogRegiPage> {
     sp_outBtn(sex) {
       return ButtonTheme(
         height: 80,
+        // ignore: deprecated_member_use
         child: OutlineButton(
           // 테두리
           borderSide: BorderSide(
@@ -374,6 +387,7 @@ class _DogRegPageState extends State<DogRegiPage> {
           Container(
             height: 80,
             color: themeColor,
+            // ignore: deprecated_member_use
             child: FlatButton(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -411,6 +425,7 @@ class _DogRegPageState extends State<DogRegiPage> {
   }
 }
 
+// ignore: non_constant_identifier_names
 sp_appBar(context) {
   return AppBar(
     elevation: 0,
