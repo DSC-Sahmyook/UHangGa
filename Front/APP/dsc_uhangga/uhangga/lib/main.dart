@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uhangga/page_specific.dart';
 
+final String address = 'https://dsc-uhg-306513.du.r.appspot.com'; // 주소 받아오는 곳
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {

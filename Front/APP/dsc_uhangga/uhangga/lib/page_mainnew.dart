@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,9 +7,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:uhangga/Dog_Registration_page/page_dog_Registration.dart';
 import 'package:uhangga/Dog_Registration_page/page_dog_list.dart';
+import 'package:uhangga/main.dart' as main;
 import 'package:uhangga/mbti_test_pages/page_result.dart';
 import 'package:uhangga/page_specific.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+
+import 'package:http/http.dart' as http;
 
 final List<String> imgList1 = ['lib/assets/pics/banner.png'];
 
@@ -440,5 +444,25 @@ class _MainPage1State extends State<MainPage1> {
     setState(() {
       _image = image;
     });
+  }
+
+  maincom(partnerType_name, partner_img_url, userName, userPhoto, waitDogs,
+      adoptRate) async {
+    Map main_data = {
+      'partnerType_name': partnerType_name,
+      'partner_img_url': partner_img_url,
+      'userName': userName,
+      'userPhoto': userPhoto,
+      'waitDogs': waitDogs,
+      'adoptRate': adoptRate
+    };
+
+    var jsonData = null;
+    var response =
+        await http.post('${main.address}/api/main/index/data', body: main_data);
+
+    if (response.statusCode == 200) {
+      jsonData = json.decode(response.body);
+    } else {}
   }
 }

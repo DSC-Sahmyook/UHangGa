@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:uhangga/page_mainnew.dart';
-import 'main.dart';
+import 'main.dart' as main;
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'com.dart' as com;
 
 import 'page_signup.dart';
 
@@ -136,7 +135,7 @@ class _LoginPageState extends State<LoginPage> {
                                             await signIn(_idController.text,
                                                 _passwordController.text);
 
-                                            if (myNow.statusCode == 200) {
+                                            if (main.myNow.statusCode == 200) {
                                               Navigator.pushReplacement(
                                                   context,
                                                   CupertinoPageRoute(
@@ -155,7 +154,7 @@ class _LoginPageState extends State<LoginPage> {
                                                 backgroundColor: Colors.white,
                                                 elevation: 10,
                                                 content: Text(
-                                                  myNow.statusStr,
+                                                  main.myNow.statusStr,
                                                   style: TextStyle(
                                                     color: Colors.black,
                                                     fontSize: 15,
@@ -225,19 +224,19 @@ class _LoginPageState extends State<LoginPage> {
 
     var jsonData = null;
     var response =
-        await http.post('${com.address}/api/auth/signin/', body: login_data);
+        await http.post('${main.address}/api/auth/signin/', body: login_data);
 
     if (response.statusCode == 200) {
       jsonData = json.decode(response.body);
       setState(() {
-        myNow = Now(
+        main.myNow = main.Now(
             token: jsonData['token'],
             statusCode: 200,
             statusStr: "Success Login");
       });
     } else {
       setState(() {
-        myNow = Now(
+        main.myNow = main.Now(
             token: "",
             statusCode: response.statusCode,
             statusStr: "Faild Login");

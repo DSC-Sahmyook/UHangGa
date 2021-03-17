@@ -1,9 +1,12 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:uhangga/main.dart' as main;
 import 'package:uhangga/mbti_test_pages/page_p_test.dart';
+import 'package:http/http.dart' as http;
 
 import 'page_login.dart';
 
@@ -14,6 +17,10 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   @override
+  void initState() {
+    super.initState();
+  }
+
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
 
@@ -110,9 +117,15 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 }
 
-class AddIDPW extends StatelessWidget {
+class AddIDPW extends StatefulWidget {
   //아이디 비밀번호 설정
+  @override
+  _AddIDPWState createState() => _AddIDPWState();
+}
+
+class _AddIDPWState extends State<AddIDPW> {
   final GlobalKey<FormState> _formkey1 = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -354,9 +367,15 @@ class _AddPhotoState extends State<AddPhoto> {
   }
 }
 
-class AddPhone extends StatelessWidget {
+class AddPhone extends StatefulWidget {
   //휴대폰번호 추가
+  @override
+  _AddPhoneState createState() => _AddPhoneState();
+}
+
+class _AddPhoneState extends State<AddPhone> {
   final GlobalKey<FormState> _formkey1 = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -479,9 +498,15 @@ class AddPhone extends StatelessWidget {
   }
 }
 
-class AddAddress extends StatelessWidget {
+class AddAddress extends StatefulWidget {
   //회원가입 주소추가
+  @override
+  _AddAddressState createState() => _AddAddressState();
+}
+
+class _AddAddressState extends State<AddAddress> {
   final GlobalKey<FormState> _formkey1 = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -614,8 +639,13 @@ class AddAddress extends StatelessWidget {
   }
 }
 
-class SignUpApprove extends StatelessWidget {
+class SignUpApprove extends StatefulWidget {
   //회원가입 마지막
+  @override
+  _SignUpApproveState createState() => _SignUpApproveState();
+}
+
+class _SignUpApproveState extends State<SignUpApprove> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
