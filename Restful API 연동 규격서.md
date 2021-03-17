@@ -17,7 +17,7 @@
    1. [메인페이지-data](#2-1-메인페이지-데이터)
    2. [메인페이지-list](#2-2-메인페이지-리스트)
 3. [등록된 강아지들](#3-등록된-강아지들)
-   1. [강아지 정도 등록(POST)](#3-1-강아지-정도-등록post)
+   1. [강아지 정보 등록(POST)](#3-1-강아지-정보-등록post)
    2. [PostedDogsDetail(GET,DELETE)](#3-2-posteddogsdetail)
 4. [MBTI 검사](#4-mbti-검사)
 
@@ -237,7 +237,7 @@
 ---
 
 ## 3. 등록된 강아지들
-### 3-1. 강아지 정도 등록(POST)
+### 3-1. 강아지 정보 등록(POST)
 #### - Request : Post
 - HTTP URL = 'api/dog/post/'
 - Parameter 형식 (POST 형식)
@@ -249,8 +249,9 @@
 >|dogtype|str|필수|견종|
 >|age|intger|필수|강아지 나이(개월수)|
 >|gender|bool|필수|수컷: false, 암컷: true|
->|protection|str|필수|저기 뭐야 예방접종 그거|
+>|vaccination|bool|필수|저기 뭐야 예방접종 그거|
 >|dogCharacter|str|필수|성격검사결과|
+>|fee|int|필수|입양비|
 
 
 
@@ -268,12 +269,20 @@
 >|엘리먼트명|depth|설명|값구분|
 >|-|-|-|-|
 >|-|-|-|-|
+
 <br>
 
 - 샘플 JSON 예제
 ```json
 // 200 ok
-{ 
+{
+  "id": 44,
+  "date": "2021-03-18T01:13:46.435261",
+  "vaccination": true,
+  "fee": 1,
+  "dogid": 29,
+  "dogCharacter": 1,
+  "userid": 1
 }
 // 400 bad request 
 {
