@@ -33,7 +33,6 @@ class _MainPage1State extends State<MainPage1> {
     maincom();
   }
 
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: CustomScrollView(
@@ -408,7 +407,7 @@ class _MainPage1State extends State<MainPage1> {
                     height: 150,
                     width: 650,
                     child: Swiper(
-                      fade: 0,
+                      fade: 1,
                       control: SwiperControl(),
                       pagination: SwiperPagination(),
                       itemCount: imgList1.length,
@@ -428,6 +427,7 @@ class _MainPage1State extends State<MainPage1> {
 
   Widget showImage() {
     if (main.myNow.token == '')
+      // 로그인 페이지로 넘어가는 코드
       return IconButton(
         icon: Icon(Icons.account_circle_rounded),
         onPressed: () {
@@ -436,76 +436,19 @@ class _MainPage1State extends State<MainPage1> {
         },
         iconSize: 100.0,
       );
-    else {
-      if (maindata.userPhoto == 'None') {
-        return IconButton(
-          icon: Icon(Icons.account_circle_rounded),
-          onPressed: () {
-            showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: Text('Test'),
-                    actions: [
-                      TextButton(
-                          onPressed: () {
-                            getImage(ImageSource.gallery);
-                          },
-                          child: Text('Change Profile Image')),
-                      TextButton(
-                          onPressed: () {
-                            Navigator.pushReplacement(
-                                context,
-                                CupertinoPageRoute(
-                                    builder: (context) => LoginPage()));
-                          },
-                          child: Text('Sign Out'))
-                    ],
-                  );
-                });
-          },
-          iconSize: 100.0,
-        );
-      } else {
-        return FlatButton(
-          child: Container(
-              width: 120,
-              height: 120,
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                      image: NetworkImage(maindata.userPhoto),
-                      fit: BoxFit.cover))),
-          onPressed: () {
-            showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: Text('Test'),
-                    actions: [
-                      TextButton(
-                          onPressed: () {
-                            getImage(ImageSource.gallery);
-                          },
-                          child: Text('Change Profile Image')),
-                      TextButton(
-                          onPressed: () {
-                            Navigator.pushReplacement(
-                                context,
-                                CupertinoPageRoute(
-                                    builder: (context) => LoginPage()));
-                          },
-                          child: Text('Sign Out'))
-                    ],
-                  );
-                });
-          },
-        );
-      }
-    }
+    else
+      //
+      return Container(
+          width: 125,
+          height: 125,
+          decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              image: DecorationImage(
+                  image: NetworkImage(maindata.userPhoto), fit: BoxFit.cover)));
   }
 
   Future getImage(ImageSource imageSource) async {
+    // ignore: deprecated_member_use
     var image = await ImagePicker.pickImage(source: imageSource);
 
     setState(() {
@@ -515,18 +458,7 @@ class _MainPage1State extends State<MainPage1> {
 
   maincom() async {
     var jsonData = null;
-    var response;
-
-    if (main.myNow.token != "") {
-      // 로그인 했을때
-      response = await http.get('${main.address}/api/main/index/data/',
-          headers: <String, String>{
-            "Authorization": "Token ${main.myNow.token}"
-          });
-    } else {
-      // 로그인 안했을때
-      response = await http.get('${main.address}/api/main/index/data/');
-    }
+    var response = await http.get('${main.address}/api/main/index/data/');
 
     if (response.statusCode == 200) {
       jsonData = json.decode(response.body);
