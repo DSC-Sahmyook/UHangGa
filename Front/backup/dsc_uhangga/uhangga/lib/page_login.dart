@@ -20,6 +20,10 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _passwordController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+  }
+
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
 
@@ -134,7 +138,7 @@ class _LoginPageState extends State<LoginPage> {
                                             if (main.myNow.statusCode == 200) {
                                               Navigator.pushReplacement(
                                                   context,
-                                                  MaterialPageRoute(
+                                                  CupertinoPageRoute(
                                                       builder: (context) =>
                                                           MainPage1()));
                                             } else {

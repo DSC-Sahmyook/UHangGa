@@ -130,12 +130,6 @@ class _AddIDPWState extends State<AddIDPW> {
   final pw_Controller = TextEditingController();
 
   @override
-  void dispose() {
-    super.dispose();
-    id_Controller.dispose();
-    pw_Controller.dispose();
-  }
-
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -209,8 +203,8 @@ class _AddIDPWState extends State<AddIDPW> {
                     obscureText: true,
                     decoration: InputDecoration(labelText: "Confirm Password"),
                     validator: (String value) {
-                      if (value != pw_Controller) {
-                        return "Passwords do not match";
+                      if (value.isEmpty) {
+                        return "Password was not correct.";
                       }
 
                       return null;
@@ -269,12 +263,6 @@ class _AddPhotoState extends State<AddPhoto> {
   final ln_Controller = TextEditingController();
 
   @override
-  void dispose() {
-    super.dispose();
-    fn_Controller.dispose();
-    ln_Controller.dispose();
-  }
-
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -428,12 +416,6 @@ class _AddPhoneState extends State<AddPhone> {
   final em_Controller = TextEditingController();
 
   @override
-  void dispose() {
-    super.dispose();
-    ph_Controller.dispose();
-    em_Controller.dispose();
-  }
-
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -505,6 +487,21 @@ class _AddPhoneState extends State<AddPhone> {
                     },
                   ),
                   Container(height: 7),
+                  TextFormField(
+                    keyboardType: TextInputType.number,
+                    decoration:
+                        InputDecoration(labelText: "Authorization Code"),
+                    validator: (String value) {
+                      if (value.isEmpty) {
+                        return "Wrong Code!";
+                      }
+
+                      return null;
+                    },
+                  ),
+                  Container(
+                    height: 10,
+                  ),
                   Text(
                     "This procedure is only for Sign up identification, We will not going to use for other purposes.",
                     style: TextStyle(color: Colors.grey, fontSize: 12),
@@ -530,9 +527,9 @@ class _AddPhoneState extends State<AddPhone> {
                     ),
                     onPressed: () {
                       signupdata.phonenum = ph_Controller.text;
-                      signupdata.email = em_Controller.text;
+//                      signupdata.phonenum = em_Controller.text;
                       print('phone num =' + ph_Controller.text);
-                      print('email =' + em_Controller.text);
+//                    print('email' + em_Controller.text);
 
                       Navigator.push(
                           context,
@@ -560,15 +557,12 @@ class _AddAddressState extends State<AddAddress> {
   final GlobalKey<FormState> _formkey1 = GlobalKey<FormState>();
 
   final address1_Controller = TextEditingController();
+  final address2_Controller = TextEditingController();
   final city_Controller = TextEditingController();
+  final sp_Controller = TextEditingController();
+  final country_Controller = TextEditingController();
 
   @override
-  void dispose() {
-    super.dispose();
-    address1_Controller.dispose();
-    city_Controller.dispose();
-  }
-
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -612,7 +606,21 @@ class _AddAddressState extends State<AddAddress> {
                   TextFormField(
                     controller: address1_Controller,
                     keyboardType: TextInputType.streetAddress,
-                    decoration: InputDecoration(labelText: "Address Line"),
+                    decoration: InputDecoration(labelText: "Address Line 1"),
+                    validator: (String value) {
+                      if (value.isEmpty) {
+                        return "Please Enter a vaild Address";
+                      }
+
+                      return null;
+                    },
+                  ),
+                  Container(height: 7),
+                  TextFormField(
+                    controller: address2_Controller,
+                    keyboardType: TextInputType.streetAddress,
+                    decoration:
+                        InputDecoration(labelText: "Address Line 2 (OPTIONAL)"),
                     validator: (String value) {
                       if (value.isEmpty) {
                         return "Please Enter a vaild Address";
@@ -634,6 +642,32 @@ class _AddAddressState extends State<AddAddress> {
                       return null;
                     },
                   ),
+                  Container(height: 7),
+                  TextFormField(
+                    controller: sp_Controller,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(labelText: "State / Province"),
+                    validator: (String value) {
+                      if (value.isEmpty) {
+                        return "Please Enter a vaild Address.";
+                      }
+
+                      return null;
+                    },
+                  ),
+                  Container(height: 7),
+                  TextFormField(
+                    controller: country_Controller,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(labelText: "Country"),
+                    validator: (String value) {
+                      if (value.isEmpty) {
+                        return "Please Enter a vaild Country.";
+                      }
+
+                      return null;
+                    },
+                  )
                 ],
               ),
             ),
@@ -654,21 +688,8 @@ class _AddAddressState extends State<AddAddress> {
                           style: TextStyle(fontSize: 32, color: Colors.white)),
                     ),
                     onPressed: () {
-                      signupdata.address =
-                          "${address1_Controller.text} ${city_Controller.text}";
-                      print('address = ' + signupdata.address);
-
-                      signupcom(
-                          signupdata.username,
-                          signupdata.password,
-                          signupdata.first_name,
-                          signupdata.last_name,
-                          signupdata.phonenum,
-                          signupdata.email,
-                          signupdata.address,
-                          signupdata.photourl,
-                          signupdata.characterid,
-                          context);
+                      signupdata.address = address1_Controller.text;
+                      print('address = ' + address1_Controller.text);
 
                       Navigator.push(
                           context,
@@ -809,21 +830,23 @@ class _SignUpApproveState extends State<SignUpApprove> {
 class SignUpCom {
   String username;
   String password;
+  // ignore: non_constant_identifier_names
   String first_name;
+  // ignore: non_constant_identifier_names
   String last_name;
   String phonenum;
-  String email;
   String address;
   String photourl;
-  int characterid;
+  String characterid;
 
   SignUpCom(
       {this.username,
       this.password,
+      // ignore: non_constant_identifier_names
       this.first_name,
+      // ignore: non_constant_identifier_names
       this.last_name,
       this.phonenum,
-      this.email,
       this.address,
       this.photourl,
       this.characterid});
@@ -835,7 +858,6 @@ class SignUpCom {
       first_name: json['first_name'],
       last_name: json['last_name'],
       phonenum: json['phonenum'],
-      email: json['email'],
       address: json['address'],
       photourl: json['photourl'],
       characterid: json['characterid'],
@@ -843,42 +865,14 @@ class SignUpCom {
   }
 }
 
-signupcom(username, password, first_name, last_name, phonenum, email, address,
-    photourl, characterid, context) async {
-  Map data = {
-    'username': username,
-    'password': password,
-    'first_name': first_name,
-    'last_name': last_name,
-    'phonenum': phonenum,
-    'email': email,
-    'address': address,
-    'photourl': "None",
-    'characterid': "17"
-  };
-
-  print(data);
-
+signupcom() async {
   var jsonData = null;
-  var response =
-      await http.post('${main.address}/api/auth/signup/', body: data);
-  if (response.statusCode == 201) {
+  var response = await http.post('${main.address}/api/app/auth/signup/');
+
+  if (response.statusCode == 200) {
     jsonData = json.decode(response.body);
+    signupdata = SignUpCom.fromJson(jsonData);
   } else {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('${response.statusCode}'),
-            content: Text(utf8.decode(response.bodyBytes)),
-            actions: <Widget>[
-              FlatButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text("Close"))
-            ],
-          );
-        });
+    throw Exception('Something went wrong...');
   }
 }
