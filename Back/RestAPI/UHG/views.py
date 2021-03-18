@@ -35,7 +35,7 @@ def signup(request):
             return Response(body, status=status.HTTP_400_BAD_REQUEST)
         try:
             if mo.Profile.objects.get(phonenum=request.data['phonenum']):
-                return Response('이미 등록된 이메일입니다.', status=status.HTTP_400_BAD_REQUEST)
+                return Response('이미 등록된 전화번호입니다.', status=status.HTTP_400_BAD_REQUEST)
             if mo.User.objects.get(username=request.data['username']):
                 return Response('이미 등록된 아이디입니다.', status=status.HTTP_400_BAD_REQUEST)
         except Exception:
@@ -258,3 +258,37 @@ def resultOfMBTI(request):
 
         return Response(result_se.data, status=status.HTTP_200_OK)
 
+# ---------------------------------------------
+# 디테일 페이지
+@api_view(["GET"])
+def getDetail(request, id):
+    # 도그, 포스티드도그, 프로필, 유저, 캐릭터
+    myPostedDog = mo.PostedDogs.objects.get(id=id)
+    myDog = myPostedDog.dogid
+    myProfile = myPostedDog.userid
+    myUser = myProfile.user
+    myCharacter = myPostedDog.dogCharacter
+
+    data = {
+        'photolist': [i.url for i in mo.Dogsphotos.objects.filter(num=myDog.photoid)],
+        'dog_name': myDog.name,
+        'date': myPostedDog.date,
+        'isadopted': myDog.isadopted,
+        'breed': myDog.dogtype,
+        'gender': "female" if myDog.gender else "male",
+        'age': myDog.age,
+        'vaccination': "Yes" if myPostedDog.vaccination else "No",
+        'fee': myPostedDog.fee,
+        'area': myProfile.address,
+        'dogCharacter_id': myCharacter.id,
+        'dogCharacter_name': myCharacter.character,
+        'writer_photo': myProfile.photourl,
+        'writer_name': myUser.username,
+        'writer_phonenum': myProfile.phonenum,
+        'uniqueness': myDog.uniqueness,
+    }
+
+    detail_se = se.SanDetailSerializer(data=data)
+    if detail_se.is_valid():
+        return Response(detail_se.data, status=status.HTTP_200_OK)
+    return Response(detail_se.errors, status=status.HTTP_400_BAD_REQUEST)

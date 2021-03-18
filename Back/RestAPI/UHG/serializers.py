@@ -9,12 +9,11 @@ from .models import Profile
 from .models import Dogsphotos
 
 
-
-
 # 회원가입
 class SignUp_Serializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField()
+    email = serializers.CharField()
     first_name= serializers.CharField()
     last_name = serializers.CharField()
     phonenum = serializers.CharField()
@@ -28,13 +27,14 @@ class SignUp_Serializer(serializers.Serializer):
             password=validated_data["password"],
             first_name=validated_data["first_name"],
             last_name=validated_data["last_name"],
+            email=validated_data["email"],
         )
         profile = mo.Profile(
             user=user,
             phonenum=validated_data["phonenum"],
             address=validated_data["address"],
             photourl=validated_data["photourl"],
-            characterid=mo.Characters.objects.get(id=validated_data["characterid"])
+            characterid=mo.Characters.objects.get(id=validated_data["characterid"]),
         )
 
         user.save()
@@ -100,8 +100,6 @@ class PostSerializer(serializers.ModelSerializer):
         model = PostedDogs
         fields = '__all__'
 
-        
-
 
 # ---------------------------------------------
 # 메인페이지
@@ -143,8 +141,28 @@ class TestMBTI(serializers.ModelSerializer):
 
 
 # ---------------------------------------------
-# 김현균이 만든 POST용 시리얼라이저
+# POST용 시리얼라이저
 class SanPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = PostedDogs
         fields = '__all__'
+
+
+# DetailPage Serializer
+class SanDetailSerializer(serializers.Serializer):
+    photolist = serializers.ListField()
+    dog_name = serializers.CharField()
+    date = serializers.DateTimeField()
+    isadopted = serializers.BooleanField()
+    breed = serializers.CharField()
+    gender = serializers.CharField()
+    age = serializers.IntegerField()
+    vaccination = serializers.CharField()
+    fee = serializers.IntegerField()
+    area = serializers.CharField()
+    dogCharacter_id = serializers.IntegerField()
+    dogCharacter_name = serializers.CharField()
+    writer_photo = serializers.URLField()
+    writer_name = serializers.CharField()
+    writer_phonenum = serializers.CharField()
+    uniqueness = serializers.CharField()

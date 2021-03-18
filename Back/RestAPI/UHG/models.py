@@ -19,7 +19,7 @@ class Characters(models.Model):
 class Profile(models.Model):
     # id = models.IntegerField(primary_key=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    phonenum = models.IntegerField(default=0)
+    phonenum = models.TextField()
     address = models.TextField()
     photourl = models.TextField()
     characterid = models.ForeignKey('Characters', on_delete=models.CASCADE, default=17)
@@ -67,5 +67,5 @@ class Dogs(models.Model):
 
 class Dogsphotos(models.Model):
     # id = models.IntegerField(primary_key=True)
-    url = models.CharField(max_length=50)
+    url = models.CharField(max_length=200)
     num = models.CharField(max_length=50)
