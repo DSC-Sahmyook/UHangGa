@@ -34,6 +34,7 @@
 >|-|-|-|-|
 >|username|str|필수|가입자 아이디|
 >|password|str|필수|가입자 비밀번호|
+>|email|str|필수|가입자 이메일|
 >|first_name|str|필수|가입자 성을 뺀 이름|
 >|last_name|str|필수|가입자의 성|
 >|phonenum|str|필수|가입자의 휴대폰 번호|
