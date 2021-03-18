@@ -182,79 +182,87 @@ class _DogRegPageState extends State<DogRegiPage> {
       child: ListView(
         children: [
           sp_photo(),
-          SizedBox(height: 30),
+          SizedBox(height: 35),
           // name
-          Row(
-            children: [
-              SizedBox(width: 20),
-              SizedBox(
-                width: 80,
-                child: Text(
-                  'name',
-                  style: TextStyle(fontSize: 20),
-                ),
-              ),
-              Expanded(
-                child: TextField(
-                  controller: name_Controller,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    filled: true,
-                    fillColor: Colors.grey[200],
+          SizedBox(
+            height: 50,
+            child: Row(
+              children: [
+                SizedBox(width: 20),
+                SizedBox(
+                  width: 80,
+                  child: Text(
+                    'name',
+                    style: TextStyle(fontSize: 20),
                   ),
                 ),
-              ),
-              SizedBox(width: 20),
-            ],
+                Expanded(
+                  child: TextField(
+                    controller: name_Controller,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                      filled: true,
+                      fillColor: const Color(0xffCECECE),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 20),
+              ],
+            ),
           ),
           SizedBox(height: 20),
           // age
-          Row(
-            children: [
-              SizedBox(width: 20),
-              SizedBox(
-                width: 80,
-                child: Text(
-                  'age',
-                  style: TextStyle(fontSize: 20),
-                ),
-              ),
-              Expanded(
-                child: TextField(
-                  controller: age_Controller,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    filled: true,
-                    fillColor: Colors.grey[200],
+          SizedBox(
+            height: 50,
+            child: Row(
+              children: [
+                SizedBox(width: 20),
+                SizedBox(
+                  width: 80,
+                  child: Text(
+                    'age',
+                    style: TextStyle(fontSize: 20),
                   ),
                 ),
-              ),
-              SizedBox(width: 20),
-            ],
+                Expanded(
+                  child: TextField(
+                    controller: age_Controller,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      filled: true,
+                      fillColor: const Color(0xffCECECE),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 20),
+              ],
+            ),
           ),
           SizedBox(height: 20),
           // sex
-          Row(
-            children: [
-              SizedBox(width: 20),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: isGirl ? sp_flatBtn('Girl') : sp_outBtn('Girl'),
+          SizedBox(
+            child: Row(
+              children: [
+                SizedBox(width: 20),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: isGirl ? sp_flatBtn('Girl') : sp_outBtn('Girl'),
+                  ),
                 ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: isBoy ? sp_flatBtn('Boy') : sp_outBtn('Boy'),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: isBoy ? sp_flatBtn('Boy') : sp_outBtn('Boy'),
+                  ),
                 ),
-              ),
-              SizedBox(width: 20),
-            ],
+                SizedBox(width: 20),
+              ],
+            ),
           ),
           SizedBox(height: 20),
           // species (grid view)
@@ -274,57 +282,62 @@ class _DogRegPageState extends State<DogRegiPage> {
           //     ],
           //   ),
           // ),
-          Row(
-            children: [
-              SizedBox(width: 20),
-              SizedBox(
-                width: 80,
-                child: Text(
-                  'species',
-                  style: TextStyle(fontSize: 20),
-                ),
-              ),
-              Expanded(
-                child: TextField(
-                  controller: species_Controller,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    filled: true,
-                    fillColor: Colors.grey[200],
+          SizedBox(
+            height: 50,
+            child: Row(
+              children: [
+                SizedBox(width: 20),
+                SizedBox(
+                  width: 80,
+                  child: Text(
+                    'species',
+                    style: TextStyle(fontSize: 20),
                   ),
                 ),
-              ),
-              SizedBox(width: 20),
-            ],
+                Expanded(
+                  child: TextField(
+                    controller: species_Controller,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      filled: true,
+                      fillColor: const Color(0xffCECECE),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 20),
+              ],
+            ),
           ),
           SizedBox(height: 20),
           // breed
-          Row(
-            children: [
-              SizedBox(width: 20),
-              SizedBox(
-                width: 80,
-                child: Text(
-                  'breed',
-                  style: TextStyle(fontSize: 20),
-                ),
-              ),
-              Expanded(
-                child: TextField(
-                  controller: breed_Controller,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    filled: true,
-                    fillColor: Colors.grey[200],
+          SizedBox(
+            height: 50,
+            child: Row(
+              children: [
+                SizedBox(width: 20),
+                SizedBox(
+                  width: 80,
+                  child: Text(
+                    'breed',
+                    style: TextStyle(fontSize: 20),
                   ),
                 ),
-              ),
-              SizedBox(width: 20),
-            ],
+                Expanded(
+                  child: TextField(
+                    controller: breed_Controller,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        filled: true,
+                        fillColor: const Color(0xffCECECE)),
+                  ),
+                ),
+                SizedBox(width: 20),
+              ],
+            ),
           ),
           SizedBox(height: 20),
           // vavinamtions(Yes or No)

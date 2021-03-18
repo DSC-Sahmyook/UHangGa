@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:uhangga/mbti_test_pages/page_result.dart';
 import 'package:uhangga/page_mainnew.dart';
+import 'main.dart' as main;
+import 'package:http/http.dart' as http;
 
 final List<String> imgList2 = ['lib/assets/pics/pic3.png'];
 
@@ -240,14 +244,11 @@ class specpage extends StatelessWidget {
                     ),
                   ),
                 )),
-            Container(
-              height: 5,
-            ),
             Padding(
               padding: EdgeInsets.all(16.0),
               child: Center(
                 child: SizedBox(
-                  height: 50,
+                  height: 55,
                   width: 275,
                   child: RaisedButton(
                     color: const Color(0xffe06b2e),
@@ -294,13 +295,13 @@ class specpage extends StatelessWidget {
                     'NICKNAME',
                     style: TextStyle(
                       color: const Color(0xffe06b2e),
-                      fontSize: 18,
+                      fontSize: 24,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 100),
+                  padding: const EdgeInsets.only(left: 75),
                   child: Icon(
                     Icons.phone_enabled_rounded,
                     size: 45,
@@ -319,7 +320,7 @@ class specpage extends StatelessWidget {
                 width: 500,
                 child: Text(
                   'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl tincidunt eget nullam non. Quis hendrerit dolor magna eget est lorem ipsum dolor sit. Volutpat odio facilisis mauris sit amet massa. Commodo odio aenean sed adipiscing diam donec adipiscing tristique. Mi eget mauris pharetra et. Non tellus orci ac auctor augue. Elit at imperdiet dui accumsan sit.',
-                  style: TextStyle(fontSize: 24),
+                  style: TextStyle(fontSize: 18),
                 ),
               ),
             )

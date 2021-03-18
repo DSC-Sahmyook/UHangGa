@@ -172,6 +172,7 @@ class _AddIDPWState extends State<AddIDPW> {
                       fontSize: 32,
                     ),
                   ),
+                  Container(height: 35),
                   TextFormField(
                     controller: id_Controller,
                     keyboardType: TextInputType.name,
@@ -229,7 +230,8 @@ class _AddIDPWState extends State<AddIDPW> {
                           style: TextStyle(fontSize: 32, color: Colors.white)),
                     ),
                     onPressed: () {
-                      signupcom(id_Controller.text, pw_Controller.text);
+                      signupdata.username = id_Controller.text;
+                      signupdata.password = pw_Controller.text;
                       print('id = ' + id_Controller.text);
                       print('pw = ' + pw_Controller.text);
 
@@ -255,7 +257,10 @@ class AddPhoto extends StatefulWidget {
 
 class _AddPhotoState extends State<AddPhoto> {
   File _image;
-  final GlobalKey<FormState> _formkey1 = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formkey1 = GlobalKey<FormState>(); // 파베 사용
+
+  final fn_Controller = TextEditingController();
+  final ln_Controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -306,12 +311,25 @@ class _AddPhotoState extends State<AddPhoto> {
                   Center(
                     child: showImage(),
                   ),
-                  Container(height: 65),
+                  Container(height: 60),
                   TextFormField(
-                    decoration: InputDecoration(labelText: "Name"),
+                    controller: fn_Controller,
+                    decoration: InputDecoration(labelText: "First Name"),
                     validator: (String value) {
                       if (value.isEmpty) {
-                        return "Please Enter your name.";
+                        return "Please Enter your first name.";
+                      }
+
+                      return null;
+                    },
+                  ),
+                  Container(height: 5),
+                  TextFormField(
+                    controller: ln_Controller,
+                    decoration: InputDecoration(labelText: "Last Name"),
+                    validator: (String value) {
+                      if (value.isEmpty) {
+                        return "Please Enter your last name.";
                       }
 
                       return null;
@@ -337,6 +355,11 @@ class _AddPhotoState extends State<AddPhoto> {
                           style: TextStyle(fontSize: 32, color: Colors.white)),
                     ),
                     onPressed: () {
+                      signupdata.first_name = fn_Controller.text;
+                      signupdata.last_name = ln_Controller.text;
+                      print('first name = ' + fn_Controller.text);
+                      print('last name = ' + ln_Controller.text);
+
                       Navigator.push(context,
                           CupertinoPageRoute(builder: (context) => AddPhone()));
                     },
@@ -389,6 +412,9 @@ class AddPhone extends StatefulWidget {
 class _AddPhoneState extends State<AddPhone> {
   final GlobalKey<FormState> _formkey1 = GlobalKey<FormState>();
 
+  final ph_Controller = TextEditingController();
+  final em_Controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -436,7 +462,8 @@ class _AddPhoneState extends State<AddPhone> {
                   ),
                   Container(height: 75),
                   TextFormField(
-                    keyboardType: TextInputType.emailAddress,
+                    controller: ph_Controller,
+                    keyboardType: TextInputType.phone,
                     decoration: InputDecoration(labelText: "Phone Number"),
                     validator: (String value) {
                       if (value.isEmpty) {
@@ -446,7 +473,9 @@ class _AddPhoneState extends State<AddPhone> {
                       return null;
                     },
                   ),
+                  Container(height: 7),
                   TextFormField(
+                    controller: em_Controller,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(labelText: "Email Address"),
                     validator: (String value) {
@@ -457,8 +486,9 @@ class _AddPhoneState extends State<AddPhone> {
                       return null;
                     },
                   ),
+                  Container(height: 7),
                   TextFormField(
-                    keyboardType: TextInputType.emailAddress,
+                    keyboardType: TextInputType.number,
                     decoration:
                         InputDecoration(labelText: "Authorization Code"),
                     validator: (String value) {
@@ -496,6 +526,11 @@ class _AddPhoneState extends State<AddPhone> {
                           style: TextStyle(fontSize: 32, color: Colors.white)),
                     ),
                     onPressed: () {
+                      signupdata.phonenum = ph_Controller.text;
+//                      signupdata.phonenum = em_Controller.text;
+                      print('phone num =' + ph_Controller.text);
+//                    print('email' + em_Controller.text);
+
                       Navigator.push(
                           context,
                           CupertinoPageRoute(
@@ -520,6 +555,12 @@ class AddAddress extends StatefulWidget {
 
 class _AddAddressState extends State<AddAddress> {
   final GlobalKey<FormState> _formkey1 = GlobalKey<FormState>();
+
+  final address1_Controller = TextEditingController();
+  final address2_Controller = TextEditingController();
+  final city_Controller = TextEditingController();
+  final sp_Controller = TextEditingController();
+  final country_Controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -563,7 +604,8 @@ class _AddAddressState extends State<AddAddress> {
                   ),
                   Container(height: 60),
                   TextFormField(
-                    keyboardType: TextInputType.emailAddress,
+                    controller: address1_Controller,
+                    keyboardType: TextInputType.streetAddress,
                     decoration: InputDecoration(labelText: "Address Line 1"),
                     validator: (String value) {
                       if (value.isEmpty) {
@@ -573,8 +615,10 @@ class _AddAddressState extends State<AddAddress> {
                       return null;
                     },
                   ),
+                  Container(height: 7),
                   TextFormField(
-                    keyboardType: TextInputType.emailAddress,
+                    controller: address2_Controller,
+                    keyboardType: TextInputType.streetAddress,
                     decoration:
                         InputDecoration(labelText: "Address Line 2 (OPTIONAL)"),
                     validator: (String value) {
@@ -585,8 +629,10 @@ class _AddAddressState extends State<AddAddress> {
                       return null;
                     },
                   ),
+                  Container(height: 7),
                   TextFormField(
-                    keyboardType: TextInputType.emailAddress,
+                    controller: city_Controller,
+                    keyboardType: TextInputType.text,
                     decoration: InputDecoration(labelText: "City"),
                     validator: (String value) {
                       if (value.isEmpty) {
@@ -596,8 +642,10 @@ class _AddAddressState extends State<AddAddress> {
                       return null;
                     },
                   ),
+                  Container(height: 7),
                   TextFormField(
-                    keyboardType: TextInputType.emailAddress,
+                    controller: sp_Controller,
+                    keyboardType: TextInputType.text,
                     decoration: InputDecoration(labelText: "State / Province"),
                     validator: (String value) {
                       if (value.isEmpty) {
@@ -607,8 +655,10 @@ class _AddAddressState extends State<AddAddress> {
                       return null;
                     },
                   ),
+                  Container(height: 7),
                   TextFormField(
-                    keyboardType: TextInputType.emailAddress,
+                    controller: country_Controller,
+                    keyboardType: TextInputType.text,
                     decoration: InputDecoration(labelText: "Country"),
                     validator: (String value) {
                       if (value.isEmpty) {
@@ -638,6 +688,9 @@ class _AddAddressState extends State<AddAddress> {
                           style: TextStyle(fontSize: 32, color: Colors.white)),
                     ),
                     onPressed: () {
+                      signupdata.address = address1_Controller.text;
+                      print('address = ' + address1_Controller.text);
+
                       Navigator.push(
                           context,
                           CupertinoPageRoute(
@@ -720,7 +773,7 @@ class _SignUpApproveState extends State<SignUpApprove> {
             ),
           ),
           Container(
-            height: MediaQuery.of(context).size.height / 100 * 25,
+            height: MediaQuery.of(context).size.height / 100 * 20,
             child: Column(
               children: [
                 Expanded(
@@ -812,8 +865,7 @@ class SignUpCom {
   }
 }
 
-signupcom(username, password, first_name, last_name, phonenum, address,
-    photourl, charaterid) async {
+signupcom() async {
   var jsonData = null;
   var response = await http.post('${main.address}/api/app/auth/signup/');
 
