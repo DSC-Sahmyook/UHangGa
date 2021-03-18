@@ -18,7 +18,7 @@
    2. [메인페이지-list](#2-2-메인페이지-리스트)
 3. [등록된 강아지들](#3-등록된-강아지들)
    1. [강아지 정보 등록(POST)](#3-1-강아지-정보-등록post)
-   2. [PostedDogsDetail(GET,DELETE)](#3-2-posteddogsdetail)
+   2. [PostedDogsDetail(GET)](#3-2-posteddogsdetail)
 4. [MBTI 검사](#4-mbti-검사)
 
 ---
