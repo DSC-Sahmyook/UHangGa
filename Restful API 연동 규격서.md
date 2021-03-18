@@ -297,67 +297,67 @@
 ---
 
 ### 3-2. PostedDogsDetail
-#### - Request : Get, DELETE
-- HTTP URL = '/api/posts/(게시자고유아이디)
-- Parameter 형식 (Get, Delete 형식)
+#### - Request : Get
+- HTTP URL = '/api/posts/(게시자고유아이디)/'
+- Parameter 형식 (Get 형식)
 
 >|파라미터명|타입|필수여부|설명|
 >|-|-|-|-|
->|id|str|필수|가입자(게시자) 고유번호(id)|
->|date|str|필수|포스팅된 날짜|
->|protection|str|필수|강아지의 보호 형태|
->|dogid|str|필수|강아지 고유 아이디|
->|userid|str|필수|게시자 프로필|
+>|id|int|필수|게시불 고유번호(id)|
 
 
 - Parameter 형식(Header 형식)
 
 >|파라미터명|값|설명|
->|Content-Type|application/json|JSON 통신|
+>|-|-|-|
+>|-|-|-|
 <br>
 
 #### - Response Format : JSON 형태로 반환
 - 반환값 형식
 >|엘리먼트명|depth|설명|값구분|
 >|-|-|-|-|
->|id|1|게시물번호|200 : OK<br>|
->|date|1|게시날짜|200 : OK<br>|
->|protection|1|강아지의 보호형태|200 : OK<br>|
->|dogid|1|강아지고유id|200 : OK<br>|
->|userid|1|게시자고유id|200 : OK<br>|
+>|photolist|1|강아지 사진 리스트|200 : OK<br>|
+>|dog_name|1|강아지 이름|200 : OK<br>|
+>|date|1|게시물 게시일자|200 : OK<br>|
+>|isadopted|1|강아지 입양상태|200 : OK<br>|
+>|gender|1|강아지 성별|200 : OK<br>|
+>|age|1|강아지 나이(개월)|200 : OK<br>|
+>|vaccination|1|강아지 접종여부|200 : OK<br>|
+>|fee|1|강아지 입양비|200 : OK<br>|
+>|area|1|입양 지역|200 : OK<br>|
+>|dogCharacter_id|1|강아지 성격 id값|200 : OK<br>|
+>|dogCharacter_name|1|강아지 성격 이름|200 : OK<br>|
+>|writer_photo|1|게시자 프로필 사진|200 : OK<br>|
+>|writer_name|1|게시자 계정명|200 : OK<br>|
+>|writer_phonenum|1|게시자 전화번호|200 : OK<br>|
+>|uniqueness|1|강아지 특이사항|200 : OK<br>|
 
 - 샘플 JSON 예제
 ```json
 // 200 ok
-{ 
-   {
-    "id": 2,
-    "dogid": {
-        "id": 2,
-        "name": "용맹이",
-        "dogtype": "프렌치불독",
-        "age": 10,
-        "uniqueness": "완전 허옇게 생겼어요",
-        "photoid": 2,
-        "isadopted": false
-    },
-    "userid": {
-        "id": 1,
-        "phonenum": 100,
-        "address": "서초구",
-        "photourl": "photo_url",
-        "user": 2,
-        "characterid": 14
-    },
-    "dogCharacter": {
-        "id": 5,
-        "character": "esfj",
-        "url": "esfj",
-        "partner": 11
-    },
-    "date": "2021-02-01T21:21:39.715055",
-    "protection": "얘도 작은형이 데리고 있어요"
-}
+{
+  "photolist": [
+    "https://firebasestorage.googleapis.com/v0/b/uhg-firebase.appspot.com/o/posted_dog%2Ftest_dog.jpeg?alt=media&token=4fdd9464-eb18-40b7-a073-fde7f80a9f6b",
+    "https://firebasestorage.googleapis.com/v0/b/uhg-firebase.appspot.com/o/posted_dog%2Ftest_dog.jpeg?alt=media&token=4fdd9464-eb18-40b7-a073-fde7f80a9f6b",
+    "https://firebasestorage.googleapis.com/v0/b/uhg-firebase.appspot.com/o/posted_dog%2Ftest_dog.jpeg?alt=media&token=4fdd9464-eb18-40b7-a073-fde7f80a9f6b",
+    "https://firebasestorage.googleapis.com/v0/b/uhg-firebase.appspot.com/o/posted_dog%2Ftest_dog.jpeg?alt=media&token=4fdd9464-eb18-40b7-a073-fde7f80a9f6b"
+  ],
+  "dog_name": "용맹이",
+  "date": "2021-02-01T21:21:39.715055",
+  "isadopted": false,
+  "breed": "프렌치불독",
+  "gender": "male",
+  "age": 10,
+  "vaccination": "Yes",
+  "fee": 0,
+  "area": "서초구",
+  "dogCharacter_id": 5,
+  "dogCharacter_name": "esfj",
+  "writer_photo": "https://firebasestorage.googleapis.com/v0/b/uhg-firebase.appspot.com/o/user-profile%2Fksanbal_profile.jpeg?alt=media&token=f75a7986-87fd-4e3c-9aa4-65440762a59c",
+  "writer_name": "ksanbal",
+  "writer_phonenum": "010315414124",
+  "uniqueness": "완전 허옇게 생겼어요"
 }
 // 400 bad request 
 {
