@@ -23,6 +23,7 @@ urlpatterns = format_suffix_patterns([
     # Dogs
     path('dog/post/', views.post_dogs),
     path('posts/', views.posteddogslist),
+    path('posts/<int:dog_id>/', view.posteddogslist)
     # path('posts/<int:pk>/', post_detail, name='post_detail'),
 
     # MBTI
