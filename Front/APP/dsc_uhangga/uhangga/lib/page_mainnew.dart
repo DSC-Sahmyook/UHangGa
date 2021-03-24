@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:convert';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,12 +11,13 @@ import 'package:uhangga/Dog_Registration_page/page_dog_list.dart';
 import 'package:uhangga/main.dart' as main;
 import 'package:uhangga/mbti_test_pages/page_result.dart';
 import 'package:uhangga/page_login.dart';
-import 'package:uhangga/page_specific.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:uhangga/page_specific.dart';
 
-final List<String> imgList1 = ['lib/assets/pics/banner.png'];
+final List<String> bannerList = ['lib/assets/pics/banner.png'];
+final List<String> imgList = ['lib/assets/pics/List2.png'];
 
 @JsonSerializable()
 class MainPage1 extends StatefulWidget {
@@ -24,9 +26,11 @@ class MainPage1 extends StatefulWidget {
 }
 
 class _MainPage1State extends State<MainPage1> {
-  Maincom maindata = Maincom();
-
   File _image;
+  Maincom maindata = Maincom();
+  Mainimglist mainlist = Mainimglist();
+  Signout signout = Signout();
+
   @override
   void initState() {
     super.initState();
@@ -301,103 +305,61 @@ class _MainPage1State extends State<MainPage1> {
                     padding: const EdgeInsets.all(16.0),
                     child: Container(
                       height: 150,
-                      child: ListView(
+                      child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         shrinkWrap: true,
-                        children: <Widget>[
-                          Container(
-                            width: 150,
-                            height: 150,
-                            child: InkWell(
-                              child: Image.network(
-                                'https://i.guim.co.uk/img/media/fe1e34da640c5c56ed16f76ce6f994fa9343d09d/0_174_3408_2046/master/3408.jpg?width=1200&height=900&quality=85&auto=format&fit=crop&s=0d3f33fb6aa6e0154b7713a00454c83d',
-                                fit: BoxFit.cover,
-                              ),
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    CupertinoPageRoute(
-                                        builder: (context) => specpage()));
-                              },
-                            ),
-                          ),
-                          Container(
-                            width: 15,
-                          ),
-                          Container(
-                            width: 150,
-                            height: 150,
-                            child: InkWell(
-                              child: Image.network(
-                                'https://i.guim.co.uk/img/media/fe1e34da640c5c56ed16f76ce6f994fa9343d09d/0_174_3408_2046/master/3408.jpg?width=1200&height=900&quality=85&auto=format&fit=crop&s=0d3f33fb6aa6e0154b7713a00454c83d',
-                                fit: BoxFit.cover,
-                              ),
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    CupertinoPageRoute(
-                                        builder: (context) => specpage()));
-                              },
-                            ),
-                          ),
-                          Container(
-                            width: 15,
-                          ),
-                          Container(
-                            width: 150,
-                            height: 150,
-                            child: InkWell(
-                              child: Image.network(
-                                'https://i.guim.co.uk/img/media/fe1e34da640c5c56ed16f76ce6f994fa9343d09d/0_174_3408_2046/master/3408.jpg?width=1200&height=900&quality=85&auto=format&fit=crop&s=0d3f33fb6aa6e0154b7713a00454c83d',
-                                fit: BoxFit.cover,
-                              ),
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    CupertinoPageRoute(
-                                        builder: (context) => specpage()));
-                              },
-                            ),
-                          ),
-                          Container(
-                            width: 15,
-                          ),
-                          Container(
-                            width: 150,
-                            height: 150,
-                            child: InkWell(
-                              child: Image.network(
-                                'https://i.guim.co.uk/img/media/fe1e34da640c5c56ed16f76ce6f994fa9343d09d/0_174_3408_2046/master/3408.jpg?width=1200&height=900&quality=85&auto=format&fit=crop&s=0d3f33fb6aa6e0154b7713a00454c83d',
-                                fit: BoxFit.cover,
-                              ),
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    CupertinoPageRoute(
-                                        builder: (context) => specpage()));
-                              },
-                            ),
-                          ),
-                          Container(
-                            width: 15,
-                          ),
-                          Container(
-                            width: 150,
-                            height: 150,
-                            child: InkWell(
-                              child: Image.network(
-                                'https://i.guim.co.uk/img/media/fe1e34da640c5c56ed16f76ce6f994fa9343d09d/0_174_3408_2046/master/3408.jpg?width=1200&height=900&quality=85&auto=format&fit=crop&s=0d3f33fb6aa6e0154b7713a00454c83d',
-                                fit: BoxFit.cover,
-                              ),
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    CupertinoPageRoute(
-                                        builder: (context) => specpage()));
-                              },
-                            ),
-                          ),
-                        ],
+                        itemCount: imgList.length,
+                        itemBuilder: (BuildContext context, int index1) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Stack(
+                                alignment: Alignment.bottomCenter,
+                                children: [
+                                  (mainlist.url != '')
+                                      ? Container(
+                                          child: Image.asset(
+                                            'lib/assets/pics/List1.png',
+                                            fit: BoxFit.cover,
+                                          ),
+                                        )
+                                      : Container(
+                                          child: Image.asset(
+                                            imgList[index1],
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                  Opacity(
+                                    opacity: 0.7,
+                                    child: Container(
+                                      width: 125,
+                                      color: Colors.black,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Container(
+                                            child: Text(
+                                              '${mainlist.name}',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 24),
+                                            ),
+                                          ),
+                                          Container(
+                                            child: Text(
+                                              '${mainlist.age}',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 24),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                ]),
+                          );
+                        },
                       ),
                     ),
                   ),
@@ -409,11 +371,11 @@ class _MainPage1State extends State<MainPage1> {
                     width: 650,
                     child: Swiper(
                       fade: 0,
-                      control: SwiperControl(),
-                      pagination: SwiperPagination(),
-                      itemCount: imgList1.length,
+                      pagination:
+                          SwiperPagination(builder: SwiperPagination.rect),
+                      itemCount: bannerList.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return Image.asset(imgList1[index]);
+                        return Image.asset(bannerList[index]);
                       },
                     ),
                   )
@@ -537,6 +499,35 @@ class _MainPage1State extends State<MainPage1> {
       throw Exception('Something went wrong...');
     }
   }
+
+  mainimgcom() async {
+    //이미지 리스트 통신
+    var jsonData1 = null;
+    var response = await http.get('${main.address}/api/main/index/list/');
+
+    if (response.statusCode == 200) {
+      jsonData1 = json.decode(response.body);
+      setState(() {
+        mainlist = Mainimglist.fromJson(jsonData1);
+      });
+    } else {
+      throw Exception('Something went wrong...');
+    }
+  }
+
+  signoutcom() async {
+    var jsonData2 = null;
+    var response = await http.delete('${main.address}/api/app/auth/logout/');
+
+    if (response.statusCode == 200) {
+      jsonData2 = json.decode(response.body);
+      setState(() {
+        signout = Signout.fromJson(jsonData2);
+      });
+    } else {
+      throw Exception('Something went wrong... - Sign Out Fail');
+    }
+  }
 }
 
 class Maincom {
@@ -563,5 +554,30 @@ class Maincom {
         userPhoto: json['userPhoto'],
         waitDogs: json['waitDogs'],
         adoptRate: json['adoptRate']);
+  }
+}
+
+class Mainimglist {
+  int id;
+  String name;
+  int age;
+  String url;
+
+  Mainimglist({this.id, this.name, this.age, this.url});
+
+  factory Mainimglist.fromJson(Map<String, dynamic> json) {
+    return Mainimglist(
+        id: json['id'], name: json['name'], age: json['age'], url: json['url']);
+  }
+}
+
+class Signout {
+  String username;
+  String password;
+
+  Signout({this.username, this.password});
+
+  factory Signout.fromJson(Map<String, dynamic> json) {
+    return Signout(username: json['username'], password: json['password']);
   }
 }

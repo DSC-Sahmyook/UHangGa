@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:uhangga/Dog_Registration_page/page_dog_Registration.dart';
 import 'package:uhangga/page_mainnew.dart';
-import 'package:uhangga/page_signup.dart';
-import 'package:uhangga/page_specific.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 final String address = 'https://dsc-uhg-306513.du.r.appspot.com'; // 주소 받아오는 곳
-void main() => runApp(MyApp());
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override

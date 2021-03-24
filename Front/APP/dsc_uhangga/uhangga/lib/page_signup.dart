@@ -8,6 +8,8 @@ import 'package:uhangga/main.dart' as main;
 import 'package:uhangga/mbti_test_pages/page_p_test.dart';
 import 'package:http/http.dart' as http;
 import 'page_login.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 SignUpCom signupdata = SignUpCom();
 
@@ -264,6 +266,8 @@ class AddPhoto extends StatefulWidget {
 class _AddPhotoState extends State<AddPhoto> {
   File _image;
   final GlobalKey<FormState> _formkey1 = GlobalKey<FormState>(); // 파베 사용
+  String _profileImageURL = '';
+  var _firebaseStorage = FirebaseStorage.instance;
 
   final fn_Controller = TextEditingController();
   final ln_Controller = TextEditingController();
@@ -273,6 +277,11 @@ class _AddPhotoState extends State<AddPhoto> {
     super.dispose();
     fn_Controller.dispose();
     ln_Controller.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   Widget build(BuildContext context) {
@@ -390,7 +399,8 @@ class _AddPhotoState extends State<AddPhoto> {
       return IconButton(
         icon: Icon(Icons.account_circle_rounded),
         onPressed: () {
-          getImage(ImageSource.gallery);
+          _uploadImageToStorage(ImageSource.camera);
+          print(_profileImageURL);
         },
         iconSize: 100.0,
       );
@@ -400,17 +410,26 @@ class _AddPhotoState extends State<AddPhoto> {
           height: 200,
           decoration: BoxDecoration(
               shape: BoxShape.circle,
-              image:
-                  DecorationImage(image: FileImage(_image), fit: BoxFit.fill)));
+              image: DecorationImage(
+                  image: NetworkImage(_profileImageURL), fit: BoxFit.fill)));
   }
 
-  Future getImage(ImageSource imageSource) async {
-    // ignore: deprecated_member_use
-    var pickImage = ImagePicker.pickImage(source: imageSource);
-    var image = await pickImage;
+  void _uploadImageToStorage(ImageSource source) async {
+    File image = await ImagePicker.pickImage(source: source);
 
+    if (image == null) return;
     setState(() {
       _image = image;
+    });
+
+    StorageReference storageReference =
+        _firebaseStorage.ref().child('user-profile/');
+    StorageUploadTask storageUploadTask = storageReference.putFile(_image);
+    await storageUploadTask.onComplete;
+    String downloadURL = await storageReference.getDownloadURL();
+
+    setState(() {
+      _profileImageURL = downloadURL;
     });
   }
 }

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "28507449695",
+    "project_id": "uhg-firebase",
+    "storage_bucket": "uhg-firebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:28507449695:android:6742b08953c97d2487aeea",
+        "android_client_info": {
+          "package_name": "com.example.uhangga"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "28507449695-2cp53elha9gt9knak06nv27qnd9qaqjg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIYvK6Lh2ESy3M-gODVzcKHgqeOSvx47A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "28507449695-2cp53elha9gt9knak06nv27qnd9qaqjg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
