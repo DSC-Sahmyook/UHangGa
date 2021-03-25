@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:uhangga/page_mainnew.dart';
 
 import 'text_items.dart';
-import 'page_result.dart';
-import '../main.dart';
-
+import 'page_result.dart' as res;
+import '../main.dart' as main;
 import 'package:page_transition/page_transition.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
@@ -116,7 +115,7 @@ sp_StartBtn(context) {
     minWidth: 300.0,
     height: 80.0,
     child: RaisedButton(
-      color: themeColor,
+      color: main.themeColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
       child: Text(
         'START',
@@ -234,78 +233,78 @@ sp_Btn(index, choice, context) {
     ];
   }
 
-  return ButtonTheme(
-    height: 130,
-    minWidth: 350,
-    child: OutlineButton(
-      // 테두리
-      borderSide: BorderSide(color: themeColor, width: 5),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+  // return ButtonTheme(
+  //   height: 130,
+  //   minWidth: 350,
+  //   child: OutlineButton(
+  //     // 테두리
+  //     borderSide: BorderSide(color: main.themeColor, width: 5),
+  //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
 
-      // 클릭 컬러
-      highlightColor: themeColor,
-      highlightedBorderColor: themeColor,
-      splashColor: themeColor,
+  //     // 클릭 컬러
+  //     highlightColor: main.themeColor,
+  //     highlightedBorderColor: main.themeColor,
+  //     splashColor: main.themeColor,
 
-      child: Column(
-        children: textItem,
-      ),
-      onPressed: () {
-        // 다음껄로 넘어가기
-        if (choice == 'A') {
-          isFirst = false;
-          textCount++;
-          selectAnswers.add('A');
-          if (textCount >= 12) {
-            isFirst = true;
-            textCount = 0;
-            selectAnswers = [];
-            final result = Result(selectAnswers);
-            Navigator.pushReplacement(
-              context,
-              PageTransition(
-                type: PageTransitionType.rightToLeft,
-                child: ResultLoadingPage(result: result),
-              ),
-            );
-          } else {
-            Navigator.push(
-              context,
-              PageTransition(
-                type: PageTransitionType.fade,
-                child: MbtiTestPage_Ing(),
-              ),
-            );
-          }
-        } else if (choice == 'B') {
-          isFirst = false;
-          textCount++;
-          selectAnswers.add('B');
-          if (textCount >= 12) {
-            isFirst = true;
-            textCount = 0;
-            selectAnswers = [];
-            final result = Result(selectAnswers);
-            Navigator.pushReplacement(
-              context,
-              PageTransition(
-                type: PageTransitionType.rightToLeft,
-                child: ResultLoadingPage(result: result),
-              ),
-            );
-          } else {
-            Navigator.push(
-              context,
-              PageTransition(
-                type: PageTransitionType.fade,
-                child: MbtiTestPage_Ing(),
-              ),
-            );
-          }
-        }
-      },
-    ),
-  );
+  //     child: Column(
+  //       children: textItem,
+  //     ),
+  //     onPressed: () {
+  //       // 다음껄로 넘어가기
+  //       if (choice == 'A') {
+  //         isFirst = false;
+  //         textCount++;
+  //         selectAnswers.add('A');
+  //         if (textCount >= 12) {
+  //           isFirst = true;
+  //           textCount = 0;
+  //           selectAnswers = [];
+  //           final result = res.Result(selectAnswers, true);
+  //           Navigator.pushReplacement(
+  //             context,
+  //             PageTransition(
+  //               type: PageTransitionType.rightToLeft,
+  //               child: res.ResultLoadingPage(result: result),
+  //             ),
+  //           );
+  //         } else {
+  //           Navigator.push(
+  //             context,
+  //             PageTransition(
+  //               type: PageTransitionType.fade,
+  //               child: MbtiTestPage_Ing(),
+  //             ),
+  //           );
+  //         }
+  //       } else if (choice == 'B') {
+  //         isFirst = false;
+  //         textCount++;
+  //         selectAnswers.add('B');
+  //         if (textCount >= 12) {
+  //           isFirst = true;
+  //           textCount = 0;
+  //           selectAnswers = [];
+  //           final result = res.Result(selectAnswers, true);
+  //           Navigator.pushReplacement(
+  //             context,
+  //             PageTransition(
+  //               type: PageTransitionType.rightToLeft,
+  //               child: res.ResultLoadingPage(result: result),
+  //             ),
+  //           );
+  //         } else {
+  //           Navigator.push(
+  //             context,
+  //             PageTransition(
+  //               type: PageTransitionType.fade,
+  //               child: MbtiTestPage_Ing(),
+  //             ),
+  //           );
+  //         }
+  //       }
+  //     },
+  //   ),
+  // );
 }
 
 // ProgressBar
@@ -314,6 +313,6 @@ sp_ProgressBar(textCount) {
     lineHeight: 10,
     percent: (textCount / 12), // 퍼센트 계산하기
     backgroundColor: Color(0xffF9D7C5),
-    progressColor: themeColor,
+    progressColor: main.themeColor,
   );
 }

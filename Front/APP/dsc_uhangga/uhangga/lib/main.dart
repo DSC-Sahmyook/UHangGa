@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uhangga/mbti_test_pages/page_result.dart';
 import 'package:uhangga/page_mainnew.dart';
 import 'package:firebase_core/firebase_core.dart';
 

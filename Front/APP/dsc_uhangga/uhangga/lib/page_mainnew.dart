@@ -17,7 +17,6 @@ import 'package:http/http.dart' as http;
 import 'package:uhangga/page_specific.dart';
 
 final List<String> bannerList = ['lib/assets/pics/banner.png'];
-final List<String> imgList = ['lib/assets/pics/List2.png'];
 
 @JsonSerializable()
 class MainPage1 extends StatefulWidget {
@@ -28,13 +27,15 @@ class MainPage1 extends StatefulWidget {
 class _MainPage1State extends State<MainPage1> {
   File _image;
   Maincom maindata = Maincom();
-  Mainimglist mainlist = Mainimglist();
+  // Mainimglist mainlist = Mainimglist();
+  List<Mainimglist> mainlist = [];
   Signout signout = Signout();
 
   @override
   void initState() {
     super.initState();
     maincom();
+    mainimgcom();
   }
 
   @override
@@ -308,30 +309,34 @@ class _MainPage1State extends State<MainPage1> {
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         shrinkWrap: true,
-                        itemCount: imgList.length,
+                        itemCount: mainlist.length,
                         itemBuilder: (BuildContext context, int index1) {
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Stack(
                                 alignment: Alignment.bottomCenter,
                                 children: [
-                                  (mainlist.url != '')
+                                  (mainlist[index1].url == '')
                                       ? Container(
+                                          height: 150,
+                                          width: 150,
                                           child: Image.asset(
-                                            'lib/assets/pics/List1.png',
+                                            'lib/assets/pics/nullimg.png',
                                             fit: BoxFit.cover,
                                           ),
                                         )
                                       : Container(
-                                          child: Image.asset(
-                                            imgList[index1],
+                                          height: 150,
+                                          width: 150,
+                                          child: Image.network(
+                                            mainlist[index1].url,
                                             fit: BoxFit.cover,
                                           ),
                                         ),
                                   Opacity(
                                     opacity: 0.7,
                                     child: Container(
-                                      width: 125,
+                                      width: 150,
                                       color: Colors.black,
                                       child: Row(
                                         mainAxisAlignment:
@@ -339,18 +344,18 @@ class _MainPage1State extends State<MainPage1> {
                                         children: [
                                           Container(
                                             child: Text(
-                                              '${mainlist.name}',
+                                              '${mainlist[index1].name}',
                                               style: TextStyle(
                                                   color: Colors.white,
-                                                  fontSize: 24),
+                                                  fontSize: 22),
                                             ),
                                           ),
                                           Container(
                                             child: Text(
-                                              '${mainlist.age}',
+                                              '${mainlist[index1].age}',
                                               style: TextStyle(
                                                   color: Colors.white,
-                                                  fontSize: 24),
+                                                  fontSize: 14),
                                             ),
                                           )
                                         ],
@@ -506,10 +511,12 @@ class _MainPage1State extends State<MainPage1> {
     var response = await http.get('${main.address}/api/main/index/list/');
 
     if (response.statusCode == 200) {
-      jsonData1 = json.decode(response.body);
-      setState(() {
-        mainlist = Mainimglist.fromJson(jsonData1);
-      });
+      for (var i in json.decode(utf8.decode(response.bodyBytes))) {
+        jsonData1 = i;
+        mainlist.add(Mainimglist.fromJson(jsonData1));
+      }
+
+      setState(() {});
     } else {
       throw Exception('Something went wrong...');
     }
@@ -567,7 +574,10 @@ class Mainimglist {
 
   factory Mainimglist.fromJson(Map<String, dynamic> json) {
     return Mainimglist(
-        id: json['id'], name: json['name'], age: json['age'], url: json['url']);
+        id: json['id'],
+        name: json['name'],
+        age: json['age'],
+        url: json['photoUrl']);
   }
 }
 

@@ -2,15 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:page_transition/page_transition.dart';
 
-import '../main.dart';
+import '../main.dart' as main;
 import '../page_mainnew.dart';
 import 'page_p_test.dart';
 import '../Dog_Registration_page/page_dog_list.dart';
 
-class Result {
-  List<String> Answers;
+import 'package:http/http.dart' as http;
 
-  Result(this.Answers);
+import 'dart:convert';
+
+class Result {
+  List<String> answer;
+  bool isperson;
+
+  Result({this.answer, this.isperson});
+
+  factory Result.fromJson(Map<String, dynamic> json) {
+    return Result(
+      answer: json['answer'],
+      isperson: json['isperson'],
+    );
+  }
 }
 
 bool isLoading = true;
@@ -22,7 +34,7 @@ class ResultLoadingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: themeColor,
+      backgroundColor: main.themeColor,
       body: Center(
         child: WavyAnimatedTextKit(
           text: ['Loading...'],
@@ -53,7 +65,7 @@ class ResultPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: themeColor,
+      backgroundColor: main.themeColor,
       appBar: sp_appBar(context),
       body: Column(
         children: [
@@ -165,7 +177,7 @@ sp_whiteBox(context) {
                   SizedBox(width: 20),
                   Icon(
                     Icons.circle,
-                    color: themeColor,
+                    color: main.themeColor,
                     size: 15,
                   ),
                   SizedBox(width: 10),
@@ -196,7 +208,7 @@ sp_whiteBox(context) {
                     SizedBox(width: 20),
                     Icon(
                       Icons.circle,
-                      color: themeColor,
+                      color: main.themeColor,
                       size: 15,
                     ),
                     SizedBox(width: 10),
@@ -235,7 +247,7 @@ sp_whiteBox(context) {
                         borderRadius: BorderRadius.circular(15.0)),
 
                     // 클릭 컬러
-                    color: themeColor,
+                    color: main.themeColor,
 
                     child: Text(
                       "Registration",
@@ -263,21 +275,21 @@ sp_whiteBox(context) {
                   minWidth: 330,
                   child: OutlineButton(
                     borderSide: BorderSide(
-                      color: themeColor,
+                      color: main.themeColor,
                       width: 2,
                     ),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15.0)),
 
                     // 클릭 컬러
-                    highlightColor: themeColor,
-                    highlightedBorderColor: themeColor,
-                    splashColor: themeColor,
+                    highlightColor: main.themeColor,
+                    highlightedBorderColor: main.themeColor,
+                    splashColor: main.themeColor,
 
                     child: Text(
                       "Try again",
                       style: TextStyle(
-                        color: themeColor,
+                        color: main.themeColor,
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -302,4 +314,27 @@ sp_whiteBox(context) {
       ],
     ),
   );
+}
+
+class TestCom {
+  List<String> answer = [];
+  bool isperson;
+
+  TestCom({this.answer, this.isperson});
+}
+
+testcom(answer, isperson) async {
+  Map data = {'answer': answer, 'isperson': isperson};
+
+  print(data);
+
+  var jsonData = null;
+  var response =
+      await http.post('${main.address}/api/mbti/result/', body: data);
+
+  if (response.statusCode == 200) {
+    jsonData = json.decode(response.body);
+  } else {
+    throw Exception('Something went wrong... Test Fail');
+  }
 }
