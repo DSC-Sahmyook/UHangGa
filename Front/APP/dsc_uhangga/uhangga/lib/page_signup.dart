@@ -9,7 +9,6 @@ import 'package:uhangga/mbti_test_pages/page_p_test.dart';
 import 'package:http/http.dart' as http;
 import 'page_login.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 SignUpCom signupdata = SignUpCom();
 
@@ -332,7 +331,10 @@ class _AddPhotoState extends State<AddPhoto> {
                   Center(
                     child: showImage(),
                   ),
-                  Container(height: 60),
+                  Container(
+                    height: 60,
+                    child: Text(_profileImageURL),
+                  ),
                   TextFormField(
                     controller: fn_Controller,
                     decoration: InputDecoration(labelText: "First Name"),
@@ -422,8 +424,9 @@ class _AddPhotoState extends State<AddPhoto> {
       _image = image;
     });
 
-    StorageReference storageReference =
-        _firebaseStorage.ref().child('user-profile/');
+    StorageReference storageReference = _firebaseStorage
+        .ref()
+        .child("user_profile/${DateTime.now().toString()}");
     StorageUploadTask storageUploadTask = storageReference.putFile(_image);
     await storageUploadTask.onComplete;
     String downloadURL = await storageReference.getDownloadURL();
@@ -891,8 +894,8 @@ signupcom(username, password, first_name, last_name, phonenum, email, address,
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('${response.statusCode}'),
-            content: Text(utf8.decode(response.bodyBytes)),
+            title: Text('Notice'),
+            content: Text('Sign Up Success !'),
             actions: <Widget>[
               FlatButton(
                   onPressed: () {

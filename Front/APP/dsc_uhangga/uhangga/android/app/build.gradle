@@ -40,7 +40,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.uhangga"
+        applicationId "com.project.uhangga"
         minSdkVersion 23
         targetSdkVersion 29
         multiDexEnabled true
@@ -63,6 +63,7 @@ flutter {
 
 dependencies {
     implementation platform('com.google.firebase:firebase-bom:26.7.0')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.android.support:multidex:1.0.3'
 }

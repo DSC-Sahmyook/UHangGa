@@ -29,13 +29,13 @@ class _MainPage1State extends State<MainPage1> {
   Maincom maindata = Maincom();
   // Mainimglist mainlist = Mainimglist();
   List<Mainimglist> mainlist = [];
-  Signout signout = Signout();
 
   @override
   void initState() {
-    super.initState();
+    print(main.myNow.token);
     maincom();
     mainimgcom();
+    super.initState();
   }
 
   @override
@@ -424,9 +424,9 @@ class _MainPage1State extends State<MainPage1> {
                             Navigator.pushReplacement(
                                 context,
                                 CupertinoPageRoute(
-                                    builder: (context) => LoginPage()));
+                                    builder: (context) => MainPage1()));
                           },
-                          child: Text('Sign Out'))
+                          child: Text('Log Out'))
                     ],
                   );
                 });
@@ -456,13 +456,14 @@ class _MainPage1State extends State<MainPage1> {
                           },
                           child: Text('Change Profile Image')),
                       TextButton(
-                          onPressed: () {
+                          onPressed: () async {
+                            await logoutcom();
                             Navigator.pushReplacement(
                                 context,
                                 CupertinoPageRoute(
-                                    builder: (context) => LoginPage()));
+                                    builder: (context) => MainPage1()));
                           },
-                          child: Text('Sign Out'))
+                          child: Text('Log Out'))
                     ],
                   );
                 });
@@ -475,6 +476,7 @@ class _MainPage1State extends State<MainPage1> {
   Future getImage(ImageSource imageSource) async {
     var image = await ImagePicker.pickImage(source: imageSource);
 
+    if (image == null) return;
     setState(() {
       _image = image;
     });
@@ -483,6 +485,8 @@ class _MainPage1State extends State<MainPage1> {
   maincom() async {
     var jsonData = null;
     var response;
+
+    print("mainCom 불렀음");
 
     if (main.myNow.token != "") {
       // 로그인 했을때
@@ -501,7 +505,7 @@ class _MainPage1State extends State<MainPage1> {
         maindata = Maincom.fromJson(jsonData);
       });
     } else {
-      throw Exception('Something went wrong...');
+      throw Exception('Something went wrong... - MainCom Fail');
     }
   }
 
@@ -518,21 +522,23 @@ class _MainPage1State extends State<MainPage1> {
 
       setState(() {});
     } else {
-      throw Exception('Something went wrong...');
+      throw Exception('Something went wrong... - ImageList Fail');
     }
   }
 
-  signoutcom() async {
-    var jsonData2 = null;
-    var response = await http.delete('${main.address}/api/app/auth/logout/');
+  logoutcom() async {
+    var response = await http.delete('${main.address}/api/auth/logout/',
+        headers: <String, String>{
+          "Authorization": "Token ${main.myNow.token}"
+        });
 
     if (response.statusCode == 200) {
-      jsonData2 = json.decode(response.body);
       setState(() {
-        signout = Signout.fromJson(jsonData2);
+        main.myNow.token = "";
+        print("로그아웃 할때 ${main.myNow.token}");
       });
     } else {
-      throw Exception('Something went wrong... - Sign Out Fail');
+      throw Exception('Something went wrong... - Log Out Fail');
     }
   }
 }
@@ -578,16 +584,5 @@ class Mainimglist {
         name: json['name'],
         age: json['age'],
         url: json['photoUrl']);
-  }
-}
-
-class Signout {
-  String username;
-  String password;
-
-  Signout({this.username, this.password});
-
-  factory Signout.fromJson(Map<String, dynamic> json) {
-    return Signout(username: json['username'], password: json['password']);
   }
 }

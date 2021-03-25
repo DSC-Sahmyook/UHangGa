@@ -139,7 +139,11 @@ sp_dogItems(context) {
       onTap: () {
         // 디테일 페이지로
         Navigator.push(
-            context, CupertinoPageRoute(builder: (context) => specpage()));
+            context,
+            CupertinoPageRoute(
+                builder: (context) => specpage(
+                      postID: 2,
+                    )));
       },
     ),
   );
