@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "28507449695",
-    "project_id": "uhg-firebase",
-    "storage_bucket": "uhg-firebase.appspot.com"
+    "project_number": "1049580418688",
+    "project_id": "uhangga-firebase",
+    "storage_bucket": "uhangga-firebase.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:28507449695:android:6742b08953c97d2487aeea",
+        "mobilesdk_app_id": "1:1049580418688:android:e492d310367e0e1f209865",
         "android_client_info": {
-          "package_name": "com.example.uhangga"
+          "package_name": "com.project.uhangga"
         }
       },
       "oauth_client": [
         {
-          "client_id": "28507449695-2cp53elha9gt9knak06nv27qnd9qaqjg.apps.googleusercontent.com",
+          "client_id": "1049580418688-s4tk82s251fifoklt5qilvlu559ogi2e.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAIYvK6Lh2ESy3M-gODVzcKHgqeOSvx47A"
+          "current_key": "AIzaSyAqmDMS2gm9zm1qDid-I2McHM5iSLourSg"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "28507449695-2cp53elha9gt9knak06nv27qnd9qaqjg.apps.googleusercontent.com",
+              "client_id": "1049580418688-s4tk82s251fifoklt5qilvlu559ogi2e.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
