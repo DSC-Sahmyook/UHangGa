@@ -161,12 +161,26 @@ def post_dogs(request):
 
 #Posted List
 @api_view(['GET','POST'])
-def posteddogslist(request):
+def posteddogslist(request, gender, breed):
     if request.method == 'GET':
-        gender = [int(i) for i in gender]
-        posted_dogs = mo.PostedDogs.objects.filter(gender=dog_gender(gender[0], dogid=dog_id))
-        serializer = PostSerializer(posted_dogs, many=True)
-        return Response(serializer.data)
+
+        if request.data['gender'] == 0 and request.data['breed'] == 'None':
+            posted_dogs = mo.PostedDogs.objects.all()
+            serializer = PostSerializer(posted_dogs, many=True)
+            return Response(serializer.data)
+        elif request.data['gender'] == 0:
+            posted_dogs = mo.Dogs.object.filter(dogtype=breed)
+            PostSerializer(posted_dogs, many=True)
+            return Response(serializer.data)
+        elif request.data['breed'] == 'None':
+            gender = gender - 1
+            posted_dogs = mo.Dogs.objects.filter(gender=gender)
+            PostSerializer(posted_dogs, many=True)
+            return Response(serializer.data)
+        elif request.data['gender'] != 0 and request.data['dogtype']:
+            posted_dogs = mo.Dogs.objects.filter(gender=gender, dogtype=breed).order_by('-id')
+            serializer = PostSerializer(posted_dogs, many=True)
+            return Response(serializer.data)
 
 
     elif request.method == 'POST':
