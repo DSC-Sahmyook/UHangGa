@@ -809,10 +809,13 @@ class _SignUpApproveState extends State<SignUpApprove> {
                     ),
                     onPressed: () {
                       Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                              builder: (context) =>
-                                  MbtiTestPage_Start())); //p_test 페이지로 이동예정
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) => MbtiTestPage_Start(
+                            isPerson: true,
+                          ),
+                        ),
+                      ); //p_test 페이지로 이동예정
                     },
                   ),
                 ),

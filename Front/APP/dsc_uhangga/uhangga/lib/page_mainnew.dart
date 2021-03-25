@@ -85,8 +85,8 @@ class _MainPage1State extends State<MainPage1> {
                         decoration: TextDecoration.underline),
                   ),
                   onTap: () {
-                    Navigator.push(context,
-                        CupertinoPageRoute(builder: (context) => ResultPage()));
+                    // Navigator.push(context,
+                    //     CupertinoPageRoute(builder: (context) => ResultPage()));
                   },
                 ),
                 top: 315,
