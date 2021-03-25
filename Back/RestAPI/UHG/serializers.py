@@ -107,11 +107,15 @@ class MainDogsList_Serializer(serializers.ModelSerializer):
     photoUrl = serializers.SerializerMethodField()
 
     def get_photoUrl(self, obj):
-        return mo.Dogsphotos.objects.get(num=str(obj.photoid)).url
+        try:
+            return mo.Dogsphotos.objects.filter(num=obj.photoid)[0].url
+        except Exception:
+            return ''
 
     class Meta:
         model = mo.Dogs
         fields = (
+            'id',
             'name',
             'age',
             'photoUrl'

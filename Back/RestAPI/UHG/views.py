@@ -167,9 +167,9 @@ def posteddogslist(request):
         posted_dogs = mo.PostedDogs.objects.filter(gender=dog_gender(gender[0], dogid=dog_id))
         serializer = PostSerializer(posted_dogs, many=True)
         return Response(serializer.data)
-    
 
-    elif request.method == 'POST': 
+
+    elif request.method == 'POST':
         serializer = PostSerializer(data=request.data)
         isAnony = True
         if request.user != None:
@@ -230,7 +230,7 @@ def main_data(request):
 @api_view(['GET'])
 def main_list(request):
     # 리스트(이름, 나이, 사진)
-    dogList = mo.Dogs.objects.filter(isadopted=False).order_by('-id')[:5]
+    dogList = mo.Dogs.objects.filter(isadopted=False).order_by('-id')[:6]
     dogList_se = se.MainDogsList_Serializer(dogList, many=True)
     if dogList_se:
         return Response(dogList_se.data, status=status.HTTP_200_OK)
