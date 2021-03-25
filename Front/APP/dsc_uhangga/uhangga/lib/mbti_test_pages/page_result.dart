@@ -12,24 +12,43 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class Result {
-  List<String> answer;
-  bool isperson;
+  List<String> answers;
+  bool isPerson;
 
-  Result({this.answer, this.isperson});
+  Result({this.answers, this.isPerson});
 
   factory Result.fromJson(Map<String, dynamic> json) {
     return Result(
-      answer: json['answer'],
-      isperson: json['isperson'],
+      answers: json['answers'],
+      isPerson: json['isPerson'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['answer'] = "[${this.answers.join(',')}]";
+    data['isPerson'] = "${this.isPerson}";
+    return data;
   }
 }
 
-bool isLoading = true;
-
-class ResultLoadingPage extends StatelessWidget {
+class ResultLoadingPage extends StatefulWidget {
   final Result result;
   ResultLoadingPage({@required this.result});
+
+  @override
+  _ResultLoadingPageState createState() => _ResultLoadingPageState();
+}
+
+class _ResultLoadingPageState extends State<ResultLoadingPage> {
+  MbtiResult _mbtiResult;
+
+  @override
+  void initState() {
+    // 통신 기능
+    loadMbtiResult(widget.result);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +70,7 @@ class ResultLoadingPage extends StatelessWidget {
               context,
               PageTransition(
                 type: PageTransitionType.fade,
-                child: ResultPage(),
+                child: ResultPage(mbtiName: _mbtiResult.character),
               ),
             );
           },
@@ -59,147 +78,216 @@ class ResultLoadingPage extends StatelessWidget {
       ),
     );
   }
+
+  // mbti 결과값 받기
+  loadMbtiResult(Result answer) async {
+    var response;
+
+    var data = answer.toJson();
+
+    if (answer.isPerson) {
+      // 사람일때(헤더 포함해서 보내기)
+      response = await http.post('${main.address}/api/mbti/result/',
+          body: data,
+          headers: <String, String>{
+            "Authorization": "Token ${main.myNow.token}"
+          });
+    } else {
+      // 사람이 아닐때
+      response = await http.post(
+        '${main.address}/api/mbti/result/',
+        body: data,
+      );
+    }
+
+    if (response.statusCode == 200) {
+      var jsonData = json.decode(utf8.decode(response.bodyBytes));
+      setState(() {
+        _mbtiResult = MbtiResult.fromJson(jsonData);
+      });
+    } else {
+      throw Exception('Faild to load Get');
+    }
+  }
 }
 
-class ResultPage extends StatelessWidget {
+class MbtiResult {
+  int id;
+  String character;
+  String url;
+  String comment;
+  String partner_type;
+
+  MbtiResult({
+    this.id,
+    this.character,
+    this.url,
+    this.comment,
+    this.partner_type,
+  });
+
+  factory MbtiResult.fromJson(Map<String, dynamic> json) {
+    return MbtiResult(
+      id: json['id'],
+      character: json['character'],
+      url: json['url'],
+      comment: json['comment'],
+      partner_type: json['partner_type'],
+    );
+  }
+}
+
+class ResultPage extends StatefulWidget {
+  final String mbtiName;
+  ResultPage({@required this.mbtiName});
+
+  @override
+  _ResultPageState createState() => _ResultPageState();
+}
+
+class _ResultPageState extends State<ResultPage> {
+  MbtiResult _mbtiResult;
+  bool _isLoading = true;
+
+  @override
+  initState() {
+    loadMbtiResult(widget.mbtiName);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: main.themeColor,
       appBar: sp_appBar(context),
-      body: Column(
+      body: _isLoading
+          ? Center(
+              child: CircularProgressIndicator(
+              valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
+            ))
+          : Column(
+              children: [
+                Expanded(
+                  flex: 5,
+                  child: sp_topStack(),
+                ),
+                Expanded(
+                  flex: 10,
+                  child: sp_whiteBox(context),
+                ),
+              ],
+            ),
+    );
+  }
+
+  // 이름으로 받아서 조회하는 기능 넣기
+  // mbti 결과값 받기
+  loadMbtiResult(String mbtiName) async {
+    var response;
+
+    response = await http.get('${main.address}/api/mbti/detail/$mbtiName/');
+
+    if (response.statusCode == 200) {
+      var jsonData = json.decode(utf8.decode(response.bodyBytes));
+      setState(() {
+        _mbtiResult = MbtiResult.fromJson(jsonData);
+        _isLoading = false;
+      });
+    } else {
+      throw Exception('Faild to load Get');
+    }
+  }
+
+  sp_appBar(context) {
+    return AppBar(
+      elevation: 0,
+      leading: IconButton(
+        icon: Icon(
+          Icons.home,
+          size: 35,
+        ),
+        onPressed: () {
+          // 메인페이지로 넘어가는 코드
+          Navigator.pushReplacement(
+            context,
+            PageTransition(
+              child: MainPage1(),
+              type: PageTransitionType.rightToLeft,
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  sp_topStack() {
+    return Container(
+      child: Stack(
+        alignment: AlignmentDirectional.bottomStart,
         children: [
-          Expanded(
-            flex: 5,
-            child: sp_topStack(),
+          // 이미지
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Expanded(
+                  child: Image.asset('lib/assets/pics/enfp.png'),
+                ),
+                // 나중에 일러 넣고나면 주석 풀어주셈
+                // Expanded(
+                //   child: Image.network('lib/assets/pics/enfp.png'),
+                // ),
+                SizedBox(
+                  height: 70,
+                ),
+              ],
+            ),
           ),
-          Expanded(
-            flex: 10,
-            child: sp_whiteBox(context),
+          // Text
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 100),
+                Text(
+                  "You are",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 25,
+                  ),
+                ),
+                Text(
+                  "${_mbtiResult.character}",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  'Best partner is ${_mbtiResult.partner_type}',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                  ),
+                )
+              ],
+            ),
           ),
         ],
       ),
     );
   }
-}
 
-sp_appBar(context) {
-  return AppBar(
-    elevation: 0,
-    leading: IconButton(
-      icon: Icon(
-        Icons.home,
-        size: 35,
-      ),
-      onPressed: () {
-        // 메인페이지로 넘어가는 코드
-        Navigator.pushReplacement(
-          context,
-          PageTransition(
-            child: MainPage1(),
-            type: PageTransitionType.rightToLeft,
-          ),
-        );
-      },
-    ),
-  );
-}
-
-sp_topStack() {
-  return Container(
-    child: Stack(
-      alignment: AlignmentDirectional.bottomStart,
-      children: [
-        // 이미지
-        Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Expanded(
-                child: Image.asset('lib/assets/pics/enfp.png'),
-              ),
-              SizedBox(
-                height: 70,
-              ),
-            ],
-          ),
-        ),
-        // Text
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 100),
-              Text(
-                "You are",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 25,
-                ),
-              ),
-              Text(
-                "Devoted Theresa",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text(
-                'Best partner is Birthday prince',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                ),
-              )
-            ],
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-sp_whiteBox(context) {
-  return Container(
-    color: Colors.white,
-    child: Column(
-      children: [
-        SizedBox(height: 20),
-        // Keyword
-        Expanded(
-          child: Column(
-            children: [
-              SizedBox(height: 10),
-              Row(
-                children: [
-                  SizedBox(width: 20),
-                  Icon(
-                    Icons.circle,
-                    color: main.themeColor,
-                    size: 15,
-                  ),
-                  SizedBox(width: 10),
-                  Text(
-                    'Keyword',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
-                  ),
-                ],
-              ),
-              Image.asset(
-                'lib/assets/pics/emotion.png',
-                height: 90,
-              ),
-            ],
-          ),
-        ),
-        // About you
-        Expanded(
-          child: Container(
+  sp_whiteBox(context) {
+    return Container(
+      color: Colors.white,
+      child: Column(
+        children: [
+          SizedBox(height: 20),
+          // Keyword
+          Expanded(
             child: Column(
               children: [
                 SizedBox(height: 10),
@@ -213,7 +301,7 @@ sp_whiteBox(context) {
                     ),
                     SizedBox(width: 10),
                     Text(
-                      'About you',
+                      'Keyword',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
@@ -221,120 +309,129 @@ sp_whiteBox(context) {
                     ),
                   ],
                 ),
-                Padding(
-                  padding:
-                      const EdgeInsets.only(left: 30.0, right: 30.0, top: 5.0),
-                  child: Text(
-                    'He is a puppy who gets along well with children and is kind to strangers. I feel happy in my relationship with my pet and I have a lot of reactions. If your companion is busy, you may have to sulk and soothe him!',
-                    style: TextStyle(fontSize: 15),
-                  ),
+                Image.asset(
+                  'lib/assets/pics/emotion.png',
+                  height: 90,
                 ),
               ],
             ),
           ),
-        ),
-        // Btns
-        Expanded(
-          child: Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ButtonTheme(
-                  height: 60,
-                  minWidth: 330,
-                  child: FlatButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0)),
-
-                    // 클릭 컬러
-                    color: main.themeColor,
-
-                    child: Text(
-                      "Registration",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    onPressed: () {
-                      // Dogs List로
-                      Navigator.push(
-                        context,
-                        PageTransition(
-                          child: DogListPage(),
-                          type: PageTransitionType.bottomToTop,
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                SizedBox(height: 10),
-                ButtonTheme(
-                  height: 60,
-                  minWidth: 330,
-                  child: OutlineButton(
-                    borderSide: BorderSide(
-                      color: main.themeColor,
-                      width: 2,
-                    ),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0)),
-
-                    // 클릭 컬러
-                    highlightColor: main.themeColor,
-                    highlightedBorderColor: main.themeColor,
-                    splashColor: main.themeColor,
-
-                    child: Text(
-                      "Try again",
-                      style: TextStyle(
+          // About you
+          Expanded(
+            child: Container(
+              child: Column(
+                children: [
+                  SizedBox(height: 10),
+                  Row(
+                    children: [
+                      SizedBox(width: 20),
+                      Icon(
+                        Icons.circle,
                         color: main.themeColor,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                        size: 15,
                       ),
-                    ),
-                    onPressed: () {
-                      // 다시 검사페이지로
-                      Navigator.pushReplacement(
-                        context,
-                        PageTransition(
-                          child: MbtiTestPage_Start(),
-                          type: PageTransitionType.leftToRight,
+                      SizedBox(width: 10),
+                      Text(
+                        'About you',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
                         ),
-                      );
-                    },
+                      ),
+                    ],
                   ),
-                ),
-                SizedBox(height: 10),
-              ],
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 30.0, right: 30.0, top: 5.0),
+                    child: Text(
+                      '${_mbtiResult.comment}',
+                      style: TextStyle(fontSize: 15),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-      ],
-    ),
-  );
-}
+          // Btns
+          Expanded(
+            child: Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ButtonTheme(
+                    height: 60,
+                    minWidth: 330,
+                    child: FlatButton(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0)),
 
-class TestCom {
-  List<String> answer = [];
-  bool isperson;
+                      // 클릭 컬러
+                      color: main.themeColor,
 
-  TestCom({this.answer, this.isperson});
-}
+                      child: Text(
+                        "Registration",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      onPressed: () {
+                        // Dogs List로
+                        Navigator.push(
+                          context,
+                          PageTransition(
+                            child: DogListPage(),
+                            type: PageTransitionType.bottomToTop,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  ButtonTheme(
+                    height: 60,
+                    minWidth: 330,
+                    child: OutlineButton(
+                      borderSide: BorderSide(
+                        color: main.themeColor,
+                        width: 2,
+                      ),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0)),
 
-testcom(answer, isperson) async {
-  Map data = {'answer': answer, 'isperson': isperson};
+                      // 클릭 컬러
+                      highlightColor: main.themeColor,
+                      highlightedBorderColor: main.themeColor,
+                      splashColor: main.themeColor,
 
-  print(data);
-
-  var jsonData = null;
-  var response =
-      await http.post('${main.address}/api/mbti/result/', body: data);
-
-  if (response.statusCode == 200) {
-    jsonData = json.decode(response.body);
-  } else {
-    throw Exception('Something went wrong... Test Fail');
+                      child: Text(
+                        "Try again",
+                        style: TextStyle(
+                          color: main.themeColor,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      onPressed: () {
+                        // 다시 검사페이지로
+                        Navigator.pushReplacement(
+                          context,
+                          PageTransition(
+                            child: MbtiTestPage_Start(),
+                            type: PageTransitionType.leftToRight,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

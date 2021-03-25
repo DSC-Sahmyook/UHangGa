@@ -8,6 +8,9 @@ import 'package:page_transition/page_transition.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class MbtiTestPage_Start extends StatelessWidget {
+  final bool isPerson;
+  MbtiTestPage_Start({@required this.isPerson});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +34,7 @@ class MbtiTestPage_Start extends StatelessWidget {
                     sp_Text(),
                     // 스타트 버튼
                     SizedBox(height: 70),
-                    sp_StartBtn(context),
+                    sp_StartBtn(context, isPerson),
                   ],
                 ),
               ),
@@ -110,7 +113,7 @@ sp_Text() {
 }
 
 // 스타트버튼
-sp_StartBtn(context) {
+sp_StartBtn(context, isPersion) {
   return ButtonTheme(
     minWidth: 300.0,
     height: 80.0,
@@ -129,7 +132,11 @@ sp_StartBtn(context) {
       onPressed: () {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => MbtiTestPage_Ing()),
+          MaterialPageRoute(
+            builder: (context) => MbtiTestPage_Ing(
+              isPerson: isPersion,
+            ),
+          ),
         );
       },
     ),
@@ -139,9 +146,11 @@ sp_StartBtn(context) {
 int textCount = 0;
 bool isFirst = true;
 List<String> selectAnswers = [];
-bool isperson = true;
 
 class MbtiTestPage_Ing extends StatelessWidget {
+  final bool isPerson;
+  MbtiTestPage_Ing({@required this.isPerson});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -154,7 +163,7 @@ class MbtiTestPage_Ing extends StatelessWidget {
             // Question Text
             Expanded(
               child: Center(
-                child: sp_Question(textCount),
+                child: sp_Question(textCount, isPerson),
               ),
             ),
 
@@ -164,9 +173,9 @@ class MbtiTestPage_Ing extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  sp_Btn(textCount, 'A', context),
+                  sp_Btn(textCount, 'A', context, isPerson),
                   SizedBox(height: 20),
-                  sp_Btn(textCount, 'B', context),
+                  sp_Btn(textCount, 'B', context, isPerson),
                 ],
               ),
             ),
@@ -179,140 +188,143 @@ class MbtiTestPage_Ing extends StatelessWidget {
       ),
     );
   }
-}
 
 // Question Text
-sp_Question(index) {
-  return Text(
-    isperson ? Per_Q_item[index] : Dog_Q_item[index],
-    textAlign: TextAlign.center,
-    style: TextStyle(
-      fontSize: 35,
-      fontWeight: FontWeight.bold,
-    ),
-  );
-}
-
-// Button
-sp_Btn(index, choice, context) {
-  List<Widget> textItem;
-  TextStyle title = TextStyle(
-    fontSize: 25,
-    fontWeight: FontWeight.bold,
-  );
-  TextStyle subtitle = TextStyle(
-    fontSize: 15,
-    color: Colors.grey,
-  );
-
-  if (choice == 'A') {
-    textItem = [
-      Text(
-        isperson ? Per_A_item[index] : Dog_A_item[index],
-        style: title,
-        textAlign: TextAlign.center,
+  sp_Question(index, _isPerson) {
+    return Text(
+      _isPerson ? Per_Q_item[index] : Dog_Q_item[index],
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontSize: 35,
+        fontWeight: FontWeight.bold,
       ),
-      Text(
-        isperson ? Per_As_item[index] : Dog_As_item[index],
-        style: subtitle,
-        textAlign: TextAlign.center,
-      )
-    ];
-  } else if (choice == 'B') {
-    textItem = [
-      Text(
-        isperson ? Per_B_item[index] : Dog_B_item[index],
-        style: title,
-        textAlign: TextAlign.center,
-      ),
-      Text(
-        isperson ? Per_Bs_item[index] : Dog_Bs_item[index],
-        style: subtitle,
-        textAlign: TextAlign.center,
-      )
-    ];
+    );
   }
 
-  // return ButtonTheme(
-  //   height: 130,
-  //   minWidth: 350,
-  //   child: OutlineButton(
-  //     // 테두리
-  //     borderSide: BorderSide(color: main.themeColor, width: 5),
-  //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+// Button
+  sp_Btn(index, choice, context, _isPerson) {
+    List<Widget> textItem;
+    TextStyle title = TextStyle(
+      fontSize: 25,
+      fontWeight: FontWeight.bold,
+    );
+    TextStyle subtitle = TextStyle(
+      fontSize: 15,
+      color: Colors.grey,
+    );
 
-  //     // 클릭 컬러
-  //     highlightColor: main.themeColor,
-  //     highlightedBorderColor: main.themeColor,
-  //     splashColor: main.themeColor,
+    if (choice == 'A') {
+      textItem = [
+        Text(
+          _isPerson ? Per_A_item[index] : Dog_A_item[index],
+          style: title,
+          textAlign: TextAlign.center,
+        ),
+        Text(
+          _isPerson ? Per_As_item[index] : Dog_As_item[index],
+          style: subtitle,
+          textAlign: TextAlign.center,
+        )
+      ];
+    } else if (choice == 'B') {
+      textItem = [
+        Text(
+          _isPerson ? Per_B_item[index] : Dog_B_item[index],
+          style: title,
+          textAlign: TextAlign.center,
+        ),
+        Text(
+          _isPerson ? Per_Bs_item[index] : Dog_Bs_item[index],
+          style: subtitle,
+          textAlign: TextAlign.center,
+        )
+      ];
+    }
 
-  //     child: Column(
-  //       children: textItem,
-  //     ),
-  //     onPressed: () {
-  //       // 다음껄로 넘어가기
-  //       if (choice == 'A') {
-  //         isFirst = false;
-  //         textCount++;
-  //         selectAnswers.add('A');
-  //         if (textCount >= 12) {
-  //           isFirst = true;
-  //           textCount = 0;
-  //           selectAnswers = [];
-  //           final result = res.Result(selectAnswers, true);
-  //           Navigator.pushReplacement(
-  //             context,
-  //             PageTransition(
-  //               type: PageTransitionType.rightToLeft,
-  //               child: res.ResultLoadingPage(result: result),
-  //             ),
-  //           );
-  //         } else {
-  //           Navigator.push(
-  //             context,
-  //             PageTransition(
-  //               type: PageTransitionType.fade,
-  //               child: MbtiTestPage_Ing(),
-  //             ),
-  //           );
-  //         }
-  //       } else if (choice == 'B') {
-  //         isFirst = false;
-  //         textCount++;
-  //         selectAnswers.add('B');
-  //         if (textCount >= 12) {
-  //           isFirst = true;
-  //           textCount = 0;
-  //           selectAnswers = [];
-  //           final result = res.Result(selectAnswers, true);
-  //           Navigator.pushReplacement(
-  //             context,
-  //             PageTransition(
-  //               type: PageTransitionType.rightToLeft,
-  //               child: res.ResultLoadingPage(result: result),
-  //             ),
-  //           );
-  //         } else {
-  //           Navigator.push(
-  //             context,
-  //             PageTransition(
-  //               type: PageTransitionType.fade,
-  //               child: MbtiTestPage_Ing(),
-  //             ),
-  //           );
-  //         }
-  //       }
-  //     },
-  //   ),
-  // );
-}
+    return ButtonTheme(
+      height: 130,
+      minWidth: 400,
+      child: OutlineButton(
+        // 테두리
+        borderSide: BorderSide(color: main.themeColor, width: 5),
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+
+        // 클릭 컬러
+        highlightColor: main.themeColor,
+        highlightedBorderColor: main.themeColor,
+        splashColor: main.themeColor,
+
+        child: Column(
+          children: textItem,
+        ),
+        onPressed: () {
+          // 다음껄로 넘어가기
+          if (choice == 'A') {
+            isFirst = false;
+            textCount++;
+            selectAnswers.add('1');
+            if (textCount >= 12) {
+              final myresult =
+                  res.Result(answers: selectAnswers, isPerson: _isPerson);
+              isFirst = true;
+              textCount = 0;
+              selectAnswers = [];
+              Navigator.pushReplacement(
+                context,
+                PageTransition(
+                  type: PageTransitionType.rightToLeft,
+                  child: res.ResultLoadingPage(result: myresult),
+                ),
+              );
+            } else {
+              Navigator.push(
+                context,
+                PageTransition(
+                  type: PageTransitionType.fade,
+                  child: MbtiTestPage_Ing(isPerson: _isPerson),
+                ),
+              );
+            }
+          } else if (choice == 'B') {
+            isFirst = false;
+            textCount++;
+            selectAnswers.add('2');
+            if (textCount >= 12) {
+              final myresult =
+                  res.Result(answers: selectAnswers, isPerson: _isPerson);
+              isFirst = true;
+              textCount = 0;
+              selectAnswers = [];
+              Navigator.pushReplacement(
+                context,
+                PageTransition(
+                  type: PageTransitionType.rightToLeft,
+                  child: res.ResultLoadingPage(result: myresult),
+                ),
+              );
+            } else {
+              Navigator.push(
+                context,
+                PageTransition(
+                  type: PageTransitionType.fade,
+                  child: MbtiTestPage_Ing(isPerson: _isPerson),
+                ),
+              );
+            }
+          }
+        },
+      ),
+    );
+  }
 
 // ProgressBar
-sp_ProgressBar(textCount) {
-  return LinearPercentIndicator(
-    lineHeight: 10,
-    percent: (textCount / 12), // 퍼센트 계산하기
-    backgroundColor: Color(0xffF9D7C5),
-    progressColor: main.themeColor,
-  );
+  sp_ProgressBar(textCount) {
+    return LinearPercentIndicator(
+      lineHeight: 10,
+      percent: (textCount / 12), // 퍼센트 계산하기
+      backgroundColor: Color(0xffF9D7C5),
+      progressColor: main.themeColor,
+    );
+  }
 }
