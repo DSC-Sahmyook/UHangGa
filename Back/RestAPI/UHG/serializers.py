@@ -141,7 +141,7 @@ class TestMBTI(serializers.ModelSerializer):
 
     class Meta:
         model = mo.Characters
-        fields = ('id', 'character', 'url', 'partner_type')
+        fields = ('id', 'character', 'url', 'comment', 'partner_type')
 
 
 # ---------------------------------------------

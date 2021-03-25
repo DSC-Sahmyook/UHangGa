@@ -28,5 +28,6 @@ urlpatterns = format_suffix_patterns([
 
     # MBTI
     path('mbti/result/', views.resultOfMBTI),
+    path('mbti/detail/<str:mbtiName>/', views.getMbtiDetail),
     path('posts/<int:id>/', views.getDetail),
 ])

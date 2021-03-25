@@ -11,6 +11,7 @@ class Characters(models.Model):
     # id = models.IntegerField(primary_key=True)
     character = models.TextField()
     url = models.TextField()
+    comment = models.TextField()
     partner = models.ForeignKey('Characters', on_delete=models.CASCADE)
 
     #def __str__(self):

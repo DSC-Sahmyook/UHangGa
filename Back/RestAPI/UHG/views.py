@@ -241,7 +241,9 @@ def main_list(request):
 # mbti 테스트 결과 페이지
 @api_view(['POST'])
 def resultOfMBTI(request):
-    if request.data['isperson'] == "true":
+    print(request.data)
+
+    if request.data['isPerson'] == "true":
         result = getMBTI.getMBTI(request.data['answer'], True).__str__()
         result_obj = mo.Characters.objects.get(character=result)
         result_se = se.TestMBTI(result_obj)
@@ -293,3 +295,13 @@ def getDetail(request, id):
     if detail_se.is_valid():
         return Response(detail_se.data, status=status.HTTP_200_OK)
     return Response(detail_se.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["GET"])
+def getMbtiDetail(request, mbtiName):
+    try:
+        requestMbti = mo.Characters.objects.get(character=mbtiName)
+        requestMbti_se = se.TestMBTI(requestMbti)
+        return Response(requestMbti_se.data, status=status.HTTP_200_OK)
+    except Exception as e:
+        return Response(e, status=status.HTTP_400_BAD_REQUEST)
