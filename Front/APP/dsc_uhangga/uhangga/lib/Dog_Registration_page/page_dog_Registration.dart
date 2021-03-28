@@ -1,3 +1,4 @@
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
@@ -17,6 +18,8 @@ enum Vaccinations { Yes, No }
 class _DogRegPageState extends State<DogRegiPage> {
   bool isGirl = false;
   bool isBoy = false;
+  var _firebaseStorage = FirebaseStorage.instance;
+  String _posteddogImageURL = '';
 
   Vaccinations _vaccinations = Vaccinations.No;
 
@@ -59,11 +62,22 @@ class _DogRegPageState extends State<DogRegiPage> {
   }
 
   // 이미지 가져오기
-  getGalleryImage() async {
-    // ignore: deprecated_member_use
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+  void _uploadImageToStorage(ImageSource source) async {
+    File image = await ImagePicker.pickImage(source: source);
+
+    if (image == null) return;
     setState(() {
       _image = image;
+    });
+
+    StorageReference storageReference =
+        _firebaseStorage.ref().child("posted_dog/${DateTime.now().toString()}");
+    StorageUploadTask storageUploadTask = storageReference.putFile(_image);
+    await storageUploadTask.onComplete;
+    String downloadURL = await storageReference.getDownloadURL();
+
+    setState(() {
+      _posteddogImageURL = downloadURL;
     });
   }
 
@@ -75,16 +89,35 @@ class _DogRegPageState extends State<DogRegiPage> {
       minWidth: 500,
       // ignore: deprecated_member_use
       child: FlatButton(
-        color: _image == null ? themeColor : Colors.white,
-        child: _image == null
-            ? Icon(
-                Icons.photo_camera,
-                color: Color(0x77ffffff),
-                size: 40,
-              )
-            : Image.file(_image),
-        onPressed: getGalleryImage,
-      ),
+          color: _image == null ? themeColor : Colors.white,
+          child: _image == null
+              ? Icon(
+                  Icons.photo_camera,
+                  color: Color(0x77ffffff),
+                  size: 40,
+                )
+              : Image.network(_posteddogImageURL),
+          onPressed: () {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text('Choose your image source'),
+                    actions: [
+                      TextButton(
+                          onPressed: () {
+                            _uploadImageToStorage(ImageSource.camera);
+                          },
+                          child: Text('Camera')),
+                      TextButton(
+                          onPressed: () {
+                            _uploadImageToStorage(ImageSource.gallery);
+                          },
+                          child: Text('Gallery'))
+                    ],
+                  );
+                });
+          }),
     );
   }
 
@@ -425,7 +458,9 @@ class _DogRegPageState extends State<DogRegiPage> {
                 Navigator.pushReplacement(
                   context,
                   PageTransition(
-                    child: MbtiTestPage_Start(),
+                    child: MbtiTestPage_Start(
+                      isPerson: false,
+                    ),
                     type: PageTransitionType.rightToLeft,
                   ),
                 );

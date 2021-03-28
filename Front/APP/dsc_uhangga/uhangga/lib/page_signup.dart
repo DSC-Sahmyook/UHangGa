@@ -401,8 +401,25 @@ class _AddPhotoState extends State<AddPhoto> {
       return IconButton(
         icon: Icon(Icons.account_circle_rounded),
         onPressed: () {
-          _uploadImageToStorage(ImageSource.camera);
-          print(_profileImageURL);
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text('Choose your image source'),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          _uploadImageToStorage(ImageSource.camera);
+                        },
+                        child: Text('Camera')),
+                    TextButton(
+                        onPressed: () {
+                          _uploadImageToStorage(ImageSource.gallery);
+                        },
+                        child: Text('Gallery'))
+                  ],
+                );
+              });
         },
         iconSize: 100.0,
       );
@@ -812,13 +829,11 @@ class _SignUpApproveState extends State<SignUpApprove> {
                     ),
                     onPressed: () {
                       Navigator.push(
-                        context,
-                        CupertinoPageRoute(
-                          builder: (context) => MbtiTestPage_Start(
-                            isPerson: true,
-                          ),
-                        ),
-                      ); //p_test 페이지로 이동예정
+                          context,
+                          CupertinoPageRoute(
+                              builder: (context) => MbtiTestPage_Start(
+                                    isPerson: true,
+                                  ))); //p_test 페이지로 이동예정
                     },
                   ),
                 ),

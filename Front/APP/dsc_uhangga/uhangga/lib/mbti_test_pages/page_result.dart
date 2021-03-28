@@ -418,7 +418,9 @@ class _ResultPageState extends State<ResultPage> {
                         Navigator.pushReplacement(
                           context,
                           PageTransition(
-                            child: MbtiTestPage_Start(),
+                            child: MbtiTestPage_Start(
+                              isPerson: true,
+                            ),
                             type: PageTransitionType.leftToRight,
                           ),
                         );
