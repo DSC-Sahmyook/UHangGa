@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:convert';
 import 'dart:ui';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
@@ -26,6 +27,8 @@ class MainPage1 extends StatefulWidget {
 
 class _MainPage1State extends State<MainPage1> {
   File _image;
+  var _firebaseStorage = FirebaseStorage.instance;
+  String _profileImageURL = '';
   Maincom maindata = Maincom();
   // Mainimglist mainlist = Mainimglist();
   List<Mainimglist> mainlist = [];
@@ -85,8 +88,11 @@ class _MainPage1State extends State<MainPage1> {
                         decoration: TextDecoration.underline),
                   ),
                   onTap: () {
-                    // Navigator.push(context,
-                    //     CupertinoPageRoute(builder: (context) => ResultPage()));
+                    Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                            builder: (context) => ResultPage(
+                                mbtiName: maindata.partnerType_name)));
                   },
                 ),
                 top: 315,
@@ -416,7 +422,7 @@ class _MainPage1State extends State<MainPage1> {
                     actions: [
                       TextButton(
                           onPressed: () {
-                            getImage(ImageSource.gallery);
+                            _uploadImageToStorage(ImageSource.gallery);
                           },
                           child: Text('Change Profile Image')),
                       TextButton(
@@ -452,7 +458,27 @@ class _MainPage1State extends State<MainPage1> {
                     actions: [
                       TextButton(
                           onPressed: () {
-                            getImage(ImageSource.gallery);
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Choose your image source'),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () {
+                                            _uploadImageToStorage(
+                                                ImageSource.camera);
+                                          },
+                                          child: Text('Camera')),
+                                      TextButton(
+                                          onPressed: () {
+                                            _uploadImageToStorage(
+                                                ImageSource.gallery);
+                                          },
+                                          child: Text('Gallery'))
+                                    ],
+                                  );
+                                });
                           },
                           child: Text('Change Profile Image')),
                       TextButton(
@@ -473,12 +499,23 @@ class _MainPage1State extends State<MainPage1> {
     }
   }
 
-  Future getImage(ImageSource imageSource) async {
-    var image = await ImagePicker.pickImage(source: imageSource);
+  void _uploadImageToStorage(ImageSource source) async {
+    File image = await ImagePicker.pickImage(source: source);
 
     if (image == null) return;
     setState(() {
       _image = image;
+    });
+
+    StorageReference storageReference = _firebaseStorage
+        .ref()
+        .child("user_profile/${DateTime.now().toString()}");
+    StorageUploadTask storageUploadTask = storageReference.putFile(_image);
+    await storageUploadTask.onComplete;
+    String downloadURL = await storageReference.getDownloadURL();
+
+    setState(() {
+      _profileImageURL = downloadURL;
     });
   }
 
