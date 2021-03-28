@@ -161,25 +161,25 @@ def post_dogs(request):
 
 #Posted List
 @api_view(['GET','POST'])
-def posteddogslist(request, gender, breed):
+def posteddogslist(request, realgender, breed):
     if request.method == 'GET':
-
-        if request.data['gender'] == 0 and request.data['breed'] == 'None':
+        if realgender == 0 and breed == 'None':
             posted_dogs = mo.PostedDogs.objects.all()
             serializer = PostSerializer(posted_dogs, many=True)
             return Response(serializer.data)
-        elif request.data['gender'] == 0:
-            posted_dogs = mo.Dogs.object.filter(dogtype=breed)
-            PostSerializer(posted_dogs, many=True)
+        elif realgender == 0:
+            posted_dogs = mo.Dogs.objects.filter(dogtype=breed)
+            serializer = DogsSerializer(posted_dogs, many=True)
             return Response(serializer.data)
-        elif request.data['breed'] == 'None':
-            gender = gender - 1
-            posted_dogs = mo.Dogs.objects.filter(gender=gender)
-            PostSerializer(posted_dogs, many=True)
+        elif breed == 'None':
+            realgender = realgender - 1
+            posted_dogs = mo.Dogs.objects.filter(gender=realgender)
+            serializer = DogsSerializer(posted_dogs, many=True)
             return Response(serializer.data)
-        elif request.data['gender'] != 0 and request.data['dogtype']:
-            posted_dogs = mo.Dogs.objects.filter(gender=gender, dogtype=breed).order_by('-id')
-            serializer = PostSerializer(posted_dogs, many=True)
+        elif realgender != 0 and breed != 'None':
+            realgender = realgender - 1
+            posted_dogs = mo.Dogs.objects.filter(gender=realgender, dogtype=breed).order_by('-id')
+            serializer = DogsSerializer(posted_dogs, many=True)
             return Response(serializer.data)
 
 
