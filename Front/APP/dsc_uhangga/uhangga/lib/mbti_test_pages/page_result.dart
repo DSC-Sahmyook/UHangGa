@@ -70,7 +70,11 @@ class _ResultLoadingPageState extends State<ResultLoadingPage> {
               context,
               PageTransition(
                 type: PageTransitionType.fade,
-                child: ResultPage(mbtiName: _mbtiResult.character),
+                child: ResultPage(
+                  mbtiName: _mbtiResult.character,
+                  isPerson: widget.result.isPerson,
+                  isInfo: false,
+                ),
               ),
             );
           },
@@ -139,7 +143,10 @@ class MbtiResult {
 
 class ResultPage extends StatefulWidget {
   final String mbtiName;
-  ResultPage({@required this.mbtiName});
+  final bool isInfo;
+  final bool isPerson;
+
+  ResultPage({@required this.mbtiName, this.isInfo, this.isPerson});
 
   @override
   _ResultPageState createState() => _ResultPageState();
@@ -352,86 +359,89 @@ class _ResultPageState extends State<ResultPage> {
               ),
             ),
           ),
-          // Btns
-          Expanded(
-            child: Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ButtonTheme(
-                    height: 60,
-                    minWidth: 330,
-                    child: FlatButton(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0)),
 
-                      // 클릭 컬러
-                      color: main.themeColor,
+          widget.isInfo
+              ? Spacer()
+              : Expanded(
+                  // Btns
+                  child: Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ButtonTheme(
+                          height: 60,
+                          minWidth: 330,
+                          child: FlatButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0)),
 
-                      child: Text(
-                        "Registration",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      onPressed: () {
-                        // Dogs List로
-                        Navigator.push(
-                          context,
-                          PageTransition(
-                            child: DogListPage(),
-                            type: PageTransitionType.bottomToTop,
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  ButtonTheme(
-                    height: 60,
-                    minWidth: 330,
-                    child: OutlineButton(
-                      borderSide: BorderSide(
-                        color: main.themeColor,
-                        width: 2,
-                      ),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0)),
+                            // 클릭 컬러
+                            color: main.themeColor,
 
-                      // 클릭 컬러
-                      highlightColor: main.themeColor,
-                      highlightedBorderColor: main.themeColor,
-                      splashColor: main.themeColor,
-
-                      child: Text(
-                        "Try again",
-                        style: TextStyle(
-                          color: main.themeColor,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      onPressed: () {
-                        // 다시 검사페이지로
-                        Navigator.pushReplacement(
-                          context,
-                          PageTransition(
-                            child: MbtiTestPage_Start(
-                              isPerson: true,
+                            child: Text(
+                              "Registration",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                            type: PageTransitionType.leftToRight,
+                            onPressed: () {
+                              // Dogs List로
+                              Navigator.push(
+                                context,
+                                PageTransition(
+                                  child: DogListPage(),
+                                  type: PageTransitionType.bottomToTop,
+                                ),
+                              );
+                            },
                           ),
-                        );
-                      },
+                        ),
+                        SizedBox(height: 10),
+                        ButtonTheme(
+                          height: 60,
+                          minWidth: 330,
+                          child: OutlineButton(
+                            borderSide: BorderSide(
+                              color: main.themeColor,
+                              width: 2,
+                            ),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0)),
+
+                            // 클릭 컬러
+                            highlightColor: main.themeColor,
+                            highlightedBorderColor: main.themeColor,
+                            splashColor: main.themeColor,
+
+                            child: Text(
+                              "Try again",
+                              style: TextStyle(
+                                color: main.themeColor,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            onPressed: () {
+                              // 다시 검사페이지로
+                              Navigator.pushReplacement(
+                                context,
+                                PageTransition(
+                                  child: MbtiTestPage_Start(
+                                    isPerson: true,
+                                  ),
+                                  type: PageTransitionType.leftToRight,
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                      ],
                     ),
                   ),
-                  SizedBox(height: 10),
-                ],
-              ),
-            ),
-          ),
+                ),
         ],
       ),
     );
