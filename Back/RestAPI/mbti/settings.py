@@ -93,16 +93,40 @@ WSGI_APPLICATION = 'mbti.wsgi.application'
 # }
 
 # 테스트용 AWS RDS PostgreSQL
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
-        'USER': 'dsc_uhg',
-        'PASSWORD': 'dscuhg2021',
-        'HOST': 'uhg-postgresql.crxn9cgqjsuv.ap-northeast-2.rds.amazonaws.com',
-        'PORT': '5432',
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'postgres',
+#         'USER': 'dsc_uhg',
+#         'PASSWORD': 'dscuhg2021',
+#         'HOST': 'uhg-postgresql.crxn9cgqjsuv.ap-northeast-2.rds.amazonaws.com',
+#         'PORT': '5432',
+#     }
+# }
+
+# GCP SQL
+if os.getenv('GAE_APPLICATION', None):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'postgres',
+            'USER': 'postgres',
+            'PASSWORD': 'dscuhg2021',
+            'HOST': '/cloudsql/dsc-uhg-306513:asia-northeast3:dsc-uhg-postgre',
+        }
     }
-}
+# Local에서 실행되는 경우
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'postgres',
+            'USER': 'postgres',
+            'PASSWORD': 'dscuhg2021',
+            'HOST': '127.0.0.1',
+            'PORT': '5432'
+        }
+    }
 
 
 
