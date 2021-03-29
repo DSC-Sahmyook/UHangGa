@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:page_transition/page_transition.dart';
-
+import 'package:http/http.dart' as http;
 import '../main.dart' as main;
 import '../page_mainnew.dart';
 import 'page_p_test.dart';
 import '../Dog_Registration_page/page_dog_list.dart';
-
-import 'package:http/http.dart' as http;
-
+import 'package:uhangga/page_specific.dart' as spec;
 import 'dart:convert';
 
 class Result {
@@ -165,7 +163,7 @@ class _ResultPageState extends State<ResultPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: main.themeColor,
+      backgroundColor: Colors.white,
       appBar: sp_appBar(context),
       body: _isLoading
           ? Center(
@@ -207,11 +205,13 @@ class _ResultPageState extends State<ResultPage> {
 
   sp_appBar(context) {
     return AppBar(
+      backgroundColor: Colors.transparent,
       elevation: 0,
       leading: IconButton(
         icon: Icon(
           Icons.home,
           size: 35,
+          color: main.themeColor,
         ),
         onPressed: () {
           // 메인페이지로 넘어가는 코드
@@ -237,48 +237,10 @@ class _ResultPageState extends State<ResultPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Expanded(
-                  child: Image.asset('lib/assets/pics/enfp.png'),
+                Image.network(
+                  '${_mbtiResult.url}',
+                  fit: BoxFit.fill,
                 ),
-                // 나중에 일러 넣고나면 주석 풀어주셈
-                // Expanded(
-                //   child: Image.network('lib/assets/pics/enfp.png'),
-                // ),
-                SizedBox(
-                  height: 70,
-                ),
-              ],
-            ),
-          ),
-          // Text
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 100),
-                Text(
-                  "You are",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 25,
-                  ),
-                ),
-                Text(
-                  "${_mbtiResult.character}",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  'Best partner is ${_mbtiResult.partner_type}',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                  ),
-                )
               ],
             ),
           ),
@@ -294,41 +256,44 @@ class _ResultPageState extends State<ResultPage> {
         children: [
           SizedBox(height: 20),
           // Keyword
-          Expanded(
-            child: Column(
-              children: [
-                SizedBox(height: 10),
-                Row(
-                  children: [
-                    SizedBox(width: 20),
-                    Icon(
-                      Icons.circle,
-                      color: main.themeColor,
-                      size: 15,
-                    ),
-                    SizedBox(width: 10),
-                    Text(
-                      'Keyword',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ],
-                ),
-                Image.asset(
-                  'lib/assets/pics/emotion.png',
-                  height: 90,
-                ),
-              ],
-            ),
-          ),
+
           // About you
           Expanded(
             child: Container(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(height: 10),
+                  Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: [
+                      Container(
+                        height: 15,
+                        width: 200,
+                        color: Colors.yellow,
+                      ),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              child: Text(
+                                '${_mbtiResult.character}',
+                                style: TextStyle(
+                                    fontSize: 24, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Container(
+                              width: 15,
+                            ),
+                            Container(
+                              child: Text(
+                                'type',
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            )
+                          ]),
+                    ],
+                  ),
+                  SizedBox(height: 20),
                   Row(
                     children: [
                       SizedBox(width: 20),
@@ -337,9 +302,9 @@ class _ResultPageState extends State<ResultPage> {
                         color: main.themeColor,
                         size: 15,
                       ),
-                      SizedBox(width: 10),
+                      SizedBox(width: 7),
                       Text(
-                        'About you',
+                        'About',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
@@ -352,7 +317,7 @@ class _ResultPageState extends State<ResultPage> {
                         left: 30.0, right: 30.0, top: 5.0),
                     child: Text(
                       '${_mbtiResult.comment}',
-                      style: TextStyle(fontSize: 15),
+                      style: TextStyle(fontSize: 16),
                     ),
                   ),
                 ],

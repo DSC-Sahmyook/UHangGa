@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:uhangga/Dog_Registration_page/page_dog_Registration.dart';
 import 'package:uhangga/Dog_Registration_page/page_dog_list.dart';
 import 'package:uhangga/main.dart' as main;
@@ -31,8 +32,8 @@ class _MainPage1State extends State<MainPage1> {
   var _firebaseStorage = FirebaseStorage.instance;
   String _profileImageURL = '';
   Maincom maindata = Maincom();
-  // Mainimglist mainlist = Mainimglist();
   List<Mainimglist> mainlist = [];
+  // Mainimglist mainlist = Mainimglist();
 
   @override
   void initState() {
@@ -367,11 +368,24 @@ class _MainPage1State extends State<MainPage1> {
                                                 : Container(
                                                     height: 150,
                                                     width: 150,
-                                                    child: Image.network(
-                                                      mainlist[index1].url,
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                  ),
+                                                    child: InkWell(
+                                                      child: Image.network(
+                                                        mainlist[index1].url,
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                      onTap: () {
+                                                        Navigator.push(
+                                                            context,
+                                                            PageTransition(
+                                                                child: specpage(
+                                                                  postID: mainlist[
+                                                                          index1]
+                                                                      .id,
+                                                                ),
+                                                                type: PageTransitionType
+                                                                    .rightToLeft));
+                                                      },
+                                                    )),
                                             Opacity(
                                               opacity: 0.7,
                                               child: Container(
@@ -598,6 +612,7 @@ class _MainPage1State extends State<MainPage1> {
   }
 
   logoutcom() async {
+    // 로그아웃 통신
     var response = await http.delete('${main.address}/api/auth/logout/',
         headers: <String, String>{
           "Authorization": "Token ${main.myNow.token}"
