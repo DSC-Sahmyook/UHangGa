@@ -331,10 +331,10 @@ class _AddPhotoState extends State<AddPhoto> {
                   Center(
                     child: showImage(),
                   ),
-                  Container(
-                    height: 60,
-                    child: Text(_profileImageURL),
-                  ),
+                  // Container(
+                  //   height: 60,
+                  //   child: Text(_profileImageURL),
+                  // ),
                   TextFormField(
                     controller: fn_Controller,
                     decoration: InputDecoration(labelText: "First Name"),
@@ -430,7 +430,7 @@ class _AddPhotoState extends State<AddPhoto> {
           decoration: BoxDecoration(
               shape: BoxShape.circle,
               image: DecorationImage(
-                  image: NetworkImage(_profileImageURL), fit: BoxFit.fill)));
+                  image: NetworkImage(signupdata.photourl), fit: BoxFit.fill)));
   }
 
   void _uploadImageToStorage(ImageSource source) async {
@@ -449,7 +449,8 @@ class _AddPhotoState extends State<AddPhoto> {
     String downloadURL = await storageReference.getDownloadURL();
 
     setState(() {
-      _profileImageURL = downloadURL;
+      // _profileImageURL = downloadURL;
+      signupdata.photourl = downloadURL;
     });
   }
 }
@@ -893,7 +894,7 @@ signupcom(username, password, first_name, last_name, phonenum, email, address,
     'phonenum': phonenum,
     'email': email,
     'address': address,
-    'photourl': "None",
+    'photourl': photourl,
     'characterid': "17"
   };
 
@@ -904,13 +905,28 @@ signupcom(username, password, first_name, last_name, phonenum, email, address,
       await http.post('${main.address}/api/auth/signup/', body: data);
   if (response.statusCode == 200) {
     jsonData = json.decode(response.body);
-  } else {
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('Notice'),
             content: Text('Sign Up Success !'),
+            actions: <Widget>[
+              FlatButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text("Close"))
+            ],
+          );
+        });
+  } else {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Notice'),
+            content: Text('Sign Failed!'),
             actions: <Widget>[
               FlatButton(
                   onPressed: () {
