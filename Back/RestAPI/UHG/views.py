@@ -121,13 +121,16 @@ def post_dogs(request):
     if request.user.id == None:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 
+    nowUser = mo.Profile.objects.get(user=request.user)
+
     # 강아지 기본정보 등록하고 object 얻기
     dog_instance = mo.Dogs(
         name=request.data['name'],
         dogtype=request.data['dogtype'],
         age=request.data['age'],
-        uniqueness=request.data['uniquness'],
-        area=request.data['area'],
+        uniqueness=request.data['comment'],
+        # area=request.data['area'],
+        area=nowUser.address,
         gender=request.data['gender']
     )
     dog_instance.save()
@@ -147,7 +150,7 @@ def post_dogs(request):
     postdog_data = {
         'dogid': dog_instance.id,
         'dogCharacter': request.data['dogCharacter'],
-        'userid': request.user.id,
+        'userid': nowUser.id,
         'vaccination': request.data['vaccination'],
         'fee': request.data['fee']
     }
@@ -160,41 +163,122 @@ def post_dogs(request):
 
 
 #Posted List
-@api_view(['GET','POST'])
-def posteddogslist(request, realgender, breed):
-    if request.method == 'GET':
-        if realgender == 0 and breed == 'None':
-            posted_dogs = mo.PostedDogs.objects.all()
-            serializer = PostSerializer(posted_dogs, many=True)
-            return Response(serializer.data)
-        elif realgender == 0:
-            dogs_id_list = [i.id for i in mo.Dogs.objects.filter(dogtype=breed).order_by('-id')]
-            posted_dogs = [mo.PostedDogs.objects.get(dogid=i) for i in dogs_id_list]
-            serializer = PostSerializer(posted_dogs, many=True)
-            return Response(serializer.data)
-        elif breed == 'None':
-            realgender = realgender - 1
-            dogs_id_list = [i.id for i in mo.Dogs.objects.filter(gender=realgender).order_by('-id')]
-            posted_dogs = [mo.PostedDogs.objects.get(dogid=i) for i in dogs_id_list]
-            serializer = PostSerializer(posted_dogs, many=True)
-            return Response(serializer.data)
-        elif realgender != 0 and breed != 'None':
-            realgender = realgender - 1
-            dogs_id_list = [i.id for i in mo.Dogs.objects.filter(gender=realgender, dogtype=breed).order_by('-id')]
-            posted_dogs = [mo.PostedDogs.objects.get(dogid=i) for i in dogs_id_list]
-            serializer = PostSerializer(posted_dogs, many=True)
-            return Response(serializer.data)
+# @api_view(['GET','POST'])
+# def posteddogslist(request, realgender, breed):
+#     if request.method == 'GET':
+#         if realgender == 0 and breed == 'None':
+#             posted_dogs = mo.PostedDogs.objects.all()
+#             serializer = PostSerializer(posted_dogs, many=True)
+#             return Response(serializer.data)
+#         elif realgender == 0:
+#             dogs_id_list = [i.id for i in mo.Dogs.objects.filter(dogtype=breed).order_by('-id')]
+#             posted_dogs = [mo.PostedDogs.objects.get(dogid=i) for i in dogs_id_list]
+#             serializer = PostSerializer(posted_dogs, many=True)
+#             return Response(serializer.data)
+#         elif breed == 'None':
+#             realgender = realgender - 1
+#             dogs_id_list = [i.id for i in mo.Dogs.objects.filter(gender=realgender).order_by('-id')]
+#             posted_dogs = [mo.PostedDogs.objects.get(dogid=i) for i in dogs_id_list]
+#             serializer = PostSerializer(posted_dogs, many=True)
+#             return Response(serializer.data)
+#         elif realgender != 0 and breed != 'None':
+#             realgender = realgender - 1
+#             dogs_id_list = [i.id for i in mo.Dogs.objects.filter(gender=realgender, dogtype=breed).order_by('-id')]
+#             posted_dogs = [mo.PostedDogs.objects.get(dogid=i) for i in dogs_id_list]
+#             serializer = PostSerializer(posted_dogs, many=True)
+#             return Response(serializer.data)
+#
+#     elif request.method == 'POST':
+#         serializer = PostSerializer(data=request.data)
+#         isAnony = True
+#         if request.user != None:
+#             isAnony = False
+#
+#             if serializer.is_valid():
+#                 serializer.save()
+#                 return Response(serializer.data, status=status.HTTP_201_CREATED)
+#             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    elif request.method == 'POST':
-        serializer = PostSerializer(data=request.data)
-        isAnony = True
-        if request.user != None:
-            isAnony = False
+@api_view(['GET'])
+def posteddogslist(request, dogType, cType):
+    dataList = list()
+    # 조건이 없을때
+    if dogType == 'None' and cType == 'None':
+        for i in mo.Dogs.objects.all().order_by('-id'):
+            postedObject = mo.PostedDogs.objects.get(dogid=i)
+            photoObject = mo.Dogsphotos.objects.filter(num=i.photoid)
+            dataList.append(
+                {
+                    'id': postedObject.id,
+                    'photoUrl': photoObject[0].url if photoObject.count() > 0 else "None",
+                    'name': i.name,
+                    'address': i.area,
+                    'dogType': i.dogtype,
+                    'age': i.age
+                }
+            )
+    # 성격만 필터링 걸었을 때
+    elif dogType == 'None' and cType != 'None':
+        char_id = mo.Characters.objects.get(character=cType).id
+        posted_dogs = mo.PostedDogs.objects.filter(dogCharacter=char_id).order_by('-id')
 
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        for i in posted_dogs:
+            dogObject = i.dogid
+            photoObject = mo.Dogsphotos.objects.filter(num=dogObject.photoid)
+            dataList.append(
+                {
+                    'id': i.id,
+                    'photoUrl': photoObject[0].url if photoObject.count() > 0 else '',
+                    'name': dogObject.name,
+                    'address': dogObject.area,
+                    'dogType': dogObject.dogtype,
+                    'age': dogObject.age
+                }
+            )
+    # 견종만 필터링 걸었을 때
+    elif dogType != 'None' and cType == 'None':
+        for i in mo.Dogs.objects.filter(dogtype=dogType).order_by('-id'):
+            postedObject = mo.PostedDogs.objects.get(dogid=i)
+            photoObject = mo.Dogsphotos.objects.filter(num=i.photoid)
+            dataList.append(
+                {
+                    'id': postedObject.id,
+                    'photoUrl': photoObject[0].url if photoObject.count() > 0 else "None",
+                    'name': i.name,
+                    'address': i.area,
+                    'dogType': i.dogtype,
+                    'age': i.age
+                }
+            )
+    # 견종과 성격 모두 필터링 걸었을 때
+    elif dogType != 'None' and cType != 'None':
+        char_id = mo.Characters.objects.get(character=cType).id
+        dogs_id_list = [i.id for i in mo.Dogs.objects.filter(dogtype=dogType).order_by('-id')]
+        # posted_dogs = [mo.PostedDogs.objects.get(dogid=i, dogCharacter=char_id) for i in dogs_id_list]
+        posted_dogs = list()
+        for i in dogs_id_list:
+            try:
+                posted_dogs.append(mo.PostedDogs.objects.get(dogid=i, dogCharacter=char_id))
+            except Exception as e:
+                pass
+
+        for i in posted_dogs:
+            dogObject = i.dogid
+            photoObject = mo.Dogsphotos.objects.filter(num=dogObject.photoid)
+            dataList.append(
+                {
+                    'id': i.id,
+                    'photoUrl': photoObject[0].url if photoObject.count() > 0 else "None",
+                    'name': dogObject.name,
+                    'address': dogObject.area,
+                    'dogType': dogObject.dogtype,
+                    'age': dogObject.age
+                }
+            )
+    serializer = se.SanListPageSerializer(data=dataList, many=True)
+    if serializer.is_valid():
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 # ---------------------------------------------
@@ -261,8 +345,6 @@ def main_list(request):
 # mbti 테스트 결과 페이지
 @api_view(['POST'])
 def resultOfMBTI(request):
-    print(request.data)
-
     if request.data['isPerson'] == "true":
         result = getMBTI.getMBTI(request.data['answer'], True).__str__()
         result_obj = mo.Characters.objects.get(character=result)
