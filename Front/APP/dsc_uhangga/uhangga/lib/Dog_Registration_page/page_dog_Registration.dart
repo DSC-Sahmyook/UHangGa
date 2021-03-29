@@ -28,7 +28,7 @@ class _DogRegPageState extends State<DogRegiPage> {
   // ignore: non_constant_identifier_names
   final age_Controller = TextEditingController();
   // ignore: non_constant_identifier_names
-  final species_Controller = TextEditingController();
+  // final species_Controller = TextEditingController();
   // ignore: non_constant_identifier_names
   final breed_Controller = TextEditingController();
   // ignore: non_constant_identifier_names
@@ -43,7 +43,7 @@ class _DogRegPageState extends State<DogRegiPage> {
     super.dispose();
     name_Controller.dispose();
     age_Controller.dispose();
-    species_Controller.dispose();
+    // species_Controller.dispose();
     breed_Controller.dispose();
     comment_Controller.dispose();
   }
@@ -315,34 +315,34 @@ class _DogRegPageState extends State<DogRegiPage> {
           //     ],
           //   ),
           // ),
-          SizedBox(
-            height: 50,
-            child: Row(
-              children: [
-                SizedBox(width: 20),
-                SizedBox(
-                  width: 80,
-                  child: Text(
-                    'species',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                ),
-                Expanded(
-                  child: TextField(
-                    controller: species_Controller,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      filled: true,
-                      fillColor: const Color(0xffCECECE),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 20),
-              ],
-            ),
-          ),
+          // SizedBox(
+          //   height: 50,
+          //   child: Row(
+          //     children: [
+          //       SizedBox(width: 20),
+          //       SizedBox(
+          //         width: 80,
+          //         child: Text(
+          //           'species',
+          //           style: TextStyle(fontSize: 20),
+          //         ),
+          //       ),
+          //       Expanded(
+          //         child: TextField(
+          //           controller: species_Controller,
+          //           decoration: InputDecoration(
+          //             border: OutlineInputBorder(
+          //               borderRadius: BorderRadius.circular(30),
+          //             ),
+          //             filled: true,
+          //             fillColor: const Color(0xffCECECE),
+          //           ),
+          //         ),
+          //       ),
+          //       SizedBox(width: 20),
+          //     ],
+          //   ),
+          // ),
           SizedBox(height: 20),
           // breed
           SizedBox(
@@ -500,7 +500,7 @@ class Info {
   String name;
   String age;
   String sex;
-  String species;
+  // String species;
   String breed;
   bool vavinations;
   String comment;
@@ -509,7 +509,7 @@ class Info {
     this.name,
     this.age,
     this.sex,
-    this.species,
+    // this.species,
     this.breed,
     this.vavinations,
     this.comment,
