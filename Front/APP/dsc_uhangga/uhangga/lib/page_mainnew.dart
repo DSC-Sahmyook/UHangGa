@@ -319,9 +319,14 @@ class _MainPage1State extends State<MainPage1> {
                                 ),
                                 onTap: () {
                                   Navigator.push(
-                                      context,
-                                      CupertinoPageRoute(
-                                          builder: (context) => DogListPage()));
+                                    context,
+                                    CupertinoPageRoute(
+                                      builder: (context) => DogListPage(
+                                        mypartnerTypeName:
+                                            maindata.partnerType_name,
+                                      ),
+                                    ),
+                                  );
                                 },
                               ),
                             ),
