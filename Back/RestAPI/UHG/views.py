@@ -208,8 +208,9 @@ def main_data(request):
     # 어울리는 타입
     if isAnony:
         # 로그인 안한 경우
-        partnerType_name = 'None'
-        partnerType_img_url = 'None'
+        partner = mo.Profile.objects.get(phonenum=100).characterid.partner
+        partnerType_name = partner.character
+        partnerType_img_url = partner.url
     else:
         # 로그인한 경우
         partner = mo.Profile.objects.get(user=request.user).characterid.partner
@@ -227,7 +228,10 @@ def main_data(request):
     # 등록견수, 입양륭
     waitDogs = mo.Dogs.objects.filter(isadopted=False).count()
     totalDogs = mo.Dogs.objects.count()
-    adoptRate = int((totalDogs-waitDogs) / totalDogs * 100)
+    if totalDogs == 0:
+        adoptRate = 0
+    else:
+        adoptRate = int((totalDogs-waitDogs) / totalDogs * 100)
 
     data = {
         'partnerType_name': partnerType_name,
