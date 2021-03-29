@@ -34,7 +34,11 @@ class _specpageState extends State<specpage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: isLoading
-            ? Center(child: CircularProgressIndicator())
+            ? Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(main.themeColor),
+                ),
+              )
             : CustomScrollView(slivers: <Widget>[
                 SliverAppBar(
                   floating: true,
