@@ -56,7 +56,7 @@ class Dogs(models.Model):
     name = models.CharField(max_length=50)
     dogtype = models.CharField(max_length=50)
     age = models.IntegerField()
-    uniqueness = models.CharField(max_length=50)
+    uniqueness = models.CharField(max_length=500)
     photoid = models.IntegerField(default=0)
     isadopted = models.BooleanField(default=0)     # 0: 등록, 1: 입양
     area = models.CharField(default=0, max_length=50)
@@ -68,5 +68,5 @@ class Dogs(models.Model):
 
 class Dogsphotos(models.Model):
     # id = models.IntegerField(primary_key=True)
-    url = models.CharField(max_length=200)
+    url = models.CharField(max_length=500)
     num = models.CharField(max_length=50)
