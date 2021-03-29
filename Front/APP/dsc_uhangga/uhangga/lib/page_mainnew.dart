@@ -16,6 +16,7 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:uhangga/page_specific.dart';
+import 'mbti_test_pages/page_p_test.dart';
 
 final List<String> bannerList = ['lib/assets/pics/banner.png'];
 
@@ -35,7 +36,6 @@ class _MainPage1State extends State<MainPage1> {
 
   @override
   void initState() {
-    print(main.myNow.token);
     maincom();
     mainimgcom();
     super.initState();
@@ -44,359 +44,395 @@ class _MainPage1State extends State<MainPage1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.white,
         body: CustomScrollView(
-      slivers: <Widget>[
-        SliverAppBar(
-          floating: true,
-          snap: true,
-          pinned: true,
-          expandedHeight: 350,
-          flexibleSpace: Stack(
-            children: <Widget>[
-              Positioned.fill(
-                child: Image.asset(
-                  'lib/assets/pics/pic3.png',
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Positioned(
-                child: Text(
-                  'Your partner',
-                  style: TextStyle(color: Colors.white, fontSize: 24),
-                ),
-                top: 250,
-                left: 15,
-              ),
-              Positioned(
-                child: Text(
-                  '${maindata.partnerType_name}',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 32,
-                      fontWeight: FontWeight.w900),
-                ),
-                top: 270,
-                left: 15,
-              ),
-              Positioned(
-                child: InkWell(
-                  child: Text(
-                    'looking close →',
-                    style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
-                        decoration: TextDecoration.underline),
+          slivers: <Widget>[
+            SliverAppBar(
+              floating: true,
+              snap: true,
+              pinned: true,
+              expandedHeight: 350,
+              flexibleSpace: Stack(
+                children: <Widget>[
+                  Positioned.fill(
+                    child: Image.asset(
+                      'lib/assets/pics/pic3.png',
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        CupertinoPageRoute(
-                            builder: (context) => ResultPage(
-                                mbtiName: maindata.partnerType_name)));
-                  },
-                ),
-                top: 315,
-                left: 15,
-              )
-            ],
-          ),
-          elevation: 0,
-        ),
-        SliverToBoxAdapter(
-          child: Stack(
-            children: <Widget>[
-              Container(
-                decoration: BoxDecoration(color: const Color(0xffD75B2A)),
-                child: Container(
-                  height: 500,
-                  width: double.maxFinite,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(40),
-                      ),
-                      color: Colors.white),
-                ),
-              ),
-              Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(left: 25),
-                        child: Text(
-                          "${maindata.userName}",
-                          style: TextStyle(
-                              color: const Color(0xff707070),
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 8, right: 15),
-                        child: showImage(),
-                      )
-                    ],
+                  Positioned(
+                    child: Text(
+                      'Your partner',
+                      style: TextStyle(color: Colors.white, fontSize: 24),
+                    ),
+                    top: 250,
+                    left: 15,
                   ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 16.0, top: 8, right: 16),
+                  Positioned(
+                    child: Text(
+                      '${maindata.partnerType_name}',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 32,
+                          fontWeight: FontWeight.w900),
+                    ),
+                    top: 270,
+                    left: 15,
+                  ),
+                  Positioned(
+                    child: InkWell(
+                      child: Text(
+                        'looking close →',
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                            decoration: TextDecoration.underline),
+                      ),
+                      onTap: () {
+                        (maindata.partnerType_name == "None")
+                            ? Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                    builder: (context) => MbtiTestPage_Start(
+                                          isPerson: true,
+                                        )))
+                            : Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                    builder: (context) => ResultPage(
+                                          mbtiName: maindata.partnerType_name,
+                                          isInfo: true,
+                                          isPerson: true,
+                                        )));
+                      },
+                    ),
+                    top: 315,
+                    left: 15,
+                  )
+                ],
+              ),
+              elevation: 0,
+            ),
+            SliverToBoxAdapter(
+              child: Stack(
+                children: <Widget>[
+                  Container(
+                    decoration: BoxDecoration(color: const Color(0xffD75B2A)),
                     child: Container(
-                      child: Stack(
+                      height: 500,
+                      width: double.maxFinite,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(40),
+                          ),
+                          color: Colors.white),
+                    ),
+                  ),
+                  Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(16.0),
-                                color: const Color(0xff9F9F9F)),
-                            height: 200,
-                            width: 380,
-                            child: Row(
-                              children: <Widget>[
-                                Container(
-                                  width: 230,
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                      color: const Color(0xff9F9F9F)),
-                                  height: 200,
-                                  width: 100,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      Container(
-                                        height: 35,
-                                      ),
-                                      Container(
-                                        child: Text(
-                                          '${maindata.waitDogs}',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 32,
-                                              fontWeight: FontWeight.w900),
-                                        ),
-                                      ),
-                                      Container(
-                                        child: Text(
-                                          'puppies waiting',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w300),
-                                        ),
-                                      ),
-                                      Container(
-                                        height: 8,
-                                      ),
-                                      Container(
-                                        child: Text(
-                                          '${maindata.adoptRate}',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 32,
-                                              fontWeight: FontWeight.w900),
-                                        ),
-                                      ),
-                                      Container(
-                                        child: Text(
-                                          'adoption rate',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w300),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
+                            margin: EdgeInsets.only(left: 25),
+                            child: Text(
+                              "${maindata.userName}",
+                              style: TextStyle(
+                                  color: const Color(0xff707070),
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
-                          Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(16.0),
-                                color: Colors.white),
-                            height: 200,
-                            width: 195,
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(16.0),
-                                color: const Color(0xffe06b2e)),
-                            height: 200,
-                            width: 185,
-                            // ignore: deprecated_member_use
-                            child: FlatButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      CupertinoPageRoute(
-                                          builder: (context) => DogRegiPage()));
-                                },
-                                child: Center(
-                                  child: Column(
-                                    children: <Widget>[
-                                      Container(
-                                        height: 120,
-                                        child: Image.asset(
-                                            'lib/assets/pics/pic1.png'),
-                                      ),
-                                      Container(
-                                        child: Text(
-                                          'Temporary protection',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w400),
-                                        ),
-                                      ),
-                                      Container(
-                                        height: 5,
-                                      ),
-                                      Container(
-                                        child: Text(
-                                          'Dog Registration',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w900),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                )),
-                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top: 8, right: 15),
+                            child: showImage(),
+                          )
                         ],
                       ),
-                    ),
-                  ),
-                  Container(
-                    height: 16,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Container(
-                          child: Text(
-                            'looking for my family',
-                            style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                                color: const Color(0xff707070)),
-                          ),
-                        ),
-                        Container(
-                          child: InkWell(
-                            child: Text(
-                              'more →',
-                              style:
-                                  TextStyle(color: Colors.grey, fontSize: 18),
-                            ),
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  CupertinoPageRoute(
-                                      builder: (context) => DogListPage()));
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    height: 5,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Container(
-                      height: 150,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
-                        itemCount: mainlist.length,
-                        itemBuilder: (BuildContext context, int index1) {
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Stack(
-                                alignment: Alignment.bottomCenter,
-                                children: [
-                                  (mainlist[index1].url == '')
-                                      ? Container(
-                                          height: 150,
-                                          width: 150,
-                                          child: Image.asset(
-                                            'lib/assets/pics/nullimg.png',
-                                            fit: BoxFit.cover,
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 16.0, top: 8, right: 16),
+                        child: Container(
+                          child: Stack(
+                            children: <Widget>[
+                              Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(16.0),
+                                    color: const Color(0xff9F9F9F)),
+                                height: 200,
+                                width: 380,
+                                child: Row(
+                                  children: <Widget>[
+                                    Container(
+                                      width: 230,
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          color: const Color(0xff9F9F9F)),
+                                      height: 200,
+                                      width: 100,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          Container(
+                                            height: 35,
                                           ),
-                                        )
-                                      : Container(
-                                          height: 150,
-                                          width: 150,
-                                          child: Image.network(
-                                            mainlist[index1].url,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                  Opacity(
-                                    opacity: 0.7,
-                                    child: Container(
-                                      width: 150,
-                                      color: Colors.black,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
                                           Container(
                                             child: Text(
-                                              '${mainlist[index1].name}',
+                                              '${maindata.waitDogs}',
                                               style: TextStyle(
                                                   color: Colors.white,
-                                                  fontSize: 22),
+                                                  fontSize: 32,
+                                                  fontWeight: FontWeight.w900),
                                             ),
                                           ),
                                           Container(
                                             child: Text(
-                                              '${mainlist[index1].age}',
+                                              'puppies waiting',
                                               style: TextStyle(
                                                   color: Colors.white,
-                                                  fontSize: 14),
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w300),
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 8,
+                                          ),
+                                          Container(
+                                            child: Text(
+                                              '${maindata.adoptRate}%',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 32,
+                                                  fontWeight: FontWeight.w900),
+                                            ),
+                                          ),
+                                          Container(
+                                            child: Text(
+                                              'adoption rate',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w300),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(16.0),
+                                    color: Colors.white),
+                                height: 200,
+                                width: 195,
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(16.0),
+                                    color: const Color(0xffe06b2e)),
+                                height: 200,
+                                width: 185,
+                                // ignore: deprecated_member_use
+                                child: FlatButton(
+                                    onPressed: () {
+                                      if (main.myNow.token.length < 5) {
+                                        // 수정
+                                        Navigator.push(
+                                            context,
+                                            CupertinoPageRoute(
+                                                builder: (context) =>
+                                                    LoginPage()));
+                                      } else {
+                                        Navigator.push(
+                                            context,
+                                            CupertinoPageRoute(
+                                                builder: (context) =>
+                                                    DogRegiPage()));
+                                      }
+                                    },
+                                    child: Center(
+                                      child: Column(
+                                        children: <Widget>[
+                                          Container(
+                                            height: 120,
+                                            child: Image.asset(
+                                                'lib/assets/pics/pic1.png'),
+                                          ),
+                                          Container(
+                                            child: Text(
+                                              'Temporary protection',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w400),
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 5,
+                                          ),
+                                          Container(
+                                            child: Text(
+                                              'Dog Registration',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w900),
                                             ),
                                           )
                                         ],
                                       ),
-                                    ),
-                                  )
-                                ]),
-                          );
-                        },
+                                    )),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
+                      Container(
+                        height: 16,
+                        color: Colors.white,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Container(
+                              child: Text(
+                                'looking for my family',
+                                style: TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                    color: const Color(0xff707070)),
+                              ),
+                            ),
+                            Container(
+                              child: InkWell(
+                                child: Text(
+                                  'more →',
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 18),
+                                ),
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(
+                                          builder: (context) => DogListPage()));
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        height: 5,
+                        color: Colors.white,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: mainlist.isEmpty
+                            ? Container(
+                                // color: Colors.white,
+                                height: 150,
+                                child: Icon(
+                                  Icons.block,
+                                  size: 150,
+                                ),
+                              )
+                            : Container(
+                                height: 150,
+                                child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  shrinkWrap: true,
+                                  itemCount: mainlist.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index1) {
+                                    return Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Stack(
+                                          alignment: Alignment.bottomCenter,
+                                          children: [
+                                            (mainlist[index1].url == '')
+                                                ? Container(
+                                                    height: 150,
+                                                    width: 150,
+                                                    child: Image.asset(
+                                                      'lib/assets/pics/nullimg.png',
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  )
+                                                : Container(
+                                                    height: 150,
+                                                    width: 150,
+                                                    child: Image.network(
+                                                      mainlist[index1].url,
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
+                                            Opacity(
+                                              opacity: 0.7,
+                                              child: Container(
+                                                width: 150,
+                                                color: Colors.black,
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Container(
+                                                      child: Text(
+                                                        '${mainlist[index1].name}',
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 22),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      child: Text(
+                                                        '${mainlist[index1].age}',
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 14),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            )
+                                          ]),
+                                    );
+                                  },
+                                ),
+                              ),
+                      ),
+                      Container(
+                        height: 25,
+                        color: Colors.white,
+                      ),
+                      Container(
+                        color: Colors.white,
+                        height: 150,
+                        width: 650,
+                        child: Swiper(
+                          fade: 0,
+                          pagination:
+                              SwiperPagination(builder: SwiperPagination.rect),
+                          itemCount: bannerList.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Image.asset(bannerList[index]);
+                          },
+                        ),
+                      )
+                    ],
                   ),
-                  Container(
-                    height: 25,
-                  ),
-                  Container(
-                    height: 150,
-                    width: 650,
-                    child: Swiper(
-                      fade: 0,
-                      pagination:
-                          SwiperPagination(builder: SwiperPagination.rect),
-                      itemCount: bannerList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Image.asset(bannerList[index]);
-                      },
-                    ),
-                  )
                 ],
               ),
-            ],
-          ),
-        )
-      ],
-    ));
+            )
+          ],
+        ));
   }
 
   Widget showImage() {
@@ -523,8 +559,6 @@ class _MainPage1State extends State<MainPage1> {
     var jsonData = null;
     var response;
 
-    print("mainCom 불렀음");
-
     if (main.myNow.token != "") {
       // 로그인 했을때
       response = await http.get('${main.address}/api/main/index/data/',
@@ -572,7 +606,6 @@ class _MainPage1State extends State<MainPage1> {
     if (response.statusCode == 200) {
       setState(() {
         main.myNow.token = "";
-        print("로그아웃 할때 ${main.myNow.token}");
       });
     } else {
       throw Exception('Something went wrong... - Log Out Fail');
