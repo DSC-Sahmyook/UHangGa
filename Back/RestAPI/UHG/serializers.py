@@ -104,7 +104,11 @@ class PostSerializer(serializers.ModelSerializer):
 # ---------------------------------------------
 # 메인페이지
 class MainDogsList_Serializer(serializers.ModelSerializer):
+    id = serializers.SerializerMethodField()
     photoUrl = serializers.SerializerMethodField()
+
+    def get_id(self, obj):
+        return mo.PostedDogs.objects.get(dogid=obj.id).id
 
     def get_photoUrl(self, obj):
         try:
@@ -170,3 +174,13 @@ class SanDetailSerializer(serializers.Serializer):
     writer_name = serializers.CharField()
     writer_phonenum = serializers.CharField()
     uniqueness = serializers.CharField()
+
+
+# ListPage Serializer
+class SanListPageSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    photoUrl = serializers.CharField()
+    name = serializers.CharField()
+    address = serializers.CharField()
+    dogType = serializers.CharField()
+    age = serializers.IntegerField()
