@@ -1,12 +1,15 @@
+import 'dart:convert';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:uhangga/main.dart';
+import 'package:uhangga/main.dart' as main;
+import 'package:http/http.dart' as http;
 import 'package:uhangga/page_mainnew.dart';
 import 'dart:io';
-
 import '../mbti_test_pages/page_p_test.dart';
+
+RegiCom regicomdata = RegiCom();
 
 class DogRegiPage extends StatefulWidget {
   @override
@@ -89,7 +92,7 @@ class _DogRegPageState extends State<DogRegiPage> {
       minWidth: 500,
       // ignore: deprecated_member_use
       child: FlatButton(
-          color: _image == null ? themeColor : Colors.white,
+          color: _image == null ? main.themeColor : Colors.white,
           child: _image == null
               ? Icon(
                   Icons.photo_camera,
@@ -135,9 +138,9 @@ class _DogRegPageState extends State<DogRegiPage> {
           ),
 
           // 클릭 컬러
-          color: themeColor,
-          highlightColor: themeColor,
-          splashColor: themeColor,
+          color: main.themeColor,
+          highlightColor: main.themeColor,
+          splashColor: main.themeColor,
 
           child: Center(
             child: Text(
@@ -172,7 +175,7 @@ class _DogRegPageState extends State<DogRegiPage> {
         child: OutlineButton(
           // 테두리
           borderSide: BorderSide(
-            color: themeColor,
+            color: main.themeColor,
             width: 2,
           ),
           shape: RoundedRectangleBorder(
@@ -180,15 +183,15 @@ class _DogRegPageState extends State<DogRegiPage> {
           ),
 
           // 클릭 컬러
-          highlightColor: themeColor,
-          highlightedBorderColor: themeColor,
-          splashColor: themeColor,
+          highlightColor: main.themeColor,
+          highlightedBorderColor: main.themeColor,
+          splashColor: main.themeColor,
 
           child: Center(
             child: Text(
               sex,
               style: TextStyle(
-                color: themeColor,
+                color: main.themeColor,
                 fontSize: 25,
               ),
             ),
@@ -385,7 +388,7 @@ class _DogRegPageState extends State<DogRegiPage> {
                 ),
               ),
               Radio(
-                activeColor: themeColor,
+                activeColor: main.themeColor,
                 value: Vaccinations.Yes,
                 groupValue: _vaccinations,
                 onChanged: (value) {
@@ -396,10 +399,10 @@ class _DogRegPageState extends State<DogRegiPage> {
               ),
               Text(
                 'Yes',
-                style: TextStyle(fontSize: 20, color: themeColor),
+                style: TextStyle(fontSize: 20, color: main.themeColor),
               ),
               Radio(
-                activeColor: themeColor,
+                activeColor: main.themeColor,
                 value: Vaccinations.No,
                 groupValue: _vaccinations,
                 onChanged: (value) {
@@ -410,7 +413,7 @@ class _DogRegPageState extends State<DogRegiPage> {
               ),
               Text(
                 'No',
-                style: TextStyle(fontSize: 20, color: themeColor),
+                style: TextStyle(fontSize: 20, color: main.themeColor),
               ),
             ],
           ),
@@ -432,7 +435,7 @@ class _DogRegPageState extends State<DogRegiPage> {
           // Next Btn
           Container(
             height: 80,
-            color: themeColor,
+            color: main.themeColor,
             // ignore: deprecated_member_use
             child: FlatButton(
               child: Row(
@@ -455,6 +458,18 @@ class _DogRegPageState extends State<DogRegiPage> {
               ),
               onPressed: () {
                 // 성격검사 페이지로
+                // 통신 gogo
+                regicom(
+                    regicomdata.photo,
+                    regicomdata.name,
+                    regicomdata.dogtype,
+                    regicomdata.age,
+                    regicomdata.comment,
+                    regicomdata.area,
+                    regicomdata.gender,
+                    regicomdata.vaccination,
+                    regicomdata.dogCharacter,
+                    regicomdata.fee);
                 Navigator.pushReplacement(
                   context,
                   PageTransition(
@@ -496,22 +511,85 @@ sp_appBar(context) {
   );
 }
 
-class Info {
+class RegiCom {
+  // 통신 클래스 선언
+  List<dynamic> photo;
   String name;
-  String age;
-  String sex;
-  // String species;
-  String breed;
-  bool vavinations;
+  String dogtype;
+  int age;
   String comment;
+  String area;
+  bool gender;
+  bool vaccination;
+  String dogCharacter;
+  int fee;
 
-  Info(
-    this.name,
-    this.age,
-    this.sex,
-    // this.species,
-    this.breed,
-    this.vavinations,
-    this.comment,
-  );
+  RegiCom(
+      {this.photo,
+      this.name,
+      this.dogtype,
+      this.age,
+      this.comment,
+      this.area,
+      this.gender,
+      this.vaccination,
+      this.dogCharacter,
+      this.fee});
+
+  factory RegiCom.fromJson(Map<String, dynamic> json) {
+    return RegiCom(
+        photo: json['photo'],
+        name: json['name'],
+        dogtype: json['dogtype'],
+        age: json['age'],
+        comment: json['comment'],
+        area: json['area'],
+        gender: json['gender'],
+        vaccination: json['vaccination'],
+        dogCharacter: json['dogCharacter'],
+        fee: json['fee']);
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data1 = new Map<String, dynamic>();
+    data1['photo'] = "[${this.photo.join(',')}]";
+    return data1;
+  }
+}
+
+regicom(
+  photo,
+  name,
+  dogtype,
+  age,
+  comment,
+  area,
+  gender,
+  vaccination,
+  dogCharacter,
+  fee,
+) async {
+  Map dog_data = {
+    'photo': photo,
+    'name': name,
+    'dogtype': dogtype,
+    'age': age,
+    'comment': comment,
+    'area': area,
+    'gender': gender,
+    'vaccination': vaccination,
+    'dogCharacter': dogCharacter,
+    'fee': fee
+  };
+
+  var jsonData = null;
+  var response = await http.post('${main.address}/api/dog/post/',
+      body: dog_data,
+      headers: <String, String>{"Authorization": "Token ${main.myNow.token}"});
+
+  if (response.statusCode == 200) {
+    jsonData = json.decode(response.body);
+  } else {
+    throw Exception('Register Failed!');
+  }
 }

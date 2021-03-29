@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:uhangga/Dog_Registration_page/page_dog_Registration.dart';
-import 'package:uhangga/mbti_test_pages/page_result.dart';
 import 'package:uhangga/page_mainnew.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:uhangga/page_signup.dart';
 
-final String address = 'https://dsc-uhg-306513.du.r.appspot.com'; // 주소 받아오는 곳
+// final String address = 'https://dsc-uhg-306513.du.r.appspot.com'; // 주소 받아오는 곳
+final String address = 'https://df8eaee0ba5d.ngrok.io';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());

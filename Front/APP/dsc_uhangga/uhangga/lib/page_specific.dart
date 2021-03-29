@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:uhangga/mbti_test_pages/page_result.dart';
 import 'package:uhangga/page_mainnew.dart';
 import 'main.dart' as main;
@@ -316,7 +317,15 @@ class _specpageState extends State<specpage> {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8)),
                               onPressed: () {
-                                // 타이별로 소환
+                                Navigator.pushReplacement(
+                                    context,
+                                    CupertinoPageRoute(
+                                        builder: (context) => ResultPage(
+                                              mbtiName:
+                                                  nowDetail.dog.characterName,
+                                              isPerson: false,
+                                              isInfo: true,
+                                            )));
                               },
                               child: Text(
                                 '${nowDetail.dog.characterName} type',
@@ -410,7 +419,6 @@ class _specpageState extends State<specpage> {
               ]));
   }
 
-  // 로그인 통신 기능
   LoadDetail(postID) async {
     var response = await http.get('${main.address}/api/posts/$postID/');
 
