@@ -352,14 +352,14 @@ class _ResultPageState extends State<ResultPage> {
                               ),
                             ),
                             onPressed: () {
-                              // Dogs List로
-                              Navigator.push(
-                                context,
-                                PageTransition(
-                                  child: DogListPage(),
-                                  type: PageTransitionType.bottomToTop,
-                                ),
-                              );
+                              // // Dogs List로
+                              // Navigator.push(
+                              //   context,
+                              //   PageTransition(
+                              //     child: DogListPage(),
+                              //     type: PageTransitionType.bottomToTop,
+                              //   ),
+                              // );
                             },
                           ),
                         ),
