@@ -347,7 +347,7 @@ def main_list(request):
 def resultOfMBTI(request):
     if request.data['isPerson'] == "true":
         result = getMBTI.getMBTI(request.data['answer'], True).__str__()
-        result_obj = mo.Characters.objects.get(character=result)
+        result_obj = mo.Characters.objects.get(originType=result)
         result_se = se.TestMBTI(result_obj)
 
         # 요청한 사람의 mbti 수정하기
@@ -358,7 +358,7 @@ def resultOfMBTI(request):
         return Response(result_se.data, status=status.HTTP_200_OK)
     else:
         result = getMBTI.getMBTI(request.data['answer'], False).__str__()
-        result_obj = mo.Characters.objects.get(character=result)
+        result_obj = mo.Characters.objects.get(originType=result)
         result_se = se.TestMBTI(result_obj)
 
         return Response(result_se.data, status=status.HTTP_200_OK)
