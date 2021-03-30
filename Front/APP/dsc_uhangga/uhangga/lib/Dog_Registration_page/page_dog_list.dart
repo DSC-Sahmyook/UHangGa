@@ -74,6 +74,7 @@ class _DogListPageState extends State<DogListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: sp_appBar(context),
       body: Column(
         children: <Widget>[
@@ -130,59 +131,63 @@ class _DogListPageState extends State<DogListPage> {
 
   // 견종 필터링 텍스트
   sp_filterText() {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: Colors.grey[300],
-      ),
-      child: Padding(
-        padding: EdgeInsets.only(left: 15, right: 15),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              flex: 8,
-              child: TextFormField(
-                controller: _breedTextController,
-                keyboardType: TextInputType.text,
-                decoration: InputDecoration(
-                  labelText: "breed",
-                  labelStyle: TextStyle(fontSize: 15),
-                  border: InputBorder.none,
+    return Padding(
+      padding: EdgeInsets.only(top: 10, bottom: 7),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          color: Colors.grey[300],
+        ),
+        child: Padding(
+          padding: EdgeInsets.only(left: 15, right: 15),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                flex: 8,
+                child: TextFormField(
+                  controller: _breedTextController,
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                    hasFloatingPlaceholder: false,
+                    labelText: "breed",
+                    labelStyle: TextStyle(fontSize: 15),
+                    border: InputBorder.none,
+                  ),
                 ),
               ),
-            ),
-            Expanded(
-              child: IconButton(
-                icon: Icon(Icons.search),
-                onPressed: () {
-                  // 필터링
-                  // 텍스트가 비었는지 안비었는지 확인
-                  // 비었으면, None으로 탐색
-                  // 안비었으면, 그 값으로 탐색
-                  setState(() {
-                    _isLoading = true;
-                    if (_breedTextController.text == "") {
-                      _isFilteredBreed = false;
-                      if (_isRecomended) {
-                        _loadList("None", widget.mypartnerTypeName);
+              Expanded(
+                child: IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {
+                    // 필터링
+                    // 텍스트가 비었는지 안비었는지 확인
+                    // 비었으면, None으로 탐색
+                    // 안비었으면, 그 값으로 탐색
+                    setState(() {
+                      _isLoading = true;
+                      if (_breedTextController.text == "") {
+                        _isFilteredBreed = false;
+                        if (_isRecomended) {
+                          _loadList("None", widget.mypartnerTypeName);
+                        } else {
+                          _loadList("None", "None");
+                        }
                       } else {
-                        _loadList("None", "None");
+                        _isFilteredBreed = true;
+                        if (_isRecomended) {
+                          _loadList(_breedTextController.text,
+                              widget.mypartnerTypeName);
+                        } else {
+                          _loadList(_breedTextController.text, "None");
+                        }
                       }
-                    } else {
-                      _isFilteredBreed = true;
-                      if (_isRecomended) {
-                        _loadList(_breedTextController.text,
-                            widget.mypartnerTypeName);
-                      } else {
-                        _loadList(_breedTextController.text, "None");
-                      }
-                    }
-                  });
-                },
+                    });
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -294,24 +299,20 @@ sp_dogItems(context, int id, String name, String photoUrl, String address,
         height: 130,
         child: Row(
           children: [
-            Expanded(
-              flex: 1,
-              child: Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    fit: BoxFit.fill,
-                    // image: NetworkImage(
-                    //     "https://i.guim.co.uk/img/media/fe1e34da640c5c56ed16f76ce6f994fa9343d09d/0_174_3408_2046/master/3408.jpg?width=1200&height=900&quality=85&auto=format&fit=crop&s=0d3f33fb6aa6e0154b7713a00454c83d"),
-                    image: NetworkImage(photoUrl),
-                  ),
+            SizedBox(width: 20),
+            Container(
+              width: 100,
+              height: 100,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  fit: BoxFit.fill,
+                  image: NetworkImage(photoUrl),
                 ),
               ),
             ),
+            SizedBox(width: 20),
             Expanded(
-              flex: 2,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
