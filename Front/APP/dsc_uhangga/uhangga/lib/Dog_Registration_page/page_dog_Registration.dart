@@ -26,17 +26,11 @@ class _DogRegPageState extends State<DogRegiPage> {
 
   Vaccinations _vaccinations = Vaccinations.No;
 
-  // ignore: non_constant_identifier_names
   final name_Controller = TextEditingController();
-  // ignore: non_constant_identifier_names
   final age_Controller = TextEditingController();
-  // ignore: non_constant_identifier_names
-  // final species_Controller = TextEditingController();
-  // ignore: non_constant_identifier_names
   final breed_Controller = TextEditingController();
-  // ignore: non_constant_identifier_names
   final comment_Controller = TextEditingController();
-  // ignore: non_constant_identifier_names
+
   final pageView_controller = new PageController();
 
   File _image;
@@ -80,7 +74,8 @@ class _DogRegPageState extends State<DogRegiPage> {
     String downloadURL = await storageReference.getDownloadURL();
 
     setState(() {
-      _posteddogImageURL = downloadURL;
+      // _posteddogImageURL = downloadURL;
+      regicomdata.photo = [downloadURL];
     });
   }
 
@@ -99,7 +94,7 @@ class _DogRegPageState extends State<DogRegiPage> {
                   color: Color(0x77ffffff),
                   size: 40,
                 )
-              : Image.network(_posteddogImageURL),
+              : Image.network("[${regicomdata.photo}]"),
           onPressed: () {
             showDialog(
                 context: context,
@@ -459,17 +454,26 @@ class _DogRegPageState extends State<DogRegiPage> {
               onPressed: () {
                 // 성격검사 페이지로
                 // 통신 gogo
+
+                regicomdata.name = name_Controller.text;
+                regicomdata.age = int.parse(age_Controller.text);
+                regicomdata.comment = comment_Controller.text;
+                regicomdata.vaccination =
+                    (_vaccinations == Vaccinations.Yes) ? true : false;
+                regicomdata.dogtype = breed_Controller.text;
+                regicomdata.gender = (isGirl == true) ? true : false;
+
                 regicom(
                     regicomdata.photo,
                     regicomdata.name,
                     regicomdata.dogtype,
                     regicomdata.age,
                     regicomdata.comment,
-                    regicomdata.area,
                     regicomdata.gender,
                     regicomdata.vaccination,
                     regicomdata.dogCharacter,
                     regicomdata.fee);
+
                 Navigator.pushReplacement(
                   context,
                   PageTransition(
@@ -513,12 +517,11 @@ sp_appBar(context) {
 
 class RegiCom {
   // 통신 클래스 선언
-  List<dynamic> photo;
+  List<String> photo;
   String name;
   String dogtype;
   int age;
   String comment;
-  String area;
   bool gender;
   bool vaccination;
   String dogCharacter;
@@ -530,7 +533,6 @@ class RegiCom {
       this.dogtype,
       this.age,
       this.comment,
-      this.area,
       this.gender,
       this.vaccination,
       this.dogCharacter,
@@ -543,17 +545,10 @@ class RegiCom {
         dogtype: json['dogtype'],
         age: json['age'],
         comment: json['comment'],
-        area: json['area'],
         gender: json['gender'],
         vaccination: json['vaccination'],
         dogCharacter: json['dogCharacter'],
         fee: json['fee']);
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data1 = new Map<String, dynamic>();
-    data1['photo'] = "[${this.photo.join(',')}]";
-    return data1;
   }
 }
 
@@ -563,24 +558,25 @@ regicom(
   dogtype,
   age,
   comment,
-  area,
   gender,
   vaccination,
   dogCharacter,
   fee,
 ) async {
   Map dog_data = {
-    'photo': photo,
+    // 'photo': photo,
+    'photo': "[${photo.join(',')}]",
     'name': name,
     'dogtype': dogtype,
-    'age': age,
+    'age': "$age",
     'comment': comment,
-    'area': area,
-    'gender': gender,
-    'vaccination': vaccination,
-    'dogCharacter': dogCharacter,
-    'fee': fee
+    'gender': "$gender",
+    'vaccination': "$vaccination",
+    'dogCharacter': "5",
+    'fee': "0"
   };
+
+  print(dog_data);
 
   var jsonData = null;
   var response = await http.post('${main.address}/api/dog/post/',

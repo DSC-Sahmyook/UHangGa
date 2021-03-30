@@ -91,9 +91,10 @@ sp_Image() {
 // 텍스트
 sp_Text() {
   return Column(
+    mainAxisAlignment: MainAxisAlignment.center,
     children: [
       Text(
-        "Who is \nmy best dog?",
+        "Who is my best dog?\nWho am I?",
         textAlign: TextAlign.center,
         style: TextStyle(
           fontWeight: FontWeight.bold,
@@ -102,7 +103,7 @@ sp_Text() {
       ),
       SizedBox(height: 20),
       Text(
-        "Let's find a dog that fits you well.",
+        "Let's find a type that fits you well.",
         style: TextStyle(
           color: Colors.grey,
           fontSize: 20,
