@@ -321,7 +321,8 @@ class _specpageState extends State<specpage> {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8)),
                               onPressed: () {
-                                Navigator.pushReplacement(
+                                // Navigator.pushReplacement(
+                                Navigator.push(
                                     context,
                                     CupertinoPageRoute(
                                         builder: (context) => ResultPage(

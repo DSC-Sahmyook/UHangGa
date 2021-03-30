@@ -7,7 +7,8 @@ import 'package:uhangga/main.dart' as main;
 import 'package:http/http.dart' as http;
 import 'package:uhangga/page_mainnew.dart';
 import 'dart:io';
-import '../mbti_test_pages/page_p_test.dart';
+// import '../mbti_test_pages/page_p_test.dart';
+import '../mbti_test_pages/page_d_test.dart' as d_test;
 
 RegiCom regicomdata = RegiCom();
 
@@ -29,11 +30,18 @@ class _DogRegPageState extends State<DogRegiPage> {
   final name_Controller = TextEditingController();
   final age_Controller = TextEditingController();
   final breed_Controller = TextEditingController();
+  final fee_Controller = TextEditingController();
   final comment_Controller = TextEditingController();
 
   final pageView_controller = new PageController();
 
   File _image;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   regicomdata.photo = [];
+  // }
 
   @override
   void dispose() {
@@ -42,6 +50,7 @@ class _DogRegPageState extends State<DogRegiPage> {
     age_Controller.dispose();
     // species_Controller.dispose();
     breed_Controller.dispose();
+    fee_Controller.dispose();
     comment_Controller.dispose();
   }
 
@@ -94,7 +103,9 @@ class _DogRegPageState extends State<DogRegiPage> {
                   color: Color(0x77ffffff),
                   size: 40,
                 )
-              : Image.network("[${regicomdata.photo}]"),
+              : Image.network(
+                  "${regicomdata.photo[0]}",
+                ),
           onPressed: () {
             showDialog(
                 context: context,
@@ -259,6 +270,7 @@ class _DogRegPageState extends State<DogRegiPage> {
                 ),
                 Expanded(
                   child: TextField(
+                    keyboardType: TextInputType.number,
                     controller: age_Controller,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -371,6 +383,36 @@ class _DogRegPageState extends State<DogRegiPage> {
             ),
           ),
           SizedBox(height: 20),
+          // fee
+          SizedBox(
+            height: 50,
+            child: Row(
+              children: [
+                SizedBox(width: 20),
+                SizedBox(
+                  width: 80,
+                  child: Text(
+                    'fee',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ),
+                Expanded(
+                  child: TextField(
+                    controller: fee_Controller,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        filled: true,
+                        fillColor: const Color(0xffCECECE)),
+                  ),
+                ),
+                SizedBox(width: 20),
+              ],
+            ),
+          ),
+          SizedBox(height: 20),
           // vavinamtions(Yes or No)
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -461,25 +503,25 @@ class _DogRegPageState extends State<DogRegiPage> {
                 regicomdata.vaccination =
                     (_vaccinations == Vaccinations.Yes) ? true : false;
                 regicomdata.dogtype = breed_Controller.text;
+                regicomdata.fee = int.parse(fee_Controller.text);
                 regicomdata.gender = (isGirl == true) ? true : false;
 
-                regicom(
-                    regicomdata.photo,
-                    regicomdata.name,
-                    regicomdata.dogtype,
-                    regicomdata.age,
-                    regicomdata.comment,
-                    regicomdata.gender,
-                    regicomdata.vaccination,
-                    regicomdata.dogCharacter,
-                    regicomdata.fee);
-
-                Navigator.pushReplacement(
+                // regicom(
+                //     regicomdata.photo,
+                //     regicomdata.name,
+                //     regicomdata.dogtype,
+                //     regicomdata.age,
+                //     regicomdata.comment,
+                //     regicomdata.gender,
+                //     regicomdata.vaccination,
+                //     regicomdata.dogCharacter,
+                //     regicomdata.fee);
+                // Navigator.pushReplacement(
+                Navigator.push(
                   context,
                   PageTransition(
-                    child: MbtiTestPage_Start(
-                      isPerson: false,
-                    ),
+                    child: d_test.Dog_MbtiTestPage_Start(
+                        isPerson: false, regiData: regicomdata),
                     type: PageTransitionType.rightToLeft,
                   ),
                 );

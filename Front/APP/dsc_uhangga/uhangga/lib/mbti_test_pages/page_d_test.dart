@@ -20,7 +20,7 @@ class Dog_MbtiTestPage_Start extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
-      appBar: sp_BackIcon(context, 'home'),
+      appBar: sp_BackIcon(context, 'pop'),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Center(
@@ -45,6 +45,39 @@ class Dog_MbtiTestPage_Start extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  // 스타트버튼
+  sp_StartBtn(context, isPersion) {
+    return ButtonTheme(
+      minWidth: 300.0,
+      height: 80.0,
+      child: RaisedButton(
+        color: main.themeColor,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+        child: Text(
+          'START',
+          style: TextStyle(
+            letterSpacing: 3,
+            fontSize: 25,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        onPressed: () {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Dog_MbtiTestPage_Ing(
+                isPerson: isPersion,
+                regiData: regiData,
+              ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -113,37 +146,6 @@ sp_Text() {
         ),
       ),
     ],
-  );
-}
-
-// 스타트버튼
-sp_StartBtn(context, isPersion) {
-  return ButtonTheme(
-    minWidth: 300.0,
-    height: 80.0,
-    child: RaisedButton(
-      color: main.themeColor,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
-      child: Text(
-        'START',
-        style: TextStyle(
-          letterSpacing: 3,
-          fontSize: 25,
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Dog_MbtiTestPage_Ing(
-              isPerson: isPersion,
-            ),
-          ),
-        );
-      },
-    ),
   );
 }
 

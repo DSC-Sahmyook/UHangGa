@@ -74,6 +74,7 @@ class _Dog_ResultLoadingPageState extends State<Dog_ResultLoadingPage> {
                 child: Dog_ResultPage(
                   mbtiName: _mbtiResult.character,
                   isPerson: widget.result.isPerson,
+                  regiData: widget.regiData,
                   isInfo: false,
                 ),
               ),
@@ -158,10 +159,11 @@ class Dog_ResultPage extends StatefulWidget {
 class _Dog_ResultPageState extends State<Dog_ResultPage> {
   MbtiResult _mbtiResult;
   bool _isLoading = true;
+  int postId;
 
   @override
   initState() {
-    loadMbtiResult(widget.mbtiName);
+    loadMbtiDetail(widget.mbtiName);
     super.initState();
   }
 
@@ -192,7 +194,7 @@ class _Dog_ResultPageState extends State<Dog_ResultPage> {
 
   // 이름으로 받아서 조회하는 기능 넣기
   // mbti 결과값 받기
-  loadMbtiResult(String mbtiName) async {
+  loadMbtiDetail(String mbtiName) async {
     var response;
 
     response = await http.get('${main.address}/api/mbti/detail/$mbtiName/');
@@ -356,15 +358,25 @@ class _Dog_ResultPageState extends State<Dog_ResultPage> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            onPressed: () {
+                            onPressed: () async {
                               // Post 통신
+                              await regicom(
+                                  widget.regiData.photo,
+                                  widget.regiData.name,
+                                  widget.regiData.dogtype,
+                                  widget.regiData.age,
+                                  widget.regiData.comment,
+                                  widget.regiData.gender,
+                                  widget.regiData.vaccination,
+                                  _mbtiResult.id,
+                                  widget.regiData.fee);
 
                               // Dog Detail로
                               Navigator.push(
                                 context,
                                 PageTransition(
                                   // child: DogListPage(),
-                                  child: spec.specpage(postID: _mbtiResult.id),
+                                  child: spec.specpage(postID: postId),
                                   type: PageTransitionType.bottomToTop,
                                 ),
                               );
@@ -419,5 +431,44 @@ class _Dog_ResultPageState extends State<Dog_ResultPage> {
         ],
       ),
     );
+  }
+
+  regicom(
+    _photo,
+    name,
+    dogtype,
+    age,
+    comment,
+    gender,
+    vaccination,
+    dogCharacter,
+    fee,
+  ) async {
+    Map dog_data = {
+      // 'photo': photo,
+      'photo': "[${_photo.join(',')}]",
+      'name': name,
+      'dogtype': dogtype,
+      'age': "$age",
+      'comment': comment,
+      'gender': "$gender",
+      'vaccination': "$vaccination",
+      'dogCharacter': "$dogCharacter",
+      'fee': "$fee"
+    };
+
+    var jsonData = null;
+    var response = await http.post('${main.address}/api/dog/post/',
+        body: dog_data,
+        headers: <String, String>{
+          "Authorization": "Token ${main.myNow.token}"
+        });
+
+    if (response.statusCode == 200) {
+      jsonData = json.decode(response.body);
+      postId = jsonData['id'];
+    } else {
+      throw Exception('Register Failed!');
+    }
   }
 }
