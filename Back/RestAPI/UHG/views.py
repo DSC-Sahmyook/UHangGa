@@ -131,7 +131,8 @@ def post_dogs(request):
         uniqueness=request.data['comment'],
         # area=request.data['area'],
         area=nowUser.address,
-        gender=request.data['gender']
+        # gender=request.data['gender']
+        gender=True if request.data['gender'] == "true" else False
     )
     dog_instance.save()
 
