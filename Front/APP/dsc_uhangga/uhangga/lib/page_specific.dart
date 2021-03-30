@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:uhangga/mbti_test_pages/page_result.dart';
 import 'package:uhangga/page_mainnew.dart';
 import 'main.dart' as main;
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:intl/intl.dart';
 
@@ -391,15 +391,15 @@ class _specpageState extends State<specpage> {
                             Padding(
                               padding: const EdgeInsets.all(0),
                               child: TextButton(
-                                child: Icon(
-                                  Icons.phone_enabled_rounded,
-                                  size: 45,
-                                  color: const Color(0xffe06b2e),
-                                ),
-                                onPressed: () {
-                                  // 전화거는 기능
-                                },
-                              ),
+                                  child: Icon(
+                                    Icons.phone_enabled_rounded,
+                                    size: 45,
+                                    color: const Color(0xffe06b2e),
+                                  ),
+                                  onPressed: () {
+                                    launch('tel:${nowDetail.user.phonenum}');
+                                    print('${nowDetail.user.phonenum}');
+                                  }),
                             ),
                           ],
                         ),
