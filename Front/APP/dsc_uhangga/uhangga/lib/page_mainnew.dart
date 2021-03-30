@@ -90,7 +90,7 @@ class _MainPage1State extends State<MainPage1> {
                             decoration: TextDecoration.underline),
                       ),
                       onTap: () {
-                        (maindata.partnerType_name == "None")
+                        (maindata.partnerType_name == "Check Your Type!")
                             ? Navigator.push(
                                 context,
                                 CupertinoPageRoute(
@@ -103,7 +103,7 @@ class _MainPage1State extends State<MainPage1> {
                                     builder: (context) => ResultPage(
                                           mbtiName: maindata.partnerType_name,
                                           isInfo: true,
-                                          isPerson: true,
+                                          isPerson: false,
                                         )));
                       },
                     ),
@@ -319,14 +319,13 @@ class _MainPage1State extends State<MainPage1> {
                                 ),
                                 onTap: () {
                                   Navigator.push(
-                                    context,
-                                    CupertinoPageRoute(
-                                      builder: (context) => DogListPage(
-                                        mypartnerTypeName:
-                                            maindata.partnerType_name,
-                                      ),
-                                    ),
-                                  );
+                                      context,
+                                      CupertinoPageRoute(
+                                        builder: (context) => DogListPage(
+                                          mypartnerTypeName:
+                                              maindata.partnerType_name,
+                                        ),
+                                      ));
                                 },
                               ),
                             ),

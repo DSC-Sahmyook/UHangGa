@@ -903,7 +903,7 @@ signupcom(username, password, first_name, last_name, phonenum, email, address,
   var jsonData = null;
   var response =
       await http.post('${main.address}/api/auth/signup/', body: data);
-  if (response.statusCode == 200) {
+  if (response.statusCode == 201) {
     jsonData = json.decode(response.body);
     showDialog(
         context: context,

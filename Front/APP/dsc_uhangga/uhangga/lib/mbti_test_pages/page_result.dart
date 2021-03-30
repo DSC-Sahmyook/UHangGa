@@ -268,7 +268,7 @@ class _ResultPageState extends State<ResultPage> {
                     children: [
                       Container(
                         height: 15,
-                        width: 200,
+                        width: 250,
                         color: Colors.yellow,
                       ),
                       Row(
@@ -356,7 +356,7 @@ class _ResultPageState extends State<ResultPage> {
                               // Navigator.push(
                               //   context,
                               //   PageTransition(
-                              //     child: DogListPage(),
+                              //     child: MainPage1(),
                               //     type: PageTransitionType.bottomToTop,
                               //   ),
                               // );
