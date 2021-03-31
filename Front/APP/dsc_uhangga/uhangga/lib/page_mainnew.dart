@@ -395,28 +395,34 @@ class _MainPage1State extends State<MainPage1> {
                                               child: Container(
                                                 width: 150,
                                                 color: Colors.black,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Container(
-                                                      child: Text(
-                                                        '${mainlist[index1].name}',
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 22),
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Container(
+                                                        child: Text(
+                                                          '${mainlist[index1].name}',
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 18),
+                                                        ),
                                                       ),
-                                                    ),
-                                                    Container(
-                                                      child: Text(
-                                                        '${mainlist[index1].age}',
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 14),
-                                                      ),
-                                                    )
-                                                  ],
+                                                      Container(
+                                                        child: Text(
+                                                          '${mainlist[index1].age} months',
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 10),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
                                             )
