@@ -46,7 +46,7 @@ targetSdkVersion 29
 
 | Name | Email | Position |
 | ---- | ----- | -------- |
-| Hyun gyun Kim | dev.Ksanal@gmail | Team leader and Backend Engineer |
+| Hyun gyun Kim | dev.Ksanal@gmail.com | Team leader and Backend Engineer |
 | Hyun seok Lee | rapael3020@gmail.com | Backend Engineer |
 | Ye ji Seong | 098dpwl@gmail.com | Designer |
 | Jae Jin Lee (Jason Lee) | listensute@gmail.com | Frontend Engineer |
