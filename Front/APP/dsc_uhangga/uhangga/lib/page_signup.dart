@@ -905,6 +905,8 @@ signupcom(username, password, first_name, last_name, phonenum, email, address,
       await http.post('${main.address}/api/auth/signup/', body: data);
   if (response.statusCode == 201) {
     jsonData = json.decode(response.body);
+    main.myNow.token = jsonData["token"];
+
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -926,7 +928,7 @@ signupcom(username, password, first_name, last_name, phonenum, email, address,
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('Notice'),
-            content: Text('Sign Failed!'),
+            content: Text('${json.decode(utf8.decode(response.bodyBytes))}'),
             actions: <Widget>[
               FlatButton(
                   onPressed: () {
