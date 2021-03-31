@@ -294,7 +294,7 @@ class _Dog_ResultPageState extends State<Dog_ResultPage> {
                             Container(
                               child: Text(
                                 'type',
-                                style: TextStyle(fontSize: 16),
+                                style: TextStyle(fontSize: 14),
                               ),
                             )
                           ]),
@@ -324,7 +324,7 @@ class _Dog_ResultPageState extends State<Dog_ResultPage> {
                         left: 30.0, right: 30.0, top: 5.0),
                     child: Text(
                       '${_mbtiResult.comment}',
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyle(fontSize: 15.5),
                     ),
                   ),
                 ],

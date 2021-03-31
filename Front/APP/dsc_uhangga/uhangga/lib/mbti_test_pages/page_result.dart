@@ -317,7 +317,7 @@ class _ResultPageState extends State<ResultPage> {
                         left: 30.0, right: 30.0, top: 5.0),
                     child: Text(
                       '${_mbtiResult.comment}',
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyle(fontSize: 15.5),
                     ),
                   ),
                 ],
