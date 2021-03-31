@@ -205,7 +205,7 @@ def posteddogslist(request, dogType, cType):
     dataList = list()
     # 조건이 없을때
     if dogType == 'None' and cType == 'None':
-        for i in mo.Dogs.objects.all().order_by('-id'):
+        for i in mo.Dogs.objects.filter(isadopted=False).order_by('-id'):
             postedObject = mo.PostedDogs.objects.get(dogid=i)
             photoObject = mo.Dogsphotos.objects.filter(num=i.photoid)
             dataList.append(
