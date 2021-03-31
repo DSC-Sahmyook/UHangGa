@@ -250,7 +250,7 @@ class _specpageState extends State<specpage> {
                                         width: 100,
                                         child: Text(
                                           'Vaccinations',
-                                          style: TextStyle(fontSize: 16),
+                                          style: TextStyle(fontSize: 15),
                                         ),
                                       ),
                                       SizedBox(
@@ -272,7 +272,7 @@ class _specpageState extends State<specpage> {
                                         width: 100,
                                         child: Text(
                                           'Adoption Fee',
-                                          style: TextStyle(fontSize: 16),
+                                          style: TextStyle(fontSize: 15),
                                         ),
                                       ),
                                       SizedBox(
@@ -335,7 +335,7 @@ class _specpageState extends State<specpage> {
                               child: Text(
                                 '${nowDetail.dog.characterName} type',
                                 style: TextStyle(
-                                    fontSize: 18,
+                                    fontSize: 14,
                                     fontWeight: FontWeight.w900,
                                     color: Colors.white),
                               ),

@@ -165,13 +165,13 @@ class _MainPage1State extends State<MainPage1> {
                                 child: Row(
                                   children: <Widget>[
                                     Container(
-                                      width: 230,
+                                      width: 225,
                                     ),
                                     Container(
                                       decoration: BoxDecoration(
                                           color: const Color(0xff9F9F9F)),
                                       height: 200,
-                                      width: 100,
+                                      width: 120,
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
@@ -268,7 +268,7 @@ class _MainPage1State extends State<MainPage1> {
                                               'Temporary protection',
                                               style: TextStyle(
                                                   color: Colors.white,
-                                                  fontSize: 16,
+                                                  fontSize: 14,
                                                   fontWeight: FontWeight.w400),
                                             ),
                                           ),
